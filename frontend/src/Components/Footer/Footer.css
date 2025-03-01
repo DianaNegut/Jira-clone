@@ -1,0 +1,97 @@
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: nowrap; /* Nu lăsăm elementele să sară pe rânduri */
+    width: 100%;
+}
+
+.footer-content-left, 
+.footer-content-center, 
+.footer-content-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.footer-content-left {
+    align-items: flex-start; /* Aliniază la stânga */
+}
+
+.footer-content-center {
+    align-items: center; /* Centrează coloana */
+}
+
+.footer-content-right {
+    align-items: flex-end; /* Aliniază la dreapta */
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+    box-sizing: border-box;
+    text-align: center;
+    white-space: normal; /* Permite textului să se rupă pe linii */
+}
+
+.footer-content-left h2, 
+.footer-content-center h2, 
+.footer-content-right h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.footer-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-content ul li {
+    margin-bottom: 5px;
+}
+
+.footer-content a {
+    color: #094787;
+    text-decoration: none;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+}
+
+.footer p {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-content-left
+     {
+        text-align: left;
+        align-items: left;
+    }
+    .footer-content-center{
+        text-align: center;
+        align-items: center;
+    }
+    .footer-content-right{
+        text-align: right;
+        align-items: right;
+    }
+}

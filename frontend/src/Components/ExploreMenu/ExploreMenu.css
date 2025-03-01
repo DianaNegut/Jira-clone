@@ -1,0 +1,105 @@
+.explore-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.explore-menu h1 {
+    color: #0647dd;
+    font-weight: 500;
+}
+
+.explore-menu-text {
+    max-width: 75%;
+    color: #808080;
+}
+
+.explore-menu-list {
+    display: flex;
+    gap: 30px;
+    flex-wrap: nowrap; /* NU permite trecerea pe rânduri noi */
+    justify-content: flex-start; /* Alinează elementele la stânga */
+    align-items: flex-start; /* Aliniază sus */
+    margin: 20px 0;
+    overflow-x: auto; /* Scroll orizontal */
+    overflow-y: hidden; /* Ascunde scroll vertical */
+    white-space: nowrap; /* Previne textul să se rupă */
+    padding-bottom: 10px; /* Spațiu pentru scroll */
+}
+
+.explore-menu-list::-webkit-scrollbar {
+    height: 10px;
+}
+
+.explore-menu-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.explore-menu-list::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+.explore-menu-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.explore-menu-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px; /* Spațiu între imagine și text */
+    flex: 0 0 auto;
+}
+
+.explore-menu-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover; /* Păstrează proporțiile și taie excesul */
+    border-radius: 10px; /* Opțional: colțuri rotunjite */
+    clip-path: inset(0); /* Elimină tăierea poligonală */
+    cursor: pointer;
+}
+
+.explore-menu-list-item p {
+    margin-top: 10px;
+    color: #747474;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.explore-menu-item-text {
+    color: #747474;
+    font-size: 14px;
+    max-width: 250px;
+    white-space: normal; /* Permite textului să se rupă pe mai multe linii */
+    cursor: pointer;
+}
+
+.explore-menu hr {
+    margin: 10px 0;
+    height: 2px;
+    background-color: #e2e2e2;
+    border: none;
+}
+
+.explore-menu-item .active {
+    border: 7px solid #012a87;
+    padding: 2px;
+}
+
+@media (max-width: 600px) {
+    .explore-menu-text {
+        max-width: 100%;
+    }
+    .explore-menu-list {
+        gap: 10px;
+    }
+    .explore-menu-image {
+        width: 100px;
+        height: 100px;
+    }
+    .explore-menu-item-text {
+        font-size: 12px;
+    }
+}

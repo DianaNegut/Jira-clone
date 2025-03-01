@@ -1,0 +1,134 @@
+.logo {
+    width: 110px; 
+    height: auto; 
+    align-self: flex-start;
+}
+.navbar .logo {
+    width: 150px;
+    align-self: center;
+}
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0; 
+    border-bottom: 1px solid #ccc;
+}
+.navbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;              
+    gap: 20px;
+}
+.navbar button {
+    background: transparent;
+    font-size: 16px;
+    color: #094787;
+    border: 1px solid #073a6f;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.navbar button:hover {
+    background: #dbebf0;
+    color: #073a6f; 
+}
+.navbar-right img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;                   
+}
+.navbar-menu {
+    display: flex;
+    justify-content: center;               
+    list-style: none;
+    gap: 20px;
+    padding: 0;
+    color: #0d5aa9;
+    font-size: 18px;
+    flex-grow: 1;                           
+}
+.navbar-menu li {
+    padding: 10px 10px; 
+    cursor: pointer;
+}
+.navbar .active {
+    padding-bottom: 0.4px;
+    color: #073a6f;
+    border-bottom: 2px solid #073a6f;
+}
+.navbar-search-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+@media (max-width: 1050px) {
+    .navbar .logo {
+        width: 140px;
+    }
+    .navbar-menu {
+        gap: 20px;  
+        font-size: 17px;
+    }
+    .navbar-right {
+        gap: 30px;
+    }
+    .navbar-right img {
+        width: 22px;
+    }
+    .navbar button {
+        padding: 8px 25px;
+    }
+}
+
+@media (max-width: 900px) {
+    .navbar .logo {
+        width: 120px;
+    }
+    .navbar-menu {
+        gap: 15px;  
+        font-size: 16px;
+    }
+    .navbar-right {
+        gap: 20px;
+    }
+    .navbar-right img {
+        width: 20px;
+    }
+    .navbar button {
+        padding: 7px 20px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 750px) {
+    .navbar-menu {
+        display: none;
+    }
+    .navbar-right {
+        gap: 15px;
+    }
+    .navbar-right img {
+        width: 18px;
+    }
+    .navbar button {
+        padding: 6px 18px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 700px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .navbar-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .navbar button {
+        width: 100%;
+        text-align: center;
+    }
+}

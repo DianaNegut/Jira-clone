@@ -1,0 +1,44 @@
+.middle {
+    width: 80%; 
+    background-color: #0647dd; /* Albastru */
+    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%); /* Trapez isoscel */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+
+.middle h1 {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 40px;
+    margin: 0;
+}
+
+
+.middle h3 {
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+}
+.middle p {
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+}
+
+
+.middle img {
+  
+    object-fit: cover;
+    border-radius: 10px;
+    clip-path: inset(0);
+    cursor: pointer;
+    animation: fadeIn 1.5s ease-in forwards;
+}
