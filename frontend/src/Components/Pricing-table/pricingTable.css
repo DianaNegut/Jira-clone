@@ -1,0 +1,15 @@
+/* pricingTable.css */
+.dialog-actions-custom {
+    background-color: #f0f0f0 !important;  
+    padding: 10px 20px;
+    justify-content: flex-end;
+  }
+  
+  .dialog-button-custom {
+    background-color: #0344da !important;  /* Culoare buton personalizată */
+    color: white;
+    &:hover {
+      background-color: #556eec !important;  /* Culoare buton personalizată la hover */
+    }
+  }
+  
