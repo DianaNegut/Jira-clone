@@ -1,15 +1,110 @@
 /* pricingTable.css */
+
+.pricing-table {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.pricing-card {
+  width: 23%; 
+}
+
 .dialog-actions-custom {
-    background-color: #f0f0f0 !important;  
-    padding: 10px 20px;
-    justify-content: flex-end;
-  }
-  
-  .dialog-button-custom {
-    background-color: #0344da !important;  /* Culoare buton personalizată */
-    color: white;
-    &:hover {
-      background-color: #556eec !important;  /* Culoare buton personalizată la hover */
-    }
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.dialog-button-custom {
+  background-color: #3f51b5; 
+}
+
+.explore-menu-image.active {
+  opacity: 0.7;
+  border: 2px solid #00f; 
+}
+
+
+.team-members-input {
+  margin-bottom: 30px;
+}
+
+.team-members-input input {
+  padding: 8px;
+  font-size: 12px;
+  margin-left: 20px;
+  width: 100px;
+}
+
+.pricing-toggle-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.pricing-toggle-button {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  font-size: 1em;
+  cursor: pointer;
+  margin: 0 5px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.pricing-toggle-button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.pricing-toggle-button:hover {
+  background-color: #ddd;
+}
+
+
+.pricing-card-container.recommended {
+  border: 2px solid #007bff;
+  padding: 10px;
+}
+
+.recommended-label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+
+.recommended-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50; 
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.pricing-card-container {
+  position: relative;
+  margin: 20px;
+}
+
+.pricing-card-container.recommended {
+  border: 2px solid #4caf50; 
+  border-radius: 10px;
+}

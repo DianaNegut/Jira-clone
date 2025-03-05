@@ -1,0 +1,71 @@
+.pricing-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    background: white;
+  }
+  
+  .plan-title {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .plan-subtitle {
+    color: gray;
+    font-size: 0.9em;
+  }
+  
+  .price {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  .price-desc {
+    color: gray;
+    font-size: 0.8em;
+  }
+  
+  .trial-button {
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .separator {
+    height: 1px;
+    background: #ddd;
+    margin: 15px 0;
+  }
+  
+  .details-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .details-header {
+    font-weight: bold;
+    font-size: 1em;
+    text-align: left;
+  }
+  
+  .expand-button {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+  
+  .extra-details {
+    font-size: 0.9em;
+    color: #333;
+    margin-top: 10px;
+    text-align: left;
+  }
+  
