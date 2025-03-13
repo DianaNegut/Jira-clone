@@ -8,6 +8,7 @@ import lupa_icon from './lupa.png'
 import notification_icon from './notification.png'
 import report_icon from './report.png'
 import roadmap_icon from './roadmap.png'
+import management from './management.png'
 import settings_icon from './settings.png'
 import jira_logo_icon from './Jira_Logo.svg.png'
 import board_presentation from './board_presentation.png'
@@ -29,6 +30,7 @@ import woman3 from './woman3.jpg'
 
 
 export const assets = {
+    management,
     woman1,
     woman2,
     woman3,

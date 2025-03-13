@@ -1,0 +1,79 @@
+/* Container general */
+.operations-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Stiluri pentru titluri și paragrafe */
+.subtitluOperations {
+    color: #1E3A8A;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-top: 60px; /* Adaugă mai mult spațiu deasupra fiecărui titlu */
+}
+
+.paragrafeOperations {
+    font-size: 1.2rem;
+    color: #374151;
+    margin-bottom: 30px; /* Spațiu mai mare între paragrafe */
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* Secțiune de liste */
+.operations-section {
+    margin-top: 50px; /* Mai mult spațiu între secțiuni */
+    padding: 20px;
+    background: linear-gradient(135deg, #ffffff, #e3eefd);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.operations-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.operations-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 0;
+    font-size: 18px;
+    border-bottom: 1px solid #dbeafe;
+    transition: transform 0.2s ease-in-out;
+}
+
+.operations-list li:last-child {
+    border-bottom: none;
+}
+
+.operations-list li:hover {
+    transform: translateX(10px);
+    color: #1D4ED8;
+}
+
+/* Stil pentru textul bold */
+.operations-list li strong {
+    color: #111827;
+}
+
+/* Animație fade-in */
+.fadeIn {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInAnimation 0.6s ease-out forwards;
+}
+
+@keyframes fadeInAnimation {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

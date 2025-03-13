@@ -1,0 +1,64 @@
+.dreptunghi_pricing {    
+    margin-top: 50px;
+    padding: 30px; 
+    width: 1500px;                 /* Lățimea dreptunghiului */
+    height: auto;                  /* Înălțimea automată pentru a se ajusta la conținut */
+    background-color: rgb(4, 56, 153);  /* Galben */
+    display: flex;                 /* Flex pentru aliniere */     
+    flex-direction: column;
+    justify-content: center;       /* Centrează pe verticală */
+    align-items: flex-start;       /* Aliniază textul la stânga */
+    border-radius: 10px;           /* Colțuri rotunjite */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Umbra */
+    gap: 10px;                     /* Spațiu între titlu și paragraf */
+    margin-bottom: 60px;
+    
+}
+
+.titluPricing{
+    color: aliceblue;
+    text-align: center;
+   
+}
+
+
+.paragrafPricing{
+    color: aliceblue;
+    margin-bottom: 30px;
+}
+
+
+.why_choose_jira{
+    color: aliceblue;
+}
+
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.feature_item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    max-width: 600px;
+}
+
+.feature_title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.feature_icon {
+    color: #ffcc00;
+    font-size: 24px;
+}

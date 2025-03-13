@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Pages/home/Home';
 import Footer from './Components/Footer/Footer';
 import Features from './Pages/features/Features';
+import Operations from './Pages/operations/Operations';
 import Marketing from './Pages/marketing/Marketing';
 import { Link } from 'react-router-dom';
 import Solutions from './Pages/solutions/Solutions';
 import LoginPopup from './Components/LoginPopup/LoginPopup';
 import Pricing from './Pages/pricing/Pricing';
-
+import Design from './Pages/design/Design';
+import Engineering from './Pages/engineering/Engineering';
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
 
@@ -25,6 +27,9 @@ const App = () => {
           <Route path='/solutions' element={<Solutions />} />
           <Route path='/pricing' element={<Pricing />} />
           <Route path='/marketing' element={<Marketing />} />
+          <Route path='/operations' element={<Operations />} />
+          <Route path='/design' element={<Design />} />
+          <Route path='/engineering' element={<Engineering />} />
         </Routes>
       </div>
       <Footer />

@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import mongo from "mongoose"
+
 
 
 export const connectDB = async () => {

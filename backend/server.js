@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
-import fs from 'graceful-fs'; // Import graceful-fs
+import fs from 'graceful-fs'; 
 import { connectDB } from "./config/db.js";
-import projectRouter from "./routes/projectRoute.js";
+import projectRouter from "./routes/projectRouter.js";
+import userRouter from "./routes/userRoute.js";
+import 'dotenv/config'
 
 
 // app config
@@ -20,6 +22,8 @@ connectDB();
 
 // api endpoints
 app.use("/api/project", projectRouter)
+app.use("/images", express.static("uploads"))
+app.use("/api/user", userRouter);
 
 
 app.get("/", (req, res) => {

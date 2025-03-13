@@ -1,7 +1,7 @@
 .middle {
-    width: 80%; 
+    width: 100%; 
     background-color: #0647dd; /* Albastru */
-    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%); /* Trapez isoscel */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); /* Trapez isoscel */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,7 +38,6 @@
   
     object-fit: cover;
     border-radius: 10px;
-    clip-path: inset(0);
     cursor: pointer;
     animation: fadeIn 1.5s ease-in forwards;
 }

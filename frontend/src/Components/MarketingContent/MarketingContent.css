@@ -1,49 +1,70 @@
 .marketing-content {
     margin-top: 100px;
-    padding: 30px; 
-    width: 1500px;                 /* Lățimea dreptunghiului */
-    height: 400;                  /* Înălțimea automată pentru a se ajusta la conținut */
-    background-color: rgb(39, 100, 192);  /* Galben */
-    display: flex;                 /* Flex pentru aliniere */
-    flex-direction: column;        /* Elemente pe coloană (unul sub altul) */
-    justify-content: center;       /* Centrează pe verticală */
-    align-items: flex-start;       /* Aliniază textul la stânga */
-    border-radius: 10px;           /* Colțuri rotunjite */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Umbra */
-    gap: 10px;                     /* Spațiu între titlu și paragraf */
-    margin-bottom: 20px;
-    align-items: center;
-    margin-bottom: 200px;
-    
-}
-
-
-.title-marketing{
-    text-align: center;
-    align-content: center;
-    align-self: center;
-    color: white;
-}
-
-
-.poze {
+    padding: 40px;
+    max-width: 1200px; /* Ensures it doesn’t stretch too wide */
+    background: linear-gradient(to right, #2764c0, #1e3a8a); /* Smooth gradient */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     gap: 20px;
-    width: 200px;
-    height: 200px;              /* Înălțime egală cu lățimea */
-    border-radius: 40%;        /* Face poza rotundă */
-    object-fit: cover;         /* Asigură că imaginea umple cercul corect */
-    overflow: hidden;          /* Ascunde orice parte a imaginii care depășește cercul */
+    margin-bottom: 100px;
+}
+
+.title-marketing {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
 }
 
 .marketing-content-container {
-    margin-top: 40px;
-    display: flex;                
-    align-items: center;         
-    gap: 20px;                   
-    margin-bottom: 30px;
-    color: white;
+    display: flex;
+    flex-wrap: wrap; /* Ensures responsiveness */
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+}
 
+.marketing-content-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    width: 280px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.marketing-content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.poze {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    transition: transform 0.3s ease;
+}
+
+.poze:hover {
+    transform: scale(1.1);
+}
+
+h2 {
+    font-size: 22px;
+    margin-top: 15px;
+}
+
+p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-top: 10px;
 }
