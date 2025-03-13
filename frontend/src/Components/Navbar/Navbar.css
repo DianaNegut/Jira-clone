@@ -62,6 +62,48 @@
     position: relative;
     cursor: pointer;
 }
+/* Stiluri existente... */
+
+.navbar-menu li {
+    position: relative;
+    padding: 10px 10px;
+    cursor: pointer;
+  }
+  
+  .solutions-submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    z-index: 1000;
+  }
+  
+  .solutions-submenu li {
+    padding: 10px 20px;
+  }
+  
+  .solutions-submenu li a {
+    color: #0d5aa9;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .solutions-submenu li a:hover {
+    color: #073a6f;
+  }
+  
+  .navbar-menu li:hover .solutions-submenu {
+    display: block;
+  }
+  
+
 
 @media (max-width: 1050px) {
     .navbar .logo {
@@ -132,3 +174,5 @@
         text-align: center;
     }
 }
+
+

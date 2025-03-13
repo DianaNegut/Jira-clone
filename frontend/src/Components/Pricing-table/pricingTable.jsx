@@ -60,7 +60,6 @@ const PricingTable = () => {
           value={teamMembers}
           onChange={handleTeamMembersChange}
           placeholder="Select number of team members" 
-          style={{ width: '209px' }} // Adjusted width to fit the placeholder text
         />
       </div>
 

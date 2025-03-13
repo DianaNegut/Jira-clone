@@ -16,10 +16,27 @@ import menu_2 from './menu_2.jpg'
 import menu_3 from './menu_3.jpg'
 import menu_4 from './menu_4.jpg'
 import teams from './teams.jpg'
+import project from './project.png'
+import project2 from './project2.png'
+import backlog from './backlog.png'
+import backlog2 from './backlog2.png'
+import board2 from './board2.png'
+import woman1 from './woman1.jpg'
+import woman2 from './woman2.jpg'
+import woman3 from './woman3.jpg'
+
 
 
 
 export const assets = {
+    woman1,
+    woman2,
+    woman3,
+    board2,
+    backlog,
+    backlog2,
+    project,
+    project2,
     teams,
     board_presentation,
     blackboard_icon,

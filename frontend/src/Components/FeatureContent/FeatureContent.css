@@ -1,0 +1,54 @@
+.feature-container {
+  background-color: #d0cece;         /* Fundal gri */
+  display: flex;
+  flex-direction: column;            /* Elemente empilate vertical */
+  align-items: center;               /* Centrează pe orizontală */
+  padding: 20px;
+  text-align: center;
+  height: 74vh;                    /* Înălțime pe tot ecranul */
+}
+
+.titlu {
+  font-size: 32px;
+  color: #333;                      /* Culoare text */
+  max-width: 800px;                 /* Limitează lățimea titlului */
+  margin-bottom: 20px;              /* Spațiu sub titlu */
+}
+
+/* Container pentru imagine + conținut */
+.feature-container-content {
+  display: flex;
+  flex-direction: row;              /* Imaginea și textul pe același rând */
+  justify-content: center;
+  align-items: center;
+  gap: 20px;                        /* Spațiu între imagine și text */
+  width: 100%;                       /* Lățimea totală a secțiunii */
+}
+
+.image-backlog {
+  width: 60%;                       /* Imaginea ocupă 40% din lățime */
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Container pentru titlu + paragraf */
+.text-content {
+  display: flex;
+  flex-direction: column;           /* Elemente empilate vertical */
+  align-items: flex-start;          /* Aliniere la stânga */
+  text-align: left;                 /* Text stânga */
+  width: 60%;                       /* Textul ocupă 50% din spațiu */
+}
+
+.titlu-plan {
+  font-size: 30px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.paragraf-feature {
+  font-size: 20px;
+  color: #333;
+  line-height: 1.6;                /* Spațiere între rânduri */
+}

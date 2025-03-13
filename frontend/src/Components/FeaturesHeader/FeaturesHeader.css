@@ -1,0 +1,33 @@
+.header {
+    margin-top: 40px;
+    display: flex;                
+    align-items: center;          
+    gap: 20px;                  
+    margin-bottom: 30px;
+  }
+  
+  .text-container {
+    display: flex;
+    flex-direction: column;     /* Aliniază titlul deasupra paragrafului */
+    justify-content: center;
+    width: 50%;                 /* Textul ocupă 50% din lățime */
+  }
+  
+  .title {
+    font-size: 30px;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .description {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .image {
+    width: 50%;                /* Imaginea ocupă 50% din lățime */
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  

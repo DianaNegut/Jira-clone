@@ -1,14 +1,13 @@
-/* pricingTable.css */
-
 .pricing-table {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
+  flex-wrap: nowrap; /* Asigură că cardurile nu se încheie pe mai multe linii */
+  gap: 20px; /* Spațiu între carduri */
+  padding: 10px; /* Padding pentru a evita suprapunerea cu scrollbar-ul */
 }
 
 .pricing-card {
-  width: 23%; 
+  flex: 0 0 auto; /* Asigură că cardurile nu se micșorează sau cresc */
+  width: 300px; /* Lățime fixă pentru fiecare card */
 }
 
 .dialog-actions-custom {
@@ -19,14 +18,8 @@
 }
 
 .dialog-button-custom {
-  background-color: #3f51b5; 
+  background-color: #3f51b5;
 }
-
-.explore-menu-image.active {
-  opacity: 0.7;
-  border: 2px solid #00f; 
-}
-
 
 .team-members-input {
   margin-bottom: 30px;
@@ -41,7 +34,7 @@
 
 .pricing-toggle-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   margin-bottom: 20px;
 }
 
@@ -65,7 +58,6 @@
   background-color: #ddd;
 }
 
-
 .pricing-card-container.recommended {
   border: 2px solid #007bff;
   padding: 10px;
@@ -82,13 +74,12 @@
   border-radius: 4px;
 }
 
-
 .recommended-badge {
   position: absolute;
   top: -10px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #4caf50; 
+  background-color: #4caf50;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
@@ -98,13 +89,105 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-
 .pricing-card-container {
   position: relative;
   margin: 20px;
 }
 
 .pricing-card-container.recommended {
-  border: 2px solid #4caf50; 
+  border: 2px solid #4caf50;
   border-radius: 10px;
+}
+
+.pricing-table-scroll-container {
+  overflow-x: auto; /* Scroll orizontal */
+  overflow-y: hidden; /* Ascunde scroll-ul vertical */
+  white-space: nowrap; /* Previne încheierea pe mai multe linii */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Stil pentru scrollbar (opțional) */
+.pricing-table-scroll-container::-webkit-scrollbar {
+  height: 8px; /* Înălțimea scrollbar-ului */
+}
+
+.pricing-table-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.pricing-table-scroll-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+}
+
+.pricing-table-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.icon-data {
+  padding: 10px;         /* Adaugă unitatea 'px' */
+  margin-top: 70px;      /* Adaugă unitatea 'px' */
+  font-size: 150px;      /* Folosește 'font-size' pentru dimensiunea iconului */
+  margin-bottom: 40px;
+}
+
+
+.rectangle {
+  margin-top: 50px;
+  padding: 30px; 
+  width: 1500px;               /* Lățimea dreptunghiului */
+  height: 200px;              /* Înălțimea dreptunghiului */
+  background-color: #007bff;  /* Albastru */
+  display: flex;              /* Flex pentru aliniere */
+  justify-content: left;    /* Centrare pe orizontală */
+  align-items: center;        /* Centrare pe verticală */
+  border-radius: 10px;        /* Colțuri rotunjite (opțional) */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Umbra (opțional) */
+}
+
+.titlu-aux
+{
+  font-size: 30px;
+  margin-left: 50px;
+  color: white;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.paragraf-descriere{
+  font-size: 18px;
+  color: white;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.project-image {
+  width: 50%;                    /* Imaginea ocupă 40% din lățime */
+  height: auto;                  /* Păstrează proporțiile imaginii */
+  object-fit: cover;             /* Acoperă spațiul fără distorsionare */
+  border-radius: 10px;           /* Colțuri rotunjite */
+}
+
+.project-description {
+  width: 50%;                    /* Textul ocupă restul de 60% */
+  font-size: 18px;               /* Dimensiunea fontului */
+  color: #333;                  /* Culoarea textului */
+}
+
+.project-container {
+  margin-top: 40px;
+  display: flex;                /* Activează Flexbox */
+  align-items: center;          /* Aliniază elementele pe verticală (centru) */
+  gap: 20px;                   /* Spațiu între imagine și text */
+  margin-bottom: 30px;
+}
+
+
+.project-title{
+  font-size: 30px;
+  color: #007bff;
+  margin-bottom: 10px;
 }
