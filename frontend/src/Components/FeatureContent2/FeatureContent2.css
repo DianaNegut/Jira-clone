@@ -1,16 +1,16 @@
 .dreptunghi {    
     margin-top: 50px;
     padding: 30px; 
-    width: 1500px;                 /* Lățimea dreptunghiului */
-    height: auto;                  /* Înălțimea automată pentru a se ajusta la conținut */
-    background-color: rgb(226, 226, 9);  /* Galben */
-    display: flex;                 /* Flex pentru aliniere */
-    flex-direction: column;        /* Elemente pe coloană (unul sub altul) */
-    justify-content: center;       /* Centrează pe verticală */
-    align-items: flex-start;       /* Aliniază textul la stânga */
-    border-radius: 10px;           /* Colțuri rotunjite */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Umbra */
-    gap: 10px;                     /* Spațiu între titlu și paragraf */
+    width: 1500px;                 
+    height: auto;                 
+    background-color: rgb(226, 226, 9);  
+    display: flex;                 
+    flex-direction: column;       
+    justify-content: center;       
+    align-items: flex-start;       
+    border-radius: 10px;         
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    gap: 10px;                    
     position: absolute;
     
 }
@@ -18,21 +18,21 @@
 .titlu2 {
     font-size: 32px;
     color: #333;
-    margin: 0;                     /* Elimină marginile implicite */
+    margin: 0;                     
 }
 
 .paragraf2 {
     font-size: 18px;
     color: #333;
-    margin: 0;                     /* Elimină marginile implicite */
-    line-height: 1.5;              /* Spațiere între linii pentru lizibilitate */
+    margin: 0;                     
+    line-height: 1.5;             
 }
 
 
 .image-board{
    
-    width: 80%;                   /* Imaginea ocupă 100% din lățime */
-    height: auto;                  /* Înălțimea automată pentru a se ajusta la conținut */
+    width: 80%;                  
+    height: auto;                  
     object-fit: cover;            
     margin-top: 190px;
     position: relative;
@@ -41,9 +41,9 @@
 
 .container2{
     display: flex;
-    justify-content: center;   /* Aliniere orizontală */
-    align-items: flex-start;   /* Aliniere verticală */
-    min-height: calc(100vh - 100px); /* Înălțime minimă a containerului */
-    margin: 0;                 /* Elimină marginile implicite */
+    justify-content: center;   
+    align-items: flex-start;   
+    min-height: calc(100vh - 100px); 
+    margin: 0;                 
     padding-bottom: 100px;
 }

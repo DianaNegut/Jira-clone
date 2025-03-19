@@ -1,16 +1,16 @@
 .dreptunghi_pricing {    
     margin-top: 50px;
     padding: 30px; 
-    width: 1500px;                 /* Lățimea dreptunghiului */
-    height: auto;                  /* Înălțimea automată pentru a se ajusta la conținut */
-    background-color: rgb(4, 56, 153);  /* Galben */
-    display: flex;                 /* Flex pentru aliniere */     
+    width: 1500px;                 
+    height: auto;                
+    background-color: rgb(4, 56, 153); 
+    display: flex;                    
     flex-direction: column;
-    justify-content: center;       /* Centrează pe verticală */
-    align-items: flex-start;       /* Aliniază textul la stânga */
-    border-radius: 10px;           /* Colțuri rotunjite */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Umbra */
-    gap: 10px;                     /* Spațiu între titlu și paragraf */
+    justify-content: center;      
+    align-items: flex-start;       
+    border-radius: 10px;           
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    gap: 10px;                   
     margin-bottom: 60px;
     
 }

@@ -1,5 +1,7 @@
+import SolutionsContent from "../../Components/SolutionContent/SolutionContent";
 const Solutions = () => {
-    return <h1>Solutions Page</h1>;
+    return <SolutionsContent />;
+
   };
   
   export default Solutions;

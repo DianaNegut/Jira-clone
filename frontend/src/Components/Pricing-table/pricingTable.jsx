@@ -11,10 +11,10 @@ const PricingTable = () => {
   const [recommendedPlan, setRecommendedPlan] = useState(null);
 
   const rows = [
-    { plan: 'Basic Plan', price: '$10', duration: '1 month', description: 'Unlimited goals, projects, tasks, and forms. Align projects and tasks to goals. Collect data with forms.' },
-    { plan: 'Standard Plan', price: '$25', duration: '3 months', description: 'User roles and permissions. Control what users can create, view, and comment on in Jira.' },
-    { plan: 'Premium Plan', price: '$50', duration: '6 months', description: 'Cross-team planning and dependency management. Plan and track goals, projects, and dependencies in one place.' },
-    { plan: 'Enterprise Plan', price: '$100', duration: '1 year', description: 'Advanced admin controls and security. Manage users and security at scale with advanced governance controls.' }
+    { plan: 'Basic Plan', price: '$10', duration: '1 luna', description: 'Obiective, proiecte, sarcini și formulare nelimitate. Aliniază proiectele și sarcinile cu obiectivele. Colectează date prin formulare.' },
+    { plan: 'Standard Plan', price: '$25', duration: '3 luni', description: 'Roluri și permisiuni pentru utilizatori. Controlează ce pot crea, vizualiza și comenta utilizatorii în Jira.' },
+    { plan: 'Premium Plan', price: '$50', duration: '6 luni', description: 'Planificare între echipe și gestionarea dependențelor. Planifică și urmărește obiectivele, proiectele și dependențele într-un singur loc.' },
+    { plan: 'Enterprise Plan', price: '$100', duration: '1 an', description: 'Control avansat al administrării și securității. Gestionează utilizatorii și securitatea la scară largă cu controale avansate de guvernanță.' }
   ];
 
   const handleCardClick = (plan) => {
@@ -54,12 +54,12 @@ const PricingTable = () => {
     <div style={{ padding: '20px' }}>
       {/* Team members input field */}
       <div className="team-members-input">
-        <label>Enter number of team members:</label>
+        <label>Introduceți numărul de membri ai echipei:</label>
         <input
           type="number"
           value={teamMembers}
           onChange={handleTeamMembersChange}
-          placeholder="Select number of team members" 
+          placeholder="Selecteaza" 
         />
       </div>
 
@@ -69,13 +69,13 @@ const PricingTable = () => {
           className={`pricing-toggle-button ${!isYearly ? 'active' : ''}`}
           onClick={() => setIsYearly(false)}
         >
-          Monthly
+          Lunar
         </button>
         <button
           className={`pricing-toggle-button ${isYearly ? 'active' : ''}`}
           onClick={() => setIsYearly(true)}
         >
-          Yearly
+          Anual
         </button>
       </div>
 

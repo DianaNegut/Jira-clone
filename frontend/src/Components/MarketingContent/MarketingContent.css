@@ -1,8 +1,8 @@
 .marketing-content {
     margin-top: 100px;
     padding: 40px;
-    max-width: 1200px; /* Ensures it doesn’t stretch too wide */
-    background: linear-gradient(to right, #2764c0, #1e3a8a); /* Smooth gradient */
+    max-width: 1200px; 
+    background: linear-gradient(to right, #2764c0, #1e3a8a); 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,7 +23,7 @@
 
 .marketing-content-container {
     display: flex;
-    flex-wrap: wrap; /* Ensures responsiveness */
+    flex-wrap: wrap; 
     justify-content: center;
     gap: 30px;
     width: 100%;

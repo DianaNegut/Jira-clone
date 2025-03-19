@@ -7,9 +7,9 @@ const FeatureContent2 = () => {
     <div className='container2'>
         <div className='dreptunghi'>
             <h1 className='titlu2'>
-            Connect, collaborate, celebrate
+            Conectează-te, colaborează, sărbătorește!
             </h1>
-            <p className='paragraf2'>Jira better connects teams and work for more seamless collaboration and faster alignment. </p>
+            <p className='paragraf2'>Jira conectează mai bine echipele și munca lor pentru o colaborare mai fluidă și o aliniere mai rapidă.</p>
             <p></p>
             <p></p>
             <p></p>

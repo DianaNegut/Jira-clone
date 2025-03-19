@@ -1,13 +1,13 @@
 .pricing-table {
   display: flex;
-  flex-wrap: nowrap; /* Asigură că cardurile nu se încheie pe mai multe linii */
-  gap: 20px; /* Spațiu între carduri */
-  padding: 10px; /* Padding pentru a evita suprapunerea cu scrollbar-ul */
+  flex-wrap: nowrap;
+  gap: 20px;
+  padding: 10px; 
 }
 
 .pricing-card {
-  flex: 0 0 auto; /* Asigură că cardurile nu se micșorează sau cresc */
-  width: 300px; /* Lățime fixă pentru fiecare card */
+  flex: 0 0 auto; 
+  width: 300px; 
 }
 
 .dialog-actions-custom {
@@ -100,17 +100,17 @@
 }
 
 .pricing-table-scroll-container {
-  overflow-x: auto; /* Scroll orizontal */
-  overflow-y: hidden; /* Ascunde scroll-ul vertical */
-  white-space: nowrap; /* Previne încheierea pe mai multe linii */
+  overflow-x: auto; 
+  overflow-y: hidden; 
+  white-space: nowrap; 
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
 }
 
-/* Stil pentru scrollbar (opțional) */
+
 .pricing-table-scroll-container::-webkit-scrollbar {
-  height: 8px; /* Înălțimea scrollbar-ului */
+  height: 8px; 
 }
 
 .pricing-table-scroll-container::-webkit-scrollbar-track {
@@ -128,9 +128,9 @@
 }
 
 .icon-data {
-  padding: 10px;         /* Adaugă unitatea 'px' */
-  margin-top: 70px;      /* Adaugă unitatea 'px' */
-  font-size: 150px;      /* Folosește 'font-size' pentru dimensiunea iconului */
+  padding: 10px;        
+  margin-top: 70px;     
+  font-size: 150px;      
   margin-bottom: 40px;
 }
 
@@ -138,14 +138,14 @@
 .rectangle {
   margin-top: 50px;
   padding: 30px; 
-  width: 1500px;               /* Lățimea dreptunghiului */
-  height: 200px;              /* Înălțimea dreptunghiului */
-  background-color: #007bff;  /* Albastru */
-  display: flex;              /* Flex pentru aliniere */
-  justify-content: left;    /* Centrare pe orizontală */
-  align-items: center;        /* Centrare pe verticală */
-  border-radius: 10px;        /* Colțuri rotunjite (opțional) */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Umbra (opțional) */
+  width: 1500px;               
+  height: 200px;              
+  background-color: #007bff;  
+  display: flex;              
+  justify-content: left;    
+  align-items: center;        
+  border-radius: 10px;        
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .titlu-aux
@@ -165,23 +165,23 @@
 }
 
 .project-image {
-  width: 50%;                    /* Imaginea ocupă 40% din lățime */
-  height: auto;                  /* Păstrează proporțiile imaginii */
-  object-fit: cover;             /* Acoperă spațiul fără distorsionare */
-  border-radius: 10px;           /* Colțuri rotunjite */
+  width: 50%;                    
+  height: auto;                 
+  object-fit: cover;            
+  border-radius: 10px;           
 }
 
 .project-description {
-  width: 50%;                    /* Textul ocupă restul de 60% */
-  font-size: 18px;               /* Dimensiunea fontului */
-  color: #333;                  /* Culoarea textului */
+  width: 50%;                   
+  font-size: 18px;               
+  color: #333;                  
 }
 
 .project-container {
   margin-top: 40px;
-  display: flex;                /* Activează Flexbox */
-  align-items: center;          /* Aliniază elementele pe verticală (centru) */
-  gap: 20px;                   /* Spațiu între imagine și text */
+  display: flex;                
+  align-items: center;          
+  gap: 20px;                   
   margin-bottom: 30px;
 }
 

@@ -8,7 +8,7 @@ import PricingJos from "../../Components/PricingDown/PricingJos";
 const Pricing = () => {
   return (
     <div>
-        <h1 className="title">Simple, transparent pricing for every team.</h1>
+        <h1 className="title">Prețuri simple și transparente pentru fiecare echipă.</h1>
         <PricingTable />  
         <PricingJos />
     </div>

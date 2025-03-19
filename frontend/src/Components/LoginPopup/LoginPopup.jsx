@@ -3,10 +3,15 @@ import './LoginPopup.css';
 import { assets } from '../../assets/assets';
 import { IoMdCloseCircle } from "react-icons/io";
 import { Password } from '@mui/icons-material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { SiteContext } from '../context/SiteContext';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom"; 
 
 
 const LoginPopup = ({ setShowLogin }) => {
+    const {url, setToken} = useContext(SiteContext);
+    const navigate = useNavigate();
     const [currState, setCurrState] = useState("Login");
     const [data, setData] = useState({
         name: "",
@@ -15,6 +20,37 @@ const LoginPopup = ({ setShowLogin }) => {
         companyName: "",
         phone: ""
     })
+
+
+    const onLogin = async(event)=>{
+        event.preventDefault();
+        let newUrl = url;
+        if (currState === "Login")
+        {
+            newUrl += "/api/user/login"
+        }
+        else{
+            newUrl+="/api/user/register"
+        }
+        const response = await axios.post(newUrl,data);
+
+        if(response.data.success) {
+            setToken(response.data.token);
+            localStorage.setItem("token", response.data.token);
+            setShowLogin(false);
+            
+           // am adaugat delay aici pentru ca nu functiona
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 100);
+        }
+        else
+        {
+            alert(response.data.message);
+        }
+
+
+    }
 
 
     const onChangeHandler = (event) => {
@@ -28,7 +64,7 @@ const LoginPopup = ({ setShowLogin }) => {
 
     return (
         <div className='login-popup'>
-            <form action="" className="login-popup-container">
+            <form onSubmit={onLogin} action="" className="login-popup-container">
                 <div className='login-popup-title'>
                     <h2>{currState}</h2>
                     <IoMdCloseCircle onClick={() => setShowLogin(false)} />
@@ -53,10 +89,10 @@ const LoginPopup = ({ setShowLogin }) => {
 
 
                 </div>
-                <button>{currState === "Sign Up" ? "Create account" : "Login"}</button>
+                <button type='submit'>{currState === "Sign Up" ? "Create account" : "Login"}</button>
                 <div className='login-popup-condition'>
                     <input type="checkbox" required />
-                    <p>I agree to the terms of use.</p>
+                    <p className='condition-paragraph'>I agree to the terms of use.</p>
                 </div>
                 {currState === "Login"
                     ? <p> Create a new account <span onClick={() => setCurrState("Sign Up")}> Click here</span></p>

@@ -1,6 +1,6 @@
 .login-popup-title svg {
-    font-size: 24px;  /* Mărește iconița */
-    cursor: pointer;  /* Schimbă cursorul pe pointer */
+    font-size: 24px;  
+    cursor: pointer;  
     color: #ff0000;   
 }
 
@@ -69,13 +69,13 @@
 
 .login-popup-condition{
     display: flex;
-    align-items: start;
+    align-items: center;
     gap: 12px;
     margin-top: -2px;
 }
 
 
-login-popup-condition input{
+.login-popup-condition input{
     margin-top: 8px;
 }
 

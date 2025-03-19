@@ -12,12 +12,18 @@ import LoginPopup from './Components/LoginPopup/LoginPopup';
 import Pricing from './Pages/pricing/Pricing';
 import Design from './Pages/design/Design';
 import Engineering from './Pages/engineering/Engineering';
+import Dashboard from './Components/Dashboard/Dashboard';
+import { SiteContext } from './Components/context/SiteContext';
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+
 
   return (
     <div>
       {/* trebuie sa am grija sa transmit corect props-ul */}
+
       {showLogin ? <LoginPopup setShowLogin={setShowLogin}/> : null}    
       <div className='app'>
         <Navbar setShowLogin = {setShowLogin} />
@@ -30,6 +36,7 @@ const App = () => {
           <Route path='/operations' element={<Operations />} />
           <Route path='/design' element={<Design />} />
           <Route path='/engineering' element={<Engineering />} />
+          <Route path="/dashboard" element={token ? <Dashboard /> : <Navigate to="/login" />} />
         </Routes>
       </div>
       <Footer />

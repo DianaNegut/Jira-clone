@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    flex-wrap: nowrap; /* Nu lăsăm elementele să sară pe rânduri */
+    flex-wrap: nowrap; 
     width: 100%;
 }
 
@@ -16,15 +16,15 @@
 }
 
 .footer-content-left {
-    align-items: flex-start; /* Aliniază la stânga */
+    align-items: flex-start; 
 }
 
 .footer-content-center {
-    align-items: center; /* Centrează coloana */
+    align-items: center;
 }
 
 .footer-content-right {
-    align-items: flex-end; /* Aliniază la dreapta */
+    align-items: flex-end; 
 }
 
 .footer {
@@ -39,7 +39,7 @@
     font-weight: bold;
     box-sizing: border-box;
     text-align: center;
-    white-space: normal; /* Permite textului să se rupă pe linii */
+    white-space: normal; 
 }
 
 .footer-content-left h2, 

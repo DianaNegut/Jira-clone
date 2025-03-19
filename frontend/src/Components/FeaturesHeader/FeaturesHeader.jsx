@@ -6,15 +6,15 @@ const FeaturesHeader = () => {
   return (
     <div>
       <div className="header">
-        {/* Container pentru text */}
+       
         <div className="text-container">
-          <h1 className="title">Project management features for all teams</h1>
+          <h1 className="title">Funcționalități de gestionare a proiectelor pentru toate echipele!</h1>
           <p className="description">
-            Built for every team, Jira is how modern organizations take work from to-do to done.
+          Creat pentru fiecare echipă, Jira este instrumentul prin care organizațiile moderne duc munca de la „de făcut” la „finalizat”.
           </p>
         </div>
 
-        {/* Imaginea */}
+        
         <img src={assets.project} alt="" className="image" />
       </div>
     </div>

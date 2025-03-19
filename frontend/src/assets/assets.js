@@ -63,21 +63,25 @@ export const menu_list = [
     {
         menu_name: "Software Development",
         menu_image: menu_1,
-        menu_description: "Plan, track, and manage your agile and software development projects in Jira. Customize your workflow, collaborate, and release great software."
+        menu_description: "Planifică, urmărește și gestionează proiectele tale agile și de dezvoltare software în Jira. Personalizează-ți fluxul de lucru, colaborează și lansează software de calitate.",
+        menu_link: "http://localhost:5173/features"
     },
     {
         menu_name: "Marketing",
         menu_image: menu_2,
-        menu_description: "Plan, track, and manage your marketing projects in Jira. Customize your workflow, collaborate, and release great marketing campaigns."
+        menu_description: "Transformă ideile în campanii de impact, conectează-te cu publicul și creează povești care inspiră. Fiecare strategie bine gândită te aduce mai aproape de succes!",
+        menu_link: "http://localhost:5173/marketing"
     },
     {
         menu_name: "Design",
         menu_image: menu_3,
-        menu_description: "Plan, track, and manage your design projects in Jira. Customize your workflow, collaborate, and release great design projects."
+        menu_description: "Dă viață ideilor tale prin culori, forme și creativitate fără limite. Fiecare pixel contează, iar fiecare detaliu spune o poveste. Inspiră, creează, impresionează!",
+        menu_link: "http://localhost:5173/design"
     },
     {
         menu_name: "Operations",
         menu_image: menu_4,
-        menu_description: "Plan, track, and manage your operations projects in Jira. Customize your workflow, collaborate, and release great operations projects."
+        menu_description: "Optimizează procese, coordonează echipe și asigură-te că fiecare piesă se potrivește perfect. Eficiență, strategie și execuție impecabilă — asta înseamnă să faci lucrurile să funcționeze fără cusur!",
+        menu_link: "http://localhost:5173/operations"
     }
 ]

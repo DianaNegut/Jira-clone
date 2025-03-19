@@ -1,47 +1,48 @@
 .feature-container {
-  background-color: #d0cece;         /* Fundal gri */
+  background-color: #d0cece;         
   display: flex;
-  flex-direction: column;            /* Elemente empilate vertical */
-  align-items: center;               /* Centrează pe orizontală */
+  flex-direction: column;            
+  align-items: center;               
   padding: 20px;
   text-align: center;
-  height: 74vh;                    /* Înălțime pe tot ecranul */
+  height: 74vh;                    
 }
 
 .titlu {
   font-size: 32px;
-  color: #333;                      /* Culoare text */
-  max-width: 800px;                 /* Limitează lățimea titlului */
-  margin-bottom: 20px;              /* Spațiu sub titlu */
+  color: #333;                  
+  max-width: 800px;                 
+  margin-bottom: 20px;              
 }
 
-/* Container pentru imagine + conținut */
+
 .feature-container-content {
   display: flex;
-  flex-direction: row;              /* Imaginea și textul pe același rând */
+  flex-direction: row;             
   justify-content: center;
   align-items: center;
-  gap: 20px;                        /* Spațiu între imagine și text */
-  width: 100%;                       /* Lățimea totală a secțiunii */
+  gap: 20px;                        
+  width: 100%;                       
 }
 
 .image-backlog {
-  width: 60%;                       /* Imaginea ocupă 40% din lățime */
+  width: 60%;                       
   height: auto;
   object-fit: cover;
   border-radius: 10px;
 }
 
-/* Container pentru titlu + paragraf */
+
 .text-content {
   display: flex;
-  flex-direction: column;           /* Elemente empilate vertical */
-  align-items: flex-start;          /* Aliniere la stânga */
-  text-align: left;                 /* Text stânga */
-  width: 60%;                       /* Textul ocupă 50% din spațiu */
+  flex-direction: column;         
+  align-items: flex-start;          
+  text-align: left;                 
+  width: 60%;                       
 }
 
 .titlu-plan {
+  margin-left: 170px;
   font-size: 30px;
   color: #007bff;
   margin-bottom: 10px;
@@ -50,5 +51,5 @@
 .paragraf-feature {
   font-size: 20px;
   color: #333;
-  line-height: 1.6;                /* Spațiere între rânduri */
+  line-height: 1.6;                
 }

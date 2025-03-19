@@ -1,6 +1,6 @@
 .marketing-content2 {
     padding: 20px;
-    /* Adaugă un fundal pentru vizibilitate */
+    
 }
 
 .titlu {
@@ -13,34 +13,33 @@
 .marketing-content-container2 {
     margin-top: 40px;
     display: flex;
-    flex-direction: row; /* Elemente pe rând */
-    align-items: flex-start; /* Aliniază elementele la început (sus) */
-    gap: 20px; /* Spațiu între imagine și text */
+    flex-direction: row; 
+    align-items: flex-start; 
+    gap: 20px; 
     margin-bottom: 30px;
 }
 
 .photos {
     width: 500px;
     height: 500px;
-    object-fit: cover; /* Ajustează imaginea fără deformare */
-    border-radius: 10px; /* Opțional: colțuri rotunjite */
+    object-fit: cover; 
+    border-radius: 10px; 
 }
 
 .text-container {
     display: flex;
-    flex-direction: column; /* Elemente pe coloană */
-    gap: 10px; /* Spațiu între titlu și paragraf */
-    max-width: 600px; /* Lățime maximă pentru text */
+    flex-direction: column;
+    gap: 10px;
+    max-width: 600px; 
 }
 
 .titlu2 {
-    text-align: left; /* Aliniază titlul la stânga */
+    text-align: left; 
     font-size: 25px;
     color: #333;
 }
 
 .text-marketing {
-    text-align: left; /* Aliniază paragraful la stânga */
-    font-size: 20px;
+    text-align: left; 
     color: #555;
 }

@@ -17,14 +17,13 @@
 .explore-menu-list {
     display: flex;
     gap: 30px;
-    flex-wrap: nowrap; /* NU permite trecerea pe rânduri noi */
-    justify-content: flex-start; /* Alinează elementele la stânga */
-    align-items: flex-start; /* Aliniază sus */
+    justify-content: flex-start; 
+    align-items: flex-start; 
     margin: 20px 0;
-    overflow-x: auto; /* Scroll orizontal */
-    overflow-y: hidden; /* Ascunde scroll vertical */
-    white-space: nowrap; /* Previne textul să se rupă */
-    padding-bottom: 10px; /* Spațiu pentru scroll */
+    overflow-x: auto;
+    overflow-y: hidden; 
+    white-space: nowrap; 
+    padding-bottom: 10px; 
 }
 
 .explore-menu-list::-webkit-scrollbar {
@@ -47,16 +46,16 @@
 .explore-menu-item {
     display: flex;
     align-items: flex-start;
-    gap: 20px; /* Spațiu între imagine și text */
+    gap: 15px; 
     flex: 0 0 auto;
 }
 
 .explore-menu-image {
-    width: 200px;
-    height: 200px;
-    object-fit: cover; /* Păstrează proporțiile și taie excesul */
-    border-radius: 10px; /* Opțional: colțuri rotunjite */
-    clip-path: inset(0); /* Elimină tăierea poligonală */
+    width: 150px;
+    height: 150px;
+    object-fit: cover; 
+    border-radius: 20px; 
+    clip-path: inset(0); 
     cursor: pointer;
 }
 
@@ -72,7 +71,7 @@
     color: #747474;
     font-size: 14px;
     max-width: 250px;
-    white-space: normal; /* Permite textului să se rupă pe mai multe linii */
+    white-space: normal; 
     cursor: pointer;
 }
 
@@ -81,6 +80,7 @@
     height: 2px;
     background-color: #e2e2e2;
     border: none;
+    margin-bottom: 30px;
 }
 
 .explore-menu-item .active {

@@ -1,16 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { BrowserRouter } from 'react-router-dom'
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import SiteContextProvider from './Components/context/SiteContext'
+import './index.css';
+import App from './App';
+import { BrowserRouter as Router } from 'react-router-dom';
+import SiteContextProvider from './Components/context/SiteContext';
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter> 
-    <SiteContextProvider>
-      <App />
-    </SiteContextProvider>
-  </BrowserRouter>
-)
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <Router>
+      <SiteContextProvider>
+        <App />
+      </SiteContextProvider>
+    </Router>
+  </React.StrictMode>
+);

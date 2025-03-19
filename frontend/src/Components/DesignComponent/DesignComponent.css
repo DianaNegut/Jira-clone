@@ -1,38 +1,35 @@
-/* Container principal */
 .design-container {
     padding: 30px;
     max-width: 1200px;
     margin: 0 auto;
     background: #f9fafb;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 8px rgba(124, 4, 4, 0.05);
     animation: fadeIn 0.8s ease-in;
 }
 
-/* Titluri principale */
 .design-title {
     font-size: 2.5rem;
     color: #1E3A8A;
     text-align: center;
+    margin-top: 30px;
     margin-bottom: 40px;
 }
 
-/* Paragrafe introductive */
 .design-intro {
     font-size: 1.2rem;
-    color: #374151;
+    color: #2a303b;
     text-align: center;
     margin-bottom: 60px;
     line-height: 1.6;
 }
 
-/* Secțiuni */
 .section {
     margin-bottom: 60px;
     padding: 20px;
     background: #ffffff;
     border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -49,7 +46,6 @@
     margin-bottom: 20px;
 }
 
-/* Imagini */
 .image-board {
     width: 100%;
     height: auto;
@@ -62,7 +58,6 @@
     transform: scale(1.05);
 }
 
-/* Secțiunea CTA */
 .cta-section {
     text-align: center;
     padding: 40px;

@@ -7,17 +7,17 @@ const PricingCard = ({ plan, price, description, extraDetails }) => {
   return (
     <div className="pricing-card">
       <h2 className="plan-title">{plan}</h2>
-      <p className="plan-subtitle">Align multiple teams</p>
+      <p className="plan-subtitle">Coordonează echipele pentru o colaborare perfectă!</p>
 
       <p className="price">{price}</p>
-      <p className="price-desc">per user / month</p>
+      <p className="price-desc">Pe utilizator / lună</p>
 
-      <button className="trial-button">Start free trial</button>
+      <button className="trial-button">Începe perioada de testare gratuită!</button>
 
       <div className="separator"></div>
 
       <div className="details-section">
-        <p className="details-header">Everything from Standard plus:</p>
+        <p className="details-header">Tot ce oferă planul</p>
         <button className="expand-button" onClick={() => setShowDetails(!showDetails)}>
           {showDetails ? '⧏' : '⧐'}
         </button>

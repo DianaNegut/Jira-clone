@@ -10,17 +10,17 @@ const MarketingContent = () => {
                 <div className='marketing-content-card'>
                     <img src={assets.woman1} alt='marketing' className='poze' />
                     <h2>Product marketing</h2>
-                    <p>Bring marketing and product under one roof so you can plan, build, and launch products customers will love, together.</p>
+                    <p>Adu echipele de marketing și produs sub același acoperiș, astfel încât să puteți planifica, construi și lansa împreună produse pe care clienții le vor adora. 🚀</p>
                 </div>
                 <div className='marketing-content-card'>
                     <img src={assets.woman2} alt='marketing' className='poze' />
                     <h2>Content marketing</h2>
-                    <p>Create, review, and distribute materials and focus on what you do best — crafting great content.</p>
+                    <p>Creează, revizuiește și distribuie materiale, concentrându-te pe ceea ce faci cel mai bine — să creezi conținut de calitate. </p>
                 </div>
                 <div className='marketing-content-card'>
                     <img src={assets.woman3} alt='marketing' className='poze' />
                     <h2>Marketing leadership</h2>
-                    <p>Gain visibility on deliverables and goals so you can make smarter, context-based leadership decisions.</p>
+                    <p>Obține vizibilitate asupra livrabilelor și obiectivelor pentru a lua decizii de leadership mai inteligente, bazate pe context. </p>
                 </div>
 
             </div>
