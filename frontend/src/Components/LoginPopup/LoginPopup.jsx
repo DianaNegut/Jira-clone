@@ -41,7 +41,7 @@ const LoginPopup = ({ setShowLogin }) => {
             
            // am adaugat delay aici pentru ca nu functiona
             setTimeout(() => {
-                navigate("/dashboard");
+                navigate("/homelog");
             }, 100);
         }
         else

@@ -1,0 +1,32 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+  background: #f4f5f7; 
+}
+
+.dashboard-box {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  border-top: 5px solid #0c4b8f; 
+}
+
+.dashboard-box h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #0c4b8f;
+  font-weight: bold;
+}
+
+.dashboard-content {
+  margin-top: 10px;
+  color: #333;
+  font-size: 14px;
+}
+
+.full-width {
+  grid-column: span 2; 
+}
