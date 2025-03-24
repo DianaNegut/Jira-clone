@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { SiteContext } from "../../Components/context/SiteContext";
 import { useNavigate } from "react-router-dom";
+import KanbanDashboard from "../../Components/Kanban/KanbanDashboard";
 import axios from "axios";
 
 const Dashboard = () => {
@@ -34,6 +35,7 @@ const Dashboard = () => {
         <div>
             
             <ul>
+                <KanbanDashboard />
               
                   
             </ul>

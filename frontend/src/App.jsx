@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Navbar from './Components/Navbar/Navbar';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'; // Add useNavigate
 import Home from './Pages/home/Home';
 import Footer from './Components/Footer/Footer';
 import Features from './Pages/features/Features';
@@ -26,23 +26,23 @@ const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const { token, setToken } = useContext(SiteContext);
   const location = useLocation();
-
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
     if (savedToken) {
       setToken(savedToken);
     } else {
-      setToken(null); 
+      setToken(null);
     }
   }, [setToken]);
 
   const isLoggedIn = !!token;
 
- 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('token'); 
     setToken(null);
+    navigate('/'); 
   };
 
   console.log("Current token in App:", token);
@@ -51,7 +51,6 @@ const App = () => {
     <>
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
 
-     
       {isLoggedIn ? (
         <NavbarLogged setShowLogin={setShowLogin} onLogout={handleLogout} />
       ) : (
@@ -59,7 +58,6 @@ const App = () => {
       )}
 
       <Routes>
-       
         <Route path="/" element={<Home />} />
         <Route path="/features" element={<Features />} />
         <Route path="/solutions" element={<Solutions />} />
@@ -69,7 +67,6 @@ const App = () => {
         <Route path="/design" element={<Design />} />
         <Route path="/engineering" element={<Engineering />} />
 
-        
         <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/dashboard" />} />
         <Route path="/tasks" element={isLoggedIn ? <Taskuri /> : <Navigate to="/tasks" />} />
         <Route path="/explore" element={isLoggedIn ? <Explore /> : <Navigate to="/explore" />} />
