@@ -25,11 +25,14 @@ import board2 from './board2.png'
 import woman1 from './woman1.jpg'
 import woman2 from './woman2.jpg'
 import woman3 from './woman3.jpg'
+import default_profile_icon from './profile_image.jpg'
 
+          
 
 
 
 export const assets = {
+    default_profile_icon,
     management,
     woman1,
     woman2,

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Navbar from './Components/Navbar/Navbar';
-import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'; // Add useNavigate
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Home from './Pages/home/Home';
 import Footer from './Components/Footer/Footer';
 import Features from './Pages/features/Features';
@@ -15,37 +15,46 @@ import Dashboard from './Pages/dashboard/Dashboard';
 import { SiteContext } from './Components/context/SiteContext';
 import NavbarLogged from './Components/User/Navbar/NavbarLogged';
 import HomeLoged from './Pages/homeLoged/homeLoged';
-import Profile from './Pages/profil/Profile';
+import Profil from './Pages/profil/Profil';
 import Taskuri from './Pages/taskuri/Taskuri';
 import BugReport from './Pages/bug_report/BugReport';
 import Settings from './Pages/settings/Settings';
 import Timetracker from './Pages/timetracker/Timetracker';
 import Explore from './Pages/explore/Explore';
+import TaskDetail from './Pages/taskDetailPage/TaskDetailPage'
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
   const { token, setToken } = useContext(SiteContext);
   const location = useLocation();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
-    if (savedToken) {
+    console.log("Token from localStorage:", savedToken);
+
+    if (savedToken && savedToken !== 'null') { 
       setToken(savedToken);
     } else {
       setToken(null);
+      localStorage.setItem('token', null); 
     }
+    setLoading(false);
   }, [setToken]);
 
   const isLoggedIn = !!token;
+  console.log("Token after useEffect:", token, "isLoggedIn:", isLoggedIn);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
+    localStorage.removeItem('token');
     setToken(null);
-    navigate('/'); 
+    navigate('/');
   };
 
-  console.log("Current token in App:", token);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -66,15 +75,16 @@ const App = () => {
         <Route path="/operations" element={<Operations />} />
         <Route path="/design" element={<Design />} />
         <Route path="/engineering" element={<Engineering />} />
+        <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />} />
+        <Route path="/tasks" element={isLoggedIn ? <Taskuri /> : <Navigate to="/" />} />
+        <Route path="/explore" element={isLoggedIn ? <Explore /> : <Navigate to="/" />} />
+        <Route path="/bugreport" element={isLoggedIn ? <BugReport /> : <Navigate to="/" />} />
+        <Route path="/timetracker" element={isLoggedIn ? <Timetracker /> : <Navigate to="/" />} />
+        <Route path="/settings" element={isLoggedIn ? <Settings /> : <Navigate to="/" />} />
+        <Route path="/profile" element={isLoggedIn ? <Profil /> : <Navigate to="/" />} />
+        <Route path="/homelog" element={isLoggedIn ? <HomeLoged /> : <Navigate to="/" />} />
 
-        <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/dashboard" />} />
-        <Route path="/tasks" element={isLoggedIn ? <Taskuri /> : <Navigate to="/tasks" />} />
-        <Route path="/explore" element={isLoggedIn ? <Explore /> : <Navigate to="/explore" />} />
-        <Route path="/bugreport" element={isLoggedIn ? <BugReport /> : <Navigate to="/bugreport" />} />
-        <Route path="/timetracker" element={isLoggedIn ? <Timetracker /> : <Navigate to="/timetracker" />} />
-        <Route path="/settings" element={isLoggedIn ? <Settings /> : <Navigate to="/settings" />} />
-        <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/profile" />} />
-        <Route path="/homelog" element={isLoggedIn ? <HomeLoged /> : <Navigate to="/homelog" />} />
+        <Route path="/task/:taskId" element={isLoggedIn ? <TaskDetail /> : <Navigate to="/" />} />
       </Routes>
 
       {!isLoggedIn && <Footer />}

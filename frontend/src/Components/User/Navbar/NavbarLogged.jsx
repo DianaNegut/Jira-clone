@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import './NavbarLogged.css';
 
 const NavbarLogged = ({ onLogout }) => {
-  // Funcție care apelează onLogout și previne comportamentul implicit al link-ului
   const handleLogoutClick = (e) => {
-    e.preventDefault(); // Previne navigarea implicită
-    onLogout(); // Apelează funcția de deconectare din App
+    e.preventDefault(); 
+    onLogout(); 
   };
 
   return (

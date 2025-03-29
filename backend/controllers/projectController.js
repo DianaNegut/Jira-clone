@@ -28,4 +28,16 @@ const addProject = async (req, res) => {
     }
 };
 
-export { addProject };
+
+const getProjects = async (req, res) => {
+    try {
+        const projects = await projectModel.find();
+        res.json(projects);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error" });
+    }
+}
+
+
+export { addProject,getProjects };

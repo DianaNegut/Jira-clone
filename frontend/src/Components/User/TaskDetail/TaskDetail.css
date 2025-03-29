@@ -1,0 +1,182 @@
+/* Container principal */
+.task-details-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header-ul taskului */
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Meta info despre task */
+.task-meta {
+  margin-top: 15px;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-meta p {
+  margin: 0;
+}
+
+/* Dropdown pentru echipă */
+.team-dropdown {
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.team-dropdown:hover {
+  background: #e0e0e0;
+}
+
+/* Descrierea taskului */
+.task-description {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.description-textarea {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.update-btn {
+  display: block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.update-btn:hover {
+  background: #0056b3;
+}
+
+/* Acțiuni pentru status */
+.task-status-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.status-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.status-btn:hover {
+  transform: scale(1.05);
+}
+
+.status-btn.in-progress {
+  background: #ffcc80;
+  color: #000;
+}
+
+.status-btn.in-progress:hover {
+  background: #ffa726;
+}
+
+.status-btn.completed {
+  background: #66bb6a;
+  color: #fff;
+}
+
+.status-btn.completed:hover {
+  background: #43a047;
+}
+
+/* Fișiere și imagini atașate */
+.task-files {
+  margin-top: 20px;
+}
+
+.file-item {
+  margin-bottom: 10px;
+}
+
+.task-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Upload imagine */
+.image-upload {
+  margin-top: 20px;
+}
+
+.image-upload input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.upload-btn {
+  padding: 8px 15px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.upload-btn:hover {
+  background: #218838;
+}
+
+/* Link de întoarcere */
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
