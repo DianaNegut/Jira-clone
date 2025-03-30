@@ -14,7 +14,12 @@ const taskSchema = new mongoose.Schema({
     files: [{ 
         type: String, 
         required: false 
-    }]
+    }],
+    time_logged: { 
+        type: Number, 
+        default: 0, // Stored in minutes
+        required: false 
+    }
 });
 
 const taskModel = mongoose.models.Tasks || mongoose.model("Tasks", taskSchema);

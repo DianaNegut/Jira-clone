@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     },
     tasks: [{
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Task"
+        ref: "Tasks"
     }],
     teams: [{
         type: mongoose.Schema.Types.ObjectId, 

@@ -1,4 +1,7 @@
 import userModel from "../models/userModel.js";
+import teamModel from "../models/teamModel.js";
+import taskModel from "../models/taskModel.js";
+import mongoose from "mongoose";
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcrypt";
 import validator from "validator";
@@ -30,7 +33,71 @@ const loginUser = async (req, res) =>{
 
 }
 
+const assignTeamToUser = async (req, res) => {
+    try {
+        const { userId, teamId } = req.body;
 
+        if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(teamId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid user ID or team ID format"
+            });
+        }
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        const team = await teamModel.findById(teamId);
+        if (!team) {
+            return res.status(404).json({
+                success: false,
+                message: "Team not found"
+            });
+        }
+
+        if (user.teams.includes(teamId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Team is already assigned to this user"
+            });
+        }
+
+        // ✅ Adaugă user-ul în lista de echipe ale sale
+        user.teams.push(teamId);
+        await user.save();
+
+        // ✅ Adaugă user-ul și în echipă
+        if (!team.members.includes(userId)) {
+            team.members.push(userId);
+            await team.save();
+        }
+
+        // ✅ Returnează datele actualizate
+        const updatedTeam = await teamModel.findById(teamId)
+            .populate("leader", "name email")
+            .populate("members", "name email")
+            .populate("tasks", "title status");
+
+        res.status(200).json({
+            success: true,
+            message: "User successfully assigned to team",
+            team: updatedTeam
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: "Error assigning team to user",
+            error: error.message
+        });
+    }
+};
 
 const createToken = (id) => {
     return jwt.sign(
@@ -96,4 +163,29 @@ const registerUser = async (req, res)=>{
 }
 
 
-export { loginUser, registerUser };
+const getCurrentUser = async (req, res) => {
+    try {
+      const user = await userModel.findById(req.userId).populate('teams');
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+      }
+  
+      res.status(200).json({
+        success: true,
+        user: {
+          _id: user._id,
+          name: user.name,
+          teams: user.teams.map(team => ({
+            _id: team._id,
+            name: team.name
+          }))
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: "Error fetching user", error: error.message });
+    }
+  };
+
+
+export { loginUser, registerUser, assignTeamToUser,getCurrentUser };

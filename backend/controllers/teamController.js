@@ -16,6 +16,51 @@ export const createTeam = async (req, res) => {
     }
 }
 
+export const getTeamsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Validate userId format
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Invalid user ID format" 
+      });
+    }
+
+    // Find teams where the user is a member
+    const teams = await teamModel.find({ 
+      members: userId 
+    })
+    .populate("leader", "name email")
+    .populate("members", "name email")
+    .populate("tasks", "title status");
+
+    if (!teams || teams.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No teams found for this user",
+        teams: []
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Teams retrieved successfully",
+      teams: teams,
+      count: teams.length
+    });
+  } catch (error) {
+    console.error("Error fetching user's teams:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Error retrieving user's teams", 
+      error: error.message 
+    });
+  }
+};
+
+
 export const getAllTeams = async (req, res) => {
   try {
       console.log("Attempting to fetch teams...");
@@ -71,6 +116,28 @@ export const updateTeam = async (req, res) => {
         res.status(500).json({ message: "Eroare la actualizarea echipei" });
     }
 }
+
+export const getTeamMembers = async (req, res) => {
+  try {
+      const team = await teamModel.findById(req.params.id).populate("members", "name email");
+
+      if (!team) {
+          return res.status(404).json({ message: "Echipa nu a fost găsită" });
+      }
+
+      res.status(200).json({
+          message: "Membrii echipei au fost preluați cu succes",
+          members: team.members
+      });
+  } catch (error) {
+      res.status(500).json({
+          message: "Eroare la preluarea membrilor echipei",
+          error: error.message
+      });
+  }
+};
+
+
 
 export const deleteTeam = async (req, res) => {
     try {
@@ -163,3 +230,72 @@ export const removeMemberFromTeam = async (req, res) => {
       res.status(500).json({ message: "Eroare la eliminarea membrului", error: error.message });
     }
   };
+
+
+
+  export const getTeamTasks = async (req, res) => {
+    try {
+        const teamId = req.params.id;
+
+        // Verificăm dacă ID-ul echipei este valid
+        if (!mongoose.Types.ObjectId.isValid(teamId)) {
+            return res.status(400).json({ message: "ID-ul echipei este invalid" });
+        }
+
+        // Găsim echipa și populăm taskurile cu informații relevante
+        const team = await teamModel.findById(teamId)
+            .populate({
+                path: 'tasks',
+                select: 'title description status user files time_logged',
+                populate: [
+                    {
+                        path: 'user',
+                        select: 'name email'
+                    },
+                    {
+                        path: 'team',
+                        select: 'name'
+                    }
+                ]
+            });
+
+        if (!team) {
+            return res.status(404).json({ message: "Echipa nu a fost găsită" });
+        }
+
+        // Structurăm răspunsul
+        const response = {
+            team: {
+                _id: team._id,
+                name: team.name
+            },
+            tasks: team.tasks.map(task => ({
+                _id: task._id,
+                title: task.title,
+                description: task.description,
+                status: task.status,
+                time_logged: task.time_logged,
+                assignedTo: task.user ? {
+                    _id: task.user._id,
+                    name: task.user.name,
+                    email: task.user.email
+                } : null,
+                files: task.files || [],
+                createdAt: task.createdAt,
+                updatedAt: task.updatedAt
+            }))
+        };
+
+        res.status(200).json({
+            message: "Taskurile echipei au fost preluate cu succes",
+            data: response
+        });
+
+    } catch (error) {
+        console.error("Eroare la preluarea taskurilor echipei:", error);
+        res.status(500).json({
+            message: "Eroare la preluarea taskurilor echipei",
+            error: error.message
+        });
+    }
+};

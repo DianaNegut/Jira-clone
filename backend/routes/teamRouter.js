@@ -5,27 +5,31 @@ import {
     updateTeam, 
     deleteTeam, 
     addMemberToTeam, 
-    removeMemberFromTeam 
+    removeMemberFromTeam , getTeamMembers,getTeamTasks,getTeamsByUserId
 } from '../controllers/teamController.js';
 
 const router = express.Router();
 
-// Create a new team
 router.post('/', createTeam);
 
-// Get all teams
+
 router.get('/', getAllTeams);
 
-// Update team details
 router.put('/:id', updateTeam);
 
-// Delete a team
+
 router.delete('/:id', deleteTeam);
 
-// Add member to team
+router.get('/:id/members', getTeamMembers);
+
+
 router.post('/:id/members/:memberId', addMemberToTeam);
 
-// Remove member from team
+router.get('/:id/tasks', getTeamTasks);
+
+router.get('/user/:userId', getTeamsByUserId);
+
+
 router.delete('/:id/members/:memberId', removeMemberFromTeam);
 
 export default router;

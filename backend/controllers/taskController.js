@@ -70,8 +70,39 @@ const verifyToken = (req, res, next) => {
 };
 
 
+export const addTimeToTask = async (req, res) => {
+    try {
+        const { timeToAdd } = req.body; // timeToAdd should be in minutes
+        
+        if (!timeToAdd || typeof timeToAdd !== 'number' || timeToAdd < 0) {
+            return res.status(400).json({ 
+                error: "Invalid time value",
+                details: "Time must be a positive number in minutes"
+            });
+        }
+
+        const task = await taskModel.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json({ error: "Task-ul nu a fost găsit" });
+        }
+
+        // Add the new time to existing time
+        task.time_logged = (task.time_logged || 0) + timeToAdd;
+        await task.save();
+
+        res.status(200).json({ 
+            message: "Timpul a fost actualizat cu succes",
+            task 
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            error: "Eroare la adăugarea timpului",
+            details: error.message 
+        });
+    }
+};
+
 export const addTask = async (req, res) => {
-    // Use multer middleware to process file uploads
     upload(req, res, async (err) => {
         if (err) {
             console.error("Multer error:", err);
@@ -87,13 +118,10 @@ export const addTask = async (req, res) => {
             console.log("Uploaded files:", req.files);
 
             if (!req.body || Object.keys(req.body).length === 0) {
-                return res.status(400).json({ 
-                    error: "Request body is missing or empty" 
-                });
+                return res.status(400).json({ error: "Request body is missing or empty" });
             }
 
-            const { title, description, status, team, user } = req.body;
-            console.log("Destructured values:", { title, description, status, team, user });
+            const { title, description, status, team, user, time_logged } = req.body;
 
             if (!title || !description || !team) {
                 return res.status(400).json({ 
@@ -110,6 +138,13 @@ export const addTask = async (req, res) => {
                 });
             }
 
+            if (time_logged && (typeof time_logged !== 'number' || time_logged < 0)) {
+                return res.status(400).json({ 
+                    error: "Invalid time_logged value",
+                    details: "Time must be a positive number in minutes"
+                });
+            }
+
             let teamId;
             try {
                 if (typeof team !== "string" || !mongoose.isValidObjectId(team)) {
@@ -122,13 +157,9 @@ export const addTask = async (req, res) => {
                     details: { team, message: err.message }
                 });
             }
-            console.log("Team ID after casting:", teamId);
 
-            const existingTeam = await teamModel.findById(teamId);
-            console.log("Echipă găsită:", existingTeam);
+            let existingTeam = await teamModel.findById(teamId);
             if (!existingTeam) {
-                const allTeams = await teamModel.find({});
-                console.log("Toate echipele:", allTeams);
                 return res.status(400).json({ 
                     error: "Echipa selectată nu există",
                     details: { teamId: teamId.toString() }
@@ -149,26 +180,32 @@ export const addTask = async (req, res) => {
                     });
                 }
             }
-            console.log("User ID after casting (if provided):", userId);
 
-            // Handle uploaded files (optional)
             const filePaths = req.files ? req.files.map(file => `/images/${file.filename}`) : [];
 
-            // Create and save the task
+            // Creare task nou
             const task = new taskModel({ 
                 title, 
                 description, 
-                status: status || undefined, // Let Mongoose apply default if undefined
+                status: status || undefined,
                 team: existingTeam._id,
-                user: userId, // Will be null if not provided
-                files: filePaths // Store file paths (empty array if no files)
+                user: userId,
+                files: filePaths,
+                time_logged: time_logged || 0
             });
             await task.save();
 
-            // Send a single response
+            // Adăugare task în lista de task-uri ale echipei
+            existingTeam.tasks.push(task._id);
+            await existingTeam.save();
+
+            // Populare echipă cu toate task-urile detaliate
+            existingTeam = await teamModel.findById(teamId).populate("tasks");
+
             res.status(201).json({ 
-                message: "Taskul a fost creat cu succes", 
-                task 
+                message: "Taskul a fost creat cu succes și adăugat echipei", 
+                task,
+                team: existingTeam  // Returnează echipa populată
             });
         } catch (error) {
             console.error("Eroare detaliată:", error);
@@ -231,6 +268,28 @@ export const getTaskById = async (req, res) => {
         res.status(500).json({ error: "Eroare la obținerea task-ului." });
     }
 };
+
+export const getTaskByTitle = async (req, res) => {
+    try {
+        const { title } = req.params;
+
+        if (!title) {
+            return res.status(400).json({ error: "Titlul este necesar pentru căutare." });
+        }
+
+        const task = await taskModel.findOne({ title: new RegExp(title, "i") }).populate("user").populate("team");
+
+        if (!task) {
+            return res.status(404).json({ error: "Task-ul nu a fost găsit." });
+        }
+
+        res.status(200).json(task);
+    } catch (error) {
+        console.error("Eroare la obținerea task-ului după titlu:", error);
+        res.status(500).json({ error: "Eroare la obținerea task-ului." });
+    }
+};
+
 
 export const updateTask = async (req, res) => {
     try {
