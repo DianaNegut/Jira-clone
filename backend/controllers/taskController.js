@@ -1,5 +1,6 @@
 import userModel from "../models/userModel.js";
 import taskModel from "../models/taskModel.js";
+import activitateModel from '../models/activitateModel.js';
 import teamModel from "../models/teamModel.js";
 import mongoose from "mongoose";
 import multer from "multer";
@@ -8,7 +9,7 @@ import path from "path";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/"); // Save files to the 'uploads' folder
+        cb(null, "uploads/"); 
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -29,7 +30,7 @@ export const uploadTaskFiles = async (req, res) => {
           return res.status(404).json({ error: "Task-ul nu a fost găsit" });
         }
   
-        // Adăugăm noile fișiere la array-ul existent
+       
         const newFiles = req.files.map(file => `/images/${file.filename}`);
         task.files = [...task.files, ...newFiles];
         
@@ -72,7 +73,7 @@ const verifyToken = (req, res, next) => {
 
 export const addTimeToTask = async (req, res) => {
     try {
-        const { timeToAdd } = req.body; // timeToAdd should be in minutes
+        const { timeToAdd } = req.body; 
         
         if (!timeToAdd || typeof timeToAdd !== 'number' || timeToAdd < 0) {
             return res.status(400).json({ 
@@ -89,14 +90,32 @@ export const addTimeToTask = async (req, res) => {
         // Add the new time to existing time
         task.time_logged = (task.time_logged || 0) + timeToAdd;
         await task.save();
+        
+        // Obține informații despre utilizator pentru a crea mesajul de activitate
+        const user = await userModel.findById(task.user);
+        if (!user) {
+            return res.status(404).json({ error: "Utilizatorul asociat task-ului nu a fost găsit" });
+        }
+
+        // Creează o nouă activitate
+        const newActivitate = new activitateModel({
+            mesaj: `${user.name} a logat timp la taskul ${task.title}`,
+            task: task._id, 
+            user: task.user,
+            createdAt: new Date()
+        });
+
+        // Salvează activitatea
+        await newActivitate.save();
 
         res.status(200).json({ 
-            message: "Timpul a fost actualizat cu succes",
-            task 
+            message: "Timpul a fost actualizat cu succes și activitatea a fost înregistrată",
+            task,
+            activitate: newActivitate
         });
     } catch (error) {
         res.status(500).json({ 
-            error: "Eroare la adăugarea timpului",
+            error: "Eroare la adăugarea timpului sau la crearea activității",
             details: error.message 
         });
     }
@@ -195,7 +214,7 @@ export const addTask = async (req, res) => {
             });
             await task.save();
 
-            // Adăugare task în lista de task-uri ale echipei
+           
             existingTeam.tasks.push(task._id);
             await existingTeam.save();
 

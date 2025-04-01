@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import { assets } from '../../../assets/assets';
+import { getCurrentUser, fetchWithToken } from '../../../utils/authUtils';
 
 const Profile = () => {
- 
-  const user = {
-    name: 'John Doe',
-    email: 'john.doe@jira.com',
-    role: 'Developer',
-    team: 'Engineering Team',
-    joined: 'January 2023',
-  };
+  const [user, setUser] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Starea pentru fotografia de profil
-  const [profilePicture, setProfilePicture] = useState(null); // Imaginea curentă (null pentru implicit)
-  const [preview, setPreview] = useState(null); // Previzualizare pentru imaginea încărcată
-
-  // Funcție pentru a gestiona încărcarea imaginii
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -25,19 +18,33 @@ const Profile = () => {
     }
   };
 
-  // Funcție pentru a salva imaginea (simulat, poți conecta la backend)
-  const handleSaveImage = () => {
+  const handleSaveImage = async () => {
     if (preview) {
-      setProfilePicture(preview);
-      // Aici poți trimite imaginea către backend (ex. cu fetch sau axios)
-      console.log('Profile picture saved:', preview);
-      // Eliberează memoria pentru previzualizare
+      try {
+        const file = document.getElementById('profile-pic-upload').files[0]; // Obține fișierul încărcat
+        if (!file) throw new Error('No file selected');
+
+        const formData = new FormData();
+        formData.append('file', file); // Adaugă fișierul în formData
+
+        const response = await fetchWithToken(`http://localhost:4000/api/user/${user._id}/profile-picture`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        console.log('Profile picture saved:', response);
+        setProfilePicture(response.profilePicture); // Actualizează starea cu noua cale a imaginii
+
+      } catch (error) {
+        console.error('Error saving profile picture:', error);
+        setError('Failed to save profile picture: ' + error.message);
+      }
+
       URL.revokeObjectURL(preview);
       setPreview(null);
     }
   };
 
-  // Funcție pentru a anula modificarea
   const handleCancel = () => {
     if (preview) {
       URL.revokeObjectURL(preview);
@@ -45,21 +52,47 @@ const Profile = () => {
     }
   };
 
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const currentUser = getCurrentUser();
+        if (!currentUser || !currentUser.id) {
+          setError('User not authenticated');
+          setLoading(false);
+          return;
+        }
+
+        const userData = await fetchWithToken(`http://localhost:4000/api/user/${currentUser.id}`);
+        setUser(userData.user);
+        if (userData.user.profilePicture) {
+          setProfilePicture(userData.user.profilePicture);
+        }
+
+      } catch (err) {
+        setError('Failed to load user data');
+        console.error('Error loading user data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUserData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!user) return <div>No user data available</div>;
+
   return (
     <div className="profile-container">
       <h1>Profile</h1>
       <div className="profile-content">
-        {/* Secțiunea pentru fotografia de profil */}
         <div className="profile-picture-section">
           <div className="profile-picture">
-          <img src={preview || profilePicture || assets.default_profile_icon} alt="Profile" />
-
-
+            <img src={preview || profilePicture || assets.default_profile_icon} alt="Profile" />
           </div>
           <div className="profile-picture-actions">
-            <label htmlFor="profile-pic-upload" className="upload-button">
-              Change Photo
-            </label>
+            <label htmlFor="profile-pic-upload" className="upload-button">Change Photo</label>
             <input
               type="file"
               id="profile-pic-upload"
@@ -69,25 +102,20 @@ const Profile = () => {
             />
             {preview && (
               <div className="preview-actions">
-                <button onClick={handleSaveImage} className="save-button">
-                  Save
-                </button>
-                <button onClick={handleCancel} className="cancel-button">
-                  Cancel
-                </button>
+                <button onClick={handleSaveImage} className="save-button">Save</button>
+                <button onClick={handleCancel} className="cancel-button">Cancel</button>
               </div>
             )}
           </div>
         </div>
 
-        {/* Secțiunea pentru informațiile utilizatorului */}
         <div className="profile-details">
           <h2>{user.name}</h2>
           <div className="profile-info">
             <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Role:</strong> {user.role}</p>
-            <p><strong>Team:</strong> {user.team}</p>
-            <p><strong>Joined:</strong> {user.joined}</p>
+            <p><strong>Phone:</strong> {user.phone}</p>
+            <p><strong>Company:</strong> {user.companyName}</p>
+            <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
           </div>
         </div>
       </div>

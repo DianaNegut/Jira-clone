@@ -299,3 +299,119 @@ export const removeMemberFromTeam = async (req, res) => {
         });
     }
 };
+
+
+export const getUnassignedTeamTasks = async (req, res) => {
+  try {
+      const teamId = req.params.id;
+
+      // Verificăm dacă ID-ul echipei este valid
+      if (!mongoose.Types.ObjectId.isValid(teamId)) {
+          return res.status(400).json({ message: "ID-ul echipei este invalid" });
+      }
+
+      // Găsim echipa și populăm taskurile
+      const team = await teamModel.findById(teamId)
+          .populate({
+              path: 'tasks',
+              match: { status: "unassigned", user: null }, // Filtrăm task-urile neasignate
+              select: 'title description status files time_logged',
+              populate: [
+                  {
+                      path: 'team',
+                      select: 'name'
+                  }
+              ]
+          });
+
+      if (!team) {
+          return res.status(404).json({ message: "Echipa nu a fost găsită" });
+      }
+
+      // Filtrăm task-urile pentru a ne asigura că sunt doar cele neasignate
+      const unassignedTasks = team.tasks.filter(task => task && task.status === "unassigned" && !task.user);
+
+      // Structurăm răspunsul
+      const response = {
+          team: {
+              _id: team._id,
+              name: team.name
+          },
+          unassignedTasks: unassignedTasks.map(task => ({
+              _id: task._id,
+              title: task.title,
+              description: task.description,
+              status: task.status,
+              time_logged: task.time_logged,
+              files: task.files || [],
+              createdAt: task.createdAt,
+              updatedAt: task.updatedAt
+          }))
+      };
+
+      res.status(200).json({
+          message: "Taskurile neasignate ale echipei au fost preluate cu succes",
+          data: response,
+          count: unassignedTasks.length
+      });
+
+  } catch (error) {
+      console.error("Eroare la preluarea taskurilor neasignate ale echipei:", error);
+      res.status(500).json({
+          message: "Eroare la preluarea taskurilor neasignate ale echipei",
+          error: error.message
+      });
+  }
+};
+
+
+export const assignTaskToUser = async (req, res) => {
+  console.log("Cerere primită pentru asignarea task-ului:", req.params);
+  try {
+      const taskId = req.params.taskId;
+      const userId = req.params.userId;
+
+      if (!mongoose.Types.ObjectId.isValid(taskId) || !mongoose.Types.ObjectId.isValid(userId)) {
+          return res.status(400).json({ message: "ID-ul task-ului sau al utilizatorului este invalid" });
+      }
+
+      const task = await taskModel.findById(taskId);
+      if (!task) {
+          return res.status(404).json({ message: "Task-ul nu a fost găsit" });
+      }
+
+      const user = await userModel.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: "Utilizatorul nu a fost găsit" });
+      }
+
+      task.user = userId;
+      task.status = "in progress";
+
+      await task.save();
+
+      res.status(200).json({
+          message: "Task-ul a fost asignat cu succes utilizatorului",
+          task: {
+              _id: task._id,
+              title: task.title,
+              description: task.description,
+              status: task.status,
+              assignedTo: {
+                  _id: user._id,
+                  name: user.name,
+                  email: user.email
+              },
+              time_logged: task.time_logged,
+              files: task.files
+          }
+      });
+
+  } catch (error) {
+      console.error("Eroare la asignarea task-ului:", error);
+      res.status(500).json({
+          message: "Eroare la asignarea task-ului utilizatorului",
+          error: error.message
+      });
+  }
+};

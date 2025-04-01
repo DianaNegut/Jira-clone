@@ -1,64 +1,96 @@
-.menu {
+/* Overall container */
+.navbar-logged {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 60px;
-  padding: 10px;
-  background: linear-gradient(90deg, #022859, #03478e, #1d7ed1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-bottom: 3px solid #012a4a;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
 }
 
-.menu-content {
+.logo {
+  width: 140px;
+  height: auto;
+  align-self: center;
+}
+
+.navbar-menu {
+  display: flex;
+  justify-content: center;
   list-style: none;
-  display: flex;
-  gap: 15px;
+  gap: 20px;
   padding: 0;
-  margin: 0;
+  color: #0d5aa9;
+  font-size: 18px;
+  flex-grow: 1;
 }
 
-.menu-content li {
-  position: relative;
+.navbar-menu li {
+  padding: 10px 10px;
+  cursor: pointer;
 }
 
-.menu-content li a {
+.navbar-menu a {
+  color: #0d5aa9;
   text-decoration: none;
-  color: white;
+}
+
+.navbar-menu a:hover {
+  color: #073a6f;
+}
+
+.navbar-menu li:hover {
+  border-bottom: 2px solid #073a6f;
+}
+
+.navbar-right {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
-  background: #055c9d;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  gap: 20px;
 }
 
-.menu-content li a:hover {
-  background: linear-gradient(90deg, #1565c0, #0a2472);
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+.navbar-right button {
+  background: transparent;
+  font-size: 16px;
+  color: #094787;
+  border: 1px solid #073a6f;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.menu-content li span.tooltip {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #022859;
-  color: #ffffff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.navbar-right button:hover {
+  background: #dbebf0;
+  color: #073a6f;
 }
 
-.menu-content li:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
+@media (max-width: 1050px) {
+  .navbar-logged .logo {
+    width: 120px;
+  }
+
+  .navbar-menu {
+    gap: 15px;
+    font-size: 16px;
+  }
+
+  .navbar-right {
+    gap: 15px;
+  }
+
+  .navbar-right button {
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar-menu {
+    gap: 10px;
+    font-size: 15px;
+  }
+
+  .navbar-right button {
+    padding: 6px 15px;
+  }
 }

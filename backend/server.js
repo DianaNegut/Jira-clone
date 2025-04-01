@@ -6,6 +6,7 @@ import projectRouter from "./routes/projectRouter.js";
 import userRouter from "./routes/userRoute.js";
 import taskRouter from "./routes/taskRouter.js";
 import teamRouter from "./routes/teamRouter.js";
+import activitateRouter from "./routes/activitateRouter.js";
 import 'dotenv/config'
 
 // app config
@@ -25,6 +26,7 @@ app.use("/images", express.static("uploads"));
 app.use("/api/user", userRouter);
 app.use("/api/task", taskRouter);
 app.use("/api/teams", teamRouter);
+app.use("/api/activitate", activitateRouter);
 
 app.get("/", (req, res) => {
     res.send("API Working");
