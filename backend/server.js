@@ -15,7 +15,10 @@ const port = 4000;
 
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+  }));
 
 // db connection
 connectDB();
@@ -27,6 +30,10 @@ app.use("/api/user", userRouter);
 app.use("/api/task", taskRouter);
 app.use("/api/teams", teamRouter);
 app.use("/api/activitate", activitateRouter);
+
+app.delete('/test-delete', (req, res) => {
+    res.json({ message: 'DELETE request received successfully' });
+  });
 
 app.get("/", (req, res) => {
     res.send("API Working");

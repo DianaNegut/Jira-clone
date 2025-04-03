@@ -1,0 +1,116 @@
+.add-user-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-user-container h2 {
+    text-align: center;
+    color: #0052cc;
+    margin-bottom: 20px;
+  }
+  
+  .message {
+    text-align: center;
+    color: #155724;
+    background-color: #d4edda;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  .add-user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    color: #073a6f;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #0052cc;
+  }
+  
+  .form-group input:disabled,
+  .form-group select:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+  
+  .submit-btn {
+    padding: 10px 20px;
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #003087;
+  }
+  
+  .login-link {
+    text-align: center;
+    color: #073a6f;
+  }
+  
+  .login-link a {
+    color: #0052cc;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .add-user-container {
+      margin: 10px;
+      padding: 15px;
+    }
+  
+    .add-user-form {
+      gap: 10px;
+    }
+  
+    .form-group input,
+    .form-group select {
+      font-size: 14px;
+    }
+  
+    .submit-btn {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  
+    .login-link {
+      font-size: 14px;
+    }
+  }

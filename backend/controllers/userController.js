@@ -7,14 +7,16 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import multer from 'multer';
 import path from 'path';
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 
 // Define the storage configuration first
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); 
+        cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); 
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
 
@@ -115,6 +117,81 @@ const createToken = (id) => {
     );
 };
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'preturi.alerta@gmail.com', // Adresa ta de email
+        pass: 'twcj qmgg ourc ncdh' // Parola ta de email (pentru aplicatii mai sigure, folosește un App Password dacă ai 2FA activat)
+    }
+});
+const generateTempPassword = () => {
+    return crypto.randomBytes(8).toString('hex'); // Generază un token unic de 16 caractere
+};
+
+
+const registerUserWithTempPassword = async (req, res) => {
+    console.log("EMAIL_USER:", process.env.EMAIL_USER);
+    console.log("EMAIL_PASSWORD:", process.env.EMAIL_PASSWORD);
+    const { name, email, role, phone, companyName } = req.body;
+    let token;
+
+    try {
+        const exist = await userModel.findOne({ email });
+        if (exist) {
+            return res.json({ success: false, message: "User already exists" });
+        }
+
+       
+        if (!validator.isEmail(email)) {
+            return res.json({ success: false, message: "Please enter a valid email!" });
+        }
+
+        const tempPassword = generateTempPassword();
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(tempPassword, salt);
+
+        const newUser = new userModel({
+            name: name,
+            email: email,
+            phone: phone || '',
+            password: hashedPassword,
+            companyName: companyName || '',
+            role: role || 'developer',
+        });
+
+        const user = await newUser.save();
+        token = createToken(user._id);
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Parola temporară pentru contul tău',
+            text: `Bine ai venit, ${name}!\n\nParola ta temporară este: ${tempPassword}\nTe rugăm să o schimbi după prima autentificare.\n\nLink login: http://localhost:4000/login`,
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2>Bine ai venit, ${name}!</h2>
+                    <p>Contul tău a fost creat cu succes.</p>
+                    <p><strong>Parola ta temporară este:</strong> ${tempPassword}</p>
+                    <p>Te rugăm să o schimbi după prima autentificare.</p>
+                    <p><a href="http://localhost:3000/login" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Autentificare</a></p>
+                    <p>Sau accesează acest link: <a href="http://localhost:4000/login">http://localhost:4000/login</a></p>
+                </div>
+            `,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.json({ success: true, message: 'Utilizatorul a fost creat cu succes! Parola temporară a fost trimisă pe email.', token });
+    } catch (error) {
+        console.error("Error in registerUserWithTempPassword:", error);
+        res.json({
+            success: false,
+            message: 'An error occurred while creating the user or sending the email.',
+            error: error.message,
+            token: token || null // Fallback to null if token is not set
+        });
+    }
+};
 // register user
 const registerUser = async (req, res) => {
     const { name, password, email, phone, companyName } = req.body;
@@ -262,4 +339,86 @@ const getUserById = async (req, res) => {
     }
 };
 
-export { loginUser, registerUser, assignTeamToUser, getCurrentUser, setProfilePicture, getUserById };
+const deleteUser = async (req, res) => {
+    try {
+        const { email } = req.params;
+
+
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Șterge utilizatorul
+        await userModel.findByIdAndDelete(user._id);
+
+        // Elimină utilizatorul din echipe
+        await teamModel.updateMany(
+            { members: user._id },
+            { $pull: { members: user._id } }
+        );
+
+        // Elimină utilizatorul din task-uri (setează statusul la "unassigned")
+        await taskModel.updateMany(
+            { user: user._id },
+            { $unset: { user: 1 }, $set: { status: "unassigned" } }
+        );
+
+        res.status(200).json({ success: true, message: "User deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json({ success: false, message: "Error deleting user", error: error.message });
+    }
+};
+
+
+const changePassword = async (req, res) => {
+    const { userId, oldPassword, newPassword } = req.body;
+
+    try {
+        // 1. Validate Input
+        if (!userId || !oldPassword || !newPassword) {
+            return res.status(400).json({ success: false, message: "All fields are required" });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ success: false, message: "Invalid user ID" });
+        }
+
+        if (newPassword.length < 8) { // Example: Minimum password length
+            return res.status(400).json({ success: false, message: "New password must be at least 8 characters long" });
+        }
+
+        // 2. Find User
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // 3. Verify Old Password
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ success: false, message: "Invalid old password" });
+        }
+
+        // 4. Hash New Password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // 5. Update Password
+        user.password = hashedPassword;
+        await user.save();
+
+        // 6. Respond
+        res.status(200).json({ success: true, message: "Password changed successfully" });
+
+    } catch (error) {
+        console.error("Error changing password:", error);
+        res.status(500).json({ success: false, message: "Error changing password", error: error.message });
+    }
+};
+
+
+
+export { loginUser, registerUser, assignTeamToUser, getCurrentUser, setProfilePicture, getUserById, deleteUser, registerUserWithTempPassword , changePassword };

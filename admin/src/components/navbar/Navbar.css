@@ -1,0 +1,222 @@
+.jira-navbar {
+  background: linear-gradient(135deg, #0052CC 0%, #0747A6 100%);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 10px 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-size: 1.5em;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  padding: 0;
+  margin: 0;
+  transition: transform 0.3s ease;
+}
+
+.brand-link:hover {
+  transform: scale(1.05);
+}
+
+.jira-logo {
+  height: 35px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.brand-text {
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center; /* Aliniază vertical elementele, inclusiv butonul de logout */
+}
+
+.navbar-item {
+  position: relative;
+  margin-left: 5px;
+}
+
+.navbar-item:first-child {
+  margin-left: 0;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.navbar-link:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-link:hover::before {
+  opacity: 1;
+}
+
+.navbar-item.active .navbar-link {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  padding: 5px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.navbar-link:hover .icon-container {
+  transform: rotate(10deg);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.menu-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.menu-label {
+  font-weight: 500;
+  transition: transform 0.3s ease;
+}
+
+.navbar-link:hover .menu-label {
+  transform: translateX(3px);
+}
+
+/* Stilizare buton logout */
+.logout-item {
+  margin-left: 20px; /* Spațiere față de celelalte meniuri */
+}
+
+.logout-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logout-button:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.logout-icon-container {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  padding: 5px;
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.logout-button:hover .logout-icon-container {
+  transform: rotate(-10deg);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.logout-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.logout-label {
+  font-weight: 500;
+  transition: transform 0.3s ease;
+}
+
+.logout-button:hover .logout-label {
+  transform: translateX(-3px);
+}
+
+@media (max-width: 768px) {
+  .jira-navbar {
+    flex-direction: column;
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar-item, .logout-item {
+    margin: 5px 0;
+    width: 100%;
+  }
+
+  .navbar-link, .logout-button {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .icon-container, .logout-icon-container {
+    margin-right: 10px;
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,83 @@
+.statistici-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #f4f4f4;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .statistici-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2em;
+  }
+  
+  .statistici-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+  }
+  
+  .statistica-item {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .statistica-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .statistica-item h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+  }
+  
+  .statistica-item p {
+    font-size: 2em;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .statistica-item.utilizatori {
+    background-color: #e8f5e9;
+    color: #388e3c;
+  }
+  
+  .statistica-item.echipe {
+    background-color: #e3f2fd;
+    color: #1976d2;
+  }
+  
+  .statistica-item.proiecte {
+    background-color: #fff3e0;
+    color: #e65100;
+  }
+  
+  .statistica-item.taskuri {
+    background-color: #ede7f6;
+    color: #512da8;
+  }
+  
+  .statistica-item.finalizate {
+    background-color: #e0f2f7;
+    color: #00838f;
+  }
+  
+  .statistica-item['in-desfasurare'] {
+    background-color: #fff8e1;
+    color: #ffb300;
+  }
+  
+  @media (max-width: 768px) {
+    .statistici-grid {
+      grid-template-columns: 1fr;
+    }
+  }
