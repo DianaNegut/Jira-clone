@@ -3,7 +3,7 @@ import { Paper, Dialog, DialogActions, DialogContent, Button, Stack, Typography 
 import './pricingTable.css';
 import PricingCard from '../PricingCard/PricingCard';
 
-const PricingTable = () => {
+const PricingTable = ({setShowLogin}) => {
   const [open, setOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isYearly, setIsYearly] = useState(false);
@@ -90,7 +90,7 @@ const PricingTable = () => {
               </div>
             )}
 
-            <PricingCard
+            <PricingCard setShowLogin={setShowLogin}
               plan={row.plan}
               price={`$${getAdjustedPrice(row.price)}`}
               description={row.description}

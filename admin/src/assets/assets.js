@@ -7,11 +7,12 @@ import jira_logo from './Jira_Logo.svg.png'
 import jira from './jira.png'
 import logout from './logout.png'
 import team_create from './team_create.png'
+import see_all_users from './see_all_users.png'
 export const assets = {
     clock,
     delete_im,
     email,
     profile,
     team, jira_logo, jira,
-    logout, team_create
+    logout, team_create, see_all_users
 }

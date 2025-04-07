@@ -191,3 +191,65 @@
   color: #007bff;
   margin-bottom: 10px;
 }
+
+@media (max-width: 768px) {
+  .pricing-table {
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    gap: 10px;
+    padding: 5px;
+  }
+
+  .pricing-card {
+    width: 100%; /* Make cards take full width */
+    margin-bottom: 20px;
+  }
+
+  .pricing-toggle-buttons {
+    justify-content: center; /* Center toggle buttons */
+    margin-bottom: 15px;
+  }
+
+  .rectangle {
+    flex-direction: column; /* Stack content vertically */
+    width: 100%; /* Full width */
+    height: auto; /* Adjust height */
+    padding: 20px;
+  }
+
+  .titlu-aux, .paragraf-descriere {
+    text-align: center; /* Center text */
+    margin-left: 0; /* Remove left margin */
+  }
+
+  .project-container {
+    flex-direction: column; /* Stack project content vertically */
+    gap: 10px;
+  }
+
+  .project-image, .project-description {
+    width: 100%; /* Full width for both image and description */
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing-toggle-button {
+    font-size: 0.9em; /* Smaller font size for buttons */
+    padding: 6px 12px;
+  }
+
+  .recommended-label {
+    font-size: 12px; /* Adjust label font size */
+    padding: 4px 8px;
+  }
+
+  .recommended-badge {
+    font-size: 10px; /* Adjust badge font size */
+    padding: 3px 6px;
+  }
+
+  .icon-data {
+    font-size: 100px; /* Reduce icon size */
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+}

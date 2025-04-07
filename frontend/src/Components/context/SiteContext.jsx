@@ -1,21 +1,25 @@
-import { createContext, useState } from 'react';
-export const SiteContext = createContext(null);
+import React, { createContext, useState } from 'react';
 
-const SiteContextProvider = (props) => {
-  const url = "http://localhost:4000";
-  const [token, setToken] = useState(null);
+export const SiteContext = createContext();
 
-  const contextValue = {
-    url,
-    token,
-    setToken,
-  };
-
-  return (
-    <SiteContext.Provider value={contextValue}>
-      {props.children}
-    </SiteContext.Provider>
-  );
+export const SiteContextProvider = ({ children }) => {
+    const [token, setToken] = useState(null);
+    const [userRole, setUserRole] = useState(null); // Add user role state
+    const url = "http://localhost:4000"; // Your API base URL
+    
+    return (
+        <SiteContext.Provider 
+            value={{ 
+                token, 
+                setToken, 
+                url,
+                userRole,
+                setUserRole // Make sure to provide the setUserRole function
+            }}
+        >
+            {children}
+        </SiteContext.Provider>
+    );
 };
 
 export default SiteContextProvider;

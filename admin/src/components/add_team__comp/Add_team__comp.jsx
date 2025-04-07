@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import './Add_team__comp.css';
 
 const Add_team__comp = () => {
   const [numeEchipa, setNumeEchipa] = useState('');
   const [echipe, setEchipe] = useState([]);
-  const [message, setMessage] = useState('');
+  const [success, setSuccess] = useState(null); // Added for success messages
+  const [error, setError] = useState(null);   // Added for error messages
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -20,8 +23,7 @@ const Add_team__comp = () => {
         const data = await response.json();
         setEchipe(data.teams); // Assuming the response has a 'teams' array
       } catch (error) {
-        setMessage('Eroare la preluarea echipelor: ' + error.message);
-        setTimeout(() => setMessage(''), 3000);
+        setError('Eroare la preluarea echipelor: ' + error.message);
       }
     };
 
@@ -42,13 +44,11 @@ const Add_team__comp = () => {
         throw new Error('Eroare la adăugarea echipei');
       }
       const data = await response.json();
-      setMessage(data.message); // Assuming the response has a 'message' field
-      setTimeout(() => setMessage(''), 3000);
+      setSuccess(data.message); // Set success message
       setNumeEchipa('');
       setEchipe([...echipe, data.team]); // Assuming the response has a 'team' field
     } catch (error) {
-      setMessage('Eroare la adăugarea echipei: ' + error.message);
-      setTimeout(() => setMessage(''), 3000);
+      setError('Eroare la adăugarea echipei: ' + error.message);
     }
   };
 
@@ -65,12 +65,10 @@ const Add_team__comp = () => {
           throw new Error('Eroare la ștergerea echipei');
         }
         const data = await response.json();
-        setMessage(data.message); // Assuming the response has a 'message' field
-        setTimeout(() => setMessage(''), 3000);
+        setSuccess(data.message); // Set success message
         setEchipe(echipe.filter((echipa) => echipa._id !== id));
       } catch (error) {
-        setMessage('Eroare la ștergerea echipei: ' + error.message);
-        setTimeout(() => setMessage(''), 3000);
+        setError('Eroare la ștergerea echipei: ' + error.message);
       }
     }
   };
@@ -78,7 +76,6 @@ const Add_team__comp = () => {
   return (
     <div className="add-team-container">
       <h2>Adaugă/Șterge Echipă</h2>
-      {message && <div className="message">{message}</div>}
       <div className="form-group">
         <label htmlFor="numeEchipa">Nume Echipă:</label>
         <input
@@ -105,6 +102,27 @@ const Add_team__comp = () => {
           </li>
         ))}
       </ul>
+
+      {/* Material-UI Snackbar for Success/Error Messages */}
+      <Snackbar
+        open={!!success || !!error}
+        autoHideDuration={6000}
+        onClose={() => {
+          setSuccess(null);
+          setError(null);
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setSuccess(null);
+            setError(null);
+          }}
+          severity={success ? 'success' : 'error'}
+          sx={{ width: '100%' }}
+        >
+          {success || error}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

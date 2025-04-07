@@ -1,62 +1,139 @@
 import userModel from "../models/userModel.js";
 import taskModel from "../models/taskModel.js";
+import commentModel from '../models/commentModel.js';
 import activitateModel from '../models/activitateModel.js';
 import teamModel from "../models/teamModel.js";
 import mongoose from "mongoose";
 import multer from "multer";
 import path from "path";
 
+export const addCommentToTask = async (req, res) => {
+    try {
+        const { text } = req.body;
+        const { taskId } = req.params;
 
+        if (!text || typeof text !== 'string') {
+            return res.status(400).json({ error: "Textul comentariului este necesar" });
+        }
+
+
+        const task = await taskModel.findById(taskId);
+        if (!task) {
+            return res.status(404).json({ error: "Task-ul nu a fost găsit" });
+        }
+
+
+        const userId = req.userId;
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "Utilizatorul nu a fost găsit" });
+        }
+
+
+        const newComment = new commentModel({
+            text,
+            user: userId,
+            task: taskId,
+        });
+
+
+        await newComment.save();
+
+
+        const activitateMessage = `Comentariul a fost adăugat de ${user.name}`;
+        const newActivitate = new activitateModel({
+            mesaj: activitateMessage,
+            task: taskId,
+            user: userId,
+        });
+
+
+        await newActivitate.save();
+
+
+        res.status(201).json({
+            message: "Comentariul a fost adăugat cu succes și activitatea a fost creată",
+            comment: newComment,
+            activitate: newActivitate,
+        });
+    } catch (error) {
+        console.error("Eroare la adăugarea comentariului:", error);
+        res.status(500).json({ error: "Eroare la adăugarea comentariului" });
+    }
+};
+
+
+export const getCommentsForTask = async (req, res) => {
+    try {
+        const { taskId } = req.params;
+
+
+        const task = await taskModel.findById(taskId);
+        if (!task) {
+            return res.status(404).json({ error: "Task-ul nu a fost găsit" });
+        }
+
+
+        const comments = await commentModel.find({ task: taskId })
+            .populate('user', 'name email')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json(comments);
+    } catch (error) {
+        console.error("Eroare la obținerea comentariilor:", error);
+        res.status(500).json({ error: "Eroare la obținerea comentariilor" });
+    }
+};
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/"); 
+        cb(null, "uploads/");
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
         cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
     }
 });
-const upload = multer({ storage }).array("images"); 
+const upload = multer({ storage }).array("images");
 
 export const uploadTaskFiles = async (req, res) => {
     try {
-      upload(req, res, async (err) => {
-        if (err) {
-          return res.status(500).json({ error: "Eroare la încărcarea fișierelor" });
-        }
-  
-        const task = await taskModel.findById(req.params.id);
-        if (!task) {
-          return res.status(404).json({ error: "Task-ul nu a fost găsit" });
-        }
-  
-       
-        const newFiles = req.files.map(file => `/images/${file.filename}`);
-        task.files = [...task.files, ...newFiles];
-        
-        await task.save();
-        res.status(200).json(task);
-      });
+        upload(req, res, async (err) => {
+            if (err) {
+                return res.status(500).json({ error: "Eroare la încărcarea fișierelor" });
+            }
+
+            const task = await taskModel.findById(req.params.id);
+            if (!task) {
+                return res.status(404).json({ error: "Task-ul nu a fost găsit" });
+            }
+
+
+            const newFiles = req.files.map(file => `/images/${file.filename}`);
+            task.files = [...task.files, ...newFiles];
+
+            await task.save();
+            res.status(200).json(task);
+        });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
-  };
+};
 
 function getCurrentUser() {
     const token = localStorage.getItem('token');
     if (!token) return null;
-    
-    // Decodează token-ul (fără verificare)
+
+
     const payload = JSON.parse(atob(token.split('.')[1]));
     return {
         id: payload.id,
-        // alte câmpuri pe care le-ai inclus în token
+
     };
 }
 
 const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1]; 
-    
+    const token = req.headers.authorization?.split(' ')[1];
+
     if (!token) {
         return res.status(401).json({ success: false, message: "Token missing" });
     }
@@ -65,7 +142,7 @@ const verifyToken = (req, res, next) => {
         if (err) {
             return res.status(401).json({ success: false, message: "Invalid token" });
         }
-        req.userId = decoded.id; 
+        req.userId = decoded.id;
         next();
     });
 };
@@ -73,10 +150,10 @@ const verifyToken = (req, res, next) => {
 
 export const addTimeToTask = async (req, res) => {
     try {
-        const { timeToAdd } = req.body; 
-        
+        const { timeToAdd } = req.body;
+
         if (!timeToAdd || typeof timeToAdd !== 'number' || timeToAdd < 0) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 error: "Invalid time value",
                 details: "Time must be a positive number in minutes"
             });
@@ -87,36 +164,36 @@ export const addTimeToTask = async (req, res) => {
             return res.status(404).json({ error: "Task-ul nu a fost găsit" });
         }
 
-        // Add the new time to existing time
+
         task.time_logged = (task.time_logged || 0) + timeToAdd;
         await task.save();
-        
-        // Obține informații despre utilizator pentru a crea mesajul de activitate
+
+
         const user = await userModel.findById(task.user);
         if (!user) {
             return res.status(404).json({ error: "Utilizatorul asociat task-ului nu a fost găsit" });
         }
 
-        // Creează o nouă activitate
+
         const newActivitate = new activitateModel({
             mesaj: `${user.name} a logat timp la taskul ${task.title}`,
-            task: task._id, 
+            task: task._id,
             user: task.user,
             createdAt: new Date()
         });
 
-        // Salvează activitatea
+
         await newActivitate.save();
 
-        res.status(200).json({ 
+        res.status(200).json({
             message: "Timpul a fost actualizat cu succes și activitatea a fost înregistrată",
             task,
             activitate: newActivitate
         });
     } catch (error) {
-        res.status(500).json({ 
+        res.status(500).json({
             error: "Eroare la adăugarea timpului sau la crearea activității",
-            details: error.message 
+            details: error.message
         });
     }
 };
@@ -125,9 +202,9 @@ export const addTask = async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
             console.error("Multer error:", err);
-            return res.status(500).json({ 
-                error: "Eroare la încărcarea fișierelor", 
-                details: err.message 
+            return res.status(500).json({
+                error: "Eroare la încărcarea fișierelor",
+                details: err.message
             });
         }
 
@@ -143,7 +220,7 @@ export const addTask = async (req, res) => {
             const { title, description, status, team, user, time_logged } = req.body;
 
             if (!title || !description || !team) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     error: "Missing required fields",
                     details: { title: !!title, description: !!description, team: !!team }
                 });
@@ -151,14 +228,14 @@ export const addTask = async (req, res) => {
 
             const validStatuses = ["unassigned", "in progress", "completed"];
             if (status && !validStatuses.includes(status)) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     error: "Invalid status value",
                     details: { provided: status, allowed: validStatuses }
                 });
             }
 
             if (time_logged && (typeof time_logged !== 'number' || time_logged < 0)) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     error: "Invalid time_logged value",
                     details: "Time must be a positive number in minutes"
                 });
@@ -171,7 +248,7 @@ export const addTask = async (req, res) => {
                 }
                 teamId = new mongoose.Types.ObjectId(team.trim());
             } catch (err) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     error: "Invalid team ID",
                     details: { team, message: err.message }
                 });
@@ -179,7 +256,7 @@ export const addTask = async (req, res) => {
 
             let existingTeam = await teamModel.findById(teamId);
             if (!existingTeam) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     error: "Echipa selectată nu există",
                     details: { teamId: teamId.toString() }
                 });
@@ -193,7 +270,7 @@ export const addTask = async (req, res) => {
                     }
                     userId = new mongoose.Types.ObjectId(user.trim());
                 } catch (err) {
-                    return res.status(400).json({ 
+                    return res.status(400).json({
                         error: "Invalid user ID",
                         details: { user, message: err.message }
                     });
@@ -202,10 +279,10 @@ export const addTask = async (req, res) => {
 
             const filePaths = req.files ? req.files.map(file => `/images/${file.filename}`) : [];
 
-            // Creare task nou
-            const task = new taskModel({ 
-                title, 
-                description, 
+
+            const task = new taskModel({
+                title,
+                description,
                 status: status || undefined,
                 team: existingTeam._id,
                 user: userId,
@@ -214,21 +291,21 @@ export const addTask = async (req, res) => {
             });
             await task.save();
 
-           
+
             existingTeam.tasks.push(task._id);
             await existingTeam.save();
 
-            // Populare echipă cu toate task-urile detaliate
+
             existingTeam = await teamModel.findById(teamId).populate("tasks");
 
-            res.status(201).json({ 
-                message: "Taskul a fost creat cu succes și adăugat echipei", 
+            res.status(201).json({
+                message: "Taskul a fost creat cu succes și adăugat echipei",
                 task,
-                team: existingTeam  // Returnează echipa populată
+                team: existingTeam
             });
         } catch (error) {
             console.error("Eroare detaliată:", error);
-            res.status(500).json({ 
+            res.status(500).json({
                 error: "Eroare la adăugarea task-ului",
                 details: error.message
             });
@@ -240,16 +317,16 @@ export const addTask = async (req, res) => {
 export const getTasksByUser = async (req, res) => {
     try {
         const userId = req.params.userId;
-        
-       
+
+
         if (!mongoose.isValidObjectId(userId)) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 error: "ID utilizator invalid",
                 details: { userId }
             });
         }
 
-        
+
         const tasks = await taskModel.find({ user: userId })
             .populate("user")
             .populate("team");
@@ -257,7 +334,7 @@ export const getTasksByUser = async (req, res) => {
         res.status(200).json(tasks);
     } catch (error) {
         console.error("Eroare la obținerea task-urilor utilizatorului:", error);
-        res.status(500).json({ 
+        res.status(500).json({
             error: "Eroare la obținerea task-urilor utilizatorului",
             details: error.message
         });
@@ -311,22 +388,65 @@ export const getTaskByTitle = async (req, res) => {
 
 
 export const updateTask = async (req, res) => {
+    const { id } = req.params;
+    const { title, description, status, team, user } = req.body;
+
     try {
-        const updatedTask = await taskModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedTask) return res.status(404).json({ error: "Task-ul nu a fost găsit." });
+        // Validare ID
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: "ID task invalid" });
+        }
+
+        // Validare câmpuri obligatorii
+        if (!title || !description || !status || !team) {
+            return res.status(400).json({ error: "Toate câmpurile sunt obligatorii" });
+        }
+
+        // Validare enum status
+        const validStatuses = ["unassigned", "in progress", "completed"];
+        if (!validStatuses.includes(status)) {
+            return res.status(400).json({ error: "Status invalid" });
+        }
+
+        const updatedTask = await taskModel.findByIdAndUpdate(
+            id,
+            { title, description, status, team, user },
+            { new: true, runValidators: true }
+        ).populate('team user');
+
+        if (!updatedTask) {
+            return res.status(404).json({ error: "Task-ul nu a fost găsit." });
+        }
+
+        // Log activitate
+        
+        const userId = req.userId; // ✅ aici folosim ce a setat `authMiddleware`
+const userDoc = await userModel.findById(userId);
+        const mesaj = `${userDoc.name} a modificat taskul: ${updatedTask.title}`;
+
+    
+
+        await activitateModel.create({
+            mesaj,
+            task: updatedTask._id,
+            user: userId,
+        });
+
         res.status(200).json(updatedTask);
     } catch (error) {
-        res.status(500).json({ error: "Eroare la actualizarea task-ului." });
+        console.error("Eroare actualizare task:", error);
+        res.status(500).json({
+            error: "Eroare la actualizarea task-ului.",
+            details: error.message
+        });
     }
 };
-
-
 export const deleteTask = async (req, res) => {
     try {
         const task = await taskModel.findByIdAndDelete(req.params.id);
         if (!task) return res.status(404).json({ error: "Task-ul nu a fost găsit." });
 
-        
+
         if (task.user) {
             await userModel.findByIdAndUpdate(task.user, { $pull: { tasks: task._id } });
         }

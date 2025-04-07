@@ -5,7 +5,7 @@ import fs from 'graceful-fs';
 
 const projectRouter = express.Router();
 
-// Image Storage engine
+
 const storage = multer.diskStorage({
     destination: "uploads",
     filename: (req, file, cb) => {
@@ -15,6 +15,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-projectRouter.post("/add", upload.single("image"), addProject); // Ensure "image" matches the field name
+projectRouter.post("/add", upload.single("image"), addProject); 
 
 export default projectRouter;

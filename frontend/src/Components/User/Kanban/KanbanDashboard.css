@@ -37,7 +37,7 @@
   text-align: center;
   color: #172b4d;
   padding: 8px 0;
-  background-color: #deebff;
+  background-color: #0073E6;
   border-radius: 4px;
 }
 
@@ -144,4 +144,91 @@
 
 .error {
   color: #de350b;
+}
+
+/* Responsive adjustments for medium screens */
+@media (max-width: 1024px) {
+  .kanban-dashboard {
+    padding: 15px;
+  }
+
+  .kanban-dashboard h1 {
+    font-size: 22px;
+  }
+
+  .kanban-columns {
+    gap: 15px;
+  }
+
+  .column {
+    min-width: 45%;
+    padding: 12px;
+  }
+
+  .task-card {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .save-changes-button {
+    font-size: 13px;
+    padding: 9px 13px;
+  }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .kanban-columns {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .column {
+    min-width: 100%;
+    padding: 10px;
+  }
+
+  .kanban-dashboard h1 {
+    font-size: 20px;
+  }
+
+  .task-card {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .save-changes-button {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+/* Responsive adjustments for extra small screens */
+@media (max-width: 480px) {
+  .kanban-dashboard {
+    padding: 10px;
+  }
+
+  .kanban-dashboard h1 {
+    font-size: 18px;
+  }
+
+  .kanban-columns {
+    gap: 10px;
+  }
+
+  .task-card {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .team-members-dropdown {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .save-changes-button {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
 }

@@ -1,4 +1,3 @@
-
 .operations-container {
     padding: 20px;
     max-width: 1200px;
@@ -75,5 +74,50 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .operations-container {
+        padding: 15px;
+    }
+
+    .subtitluOperations {
+        font-size: 2rem;
+        margin-top: 40px;
+    }
+
+    .paragrafeOperations {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .operations-section {
+        margin-top: 30px;
+        padding: 15px;
+    }
+
+    .operations-list li {
+        font-size: 16px;
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .subtitluOperations {
+        font-size: 1.8rem;
+    }
+
+    .paragrafeOperations {
+        font-size: 0.9rem;
+    }
+
+    .operations-section {
+        padding: 10px;
+    }
+
+    .operations-list li {
+        font-size: 14px;
+        gap: 8px;
     }
 }

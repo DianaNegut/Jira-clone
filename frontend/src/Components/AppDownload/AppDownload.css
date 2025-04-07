@@ -38,18 +38,47 @@
     transform: scale(1.4);
 }
 
+/* Adjustments for smaller screens */
 @media (max-width: 600px) {
+    .app-download {
+        margin-top: 50px;
+        padding: 10px;
+    }
+
     .app-download p {
-        font-size: 18px;
+        font-size: 16px;
+        margin-bottom: 15px;
     }
 
     .app-download-platforms {
         flex-direction: column;
-        gap: 10px;
+        gap: 15px;
     }
 
     .app-download-platforms img {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Additional breakpoint for tablets */
+@media (max-width: 900px) and (min-width: 601px) {
+    .app-download {
+        margin-top: 70px;
+        padding: 15px;
+    }
+
+    .app-download p {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .app-download-platforms {
+        gap: 15px;
+    }
+
+    .app-download-platforms img {
+        width: 45px;
+        height: 45px;
     }
 }

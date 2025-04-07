@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './BugReportContent.css';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const BugReportContent = () => {
   const [title, setTitle] = useState('');
@@ -7,42 +9,72 @@ const BugReportContent = () => {
   const [images, setImages] = useState([]);
   const [team, setTeam] = useState('');
   const [teams, setTeams] = useState([]);
+  const [companyName, setCompanyName] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: '' });
 
   useEffect(() => {
-    const fetchTeams = async () => {
+    const fetchUserAndTeams = async () => {
       try {
         setLoading(true);
-        setError(null);
 
-        const response = await fetch('http://localhost:4000/api/teams');
+        // 1. Get current user data to determine company
+        const userResponse = await fetch('http://localhost:4000/api/user/me', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
         
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Eroare la preluarea echipelor');
+        if (!userResponse.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+        
+        const userData = await userResponse.json();
+        
+        if (!userData.success) {
+          throw new Error(userData.message || 'Failed to get user');
         }
 
-        const data = await response.json();
-        console.log('Răspuns de la getAllTeams:', data);
+        const userCompanyName = userData.user.companyName || '';
+        
+        if (!userCompanyName) {
+          throw new Error('User is not associated with any company');
+        }
+        
+        setCompanyName(userCompanyName);
 
-        if (data.teams && Array.isArray(data.teams)) {
-          setTeams(data.teams); 
+        // 2. Get teams for the user's company
+        const teamsResponse = await fetch(
+          `http://localhost:4000/api/teams?companyName=${encodeURIComponent(userCompanyName)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        );
+        
+        if (!teamsResponse.ok) {
+          throw new Error('Failed to fetch teams');
+        }
+        
+        const teamsData = await teamsResponse.json();
+        
+        if (teamsData.teams && Array.isArray(teamsData.teams)) {
+          setTeams(teamsData.teams);
         } else {
           setTeams([]);
         }
       } catch (err) {
-        console.error("Eroare la încărcarea echipelor:", err);
-        setError(err.message);
+        console.error("Error loading data:", err);
+        setSnackbar({ open: true, message: err.message, severity: 'error' });
         setTeams([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTeams();
+    fetchUserAndTeams();
   }, []);
 
   const handleImageUpload = (e) => {
@@ -62,11 +94,19 @@ const BugReportContent = () => {
     });
   };
 
+  const handleCloseSnackbar = () => {
+    setSnackbar({ open: false, message: '', severity: '' });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!title || !description || !team) {
-      setError('Vă rugăm să completați toate câmpurile obligatorii');
+      setSnackbar({ 
+        open: true, 
+        message: 'Please fill in all required fields', 
+        severity: 'error' 
+      });
       return;
     }
 
@@ -75,51 +115,46 @@ const BugReportContent = () => {
     formData.append('description', description);
     formData.append('team', team);
     
-    // Adăugare imagini dacă există
     images.forEach((image) => {
       formData.append('images', image.file);
     });
 
-    console.log('Se trimite bug report:', { 
-      title, 
-      description, 
-      team, 
-      imagesCount: images.length 
-    });
-
     try {
       setSubmitting(true);
-      setError(null);
-      setSuccess(null);
-
-      // Verbose pentru debugging
-      for (const pair of formData.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
-      }
+      setSnackbar({ open: false, message: '', severity: '' });
 
       const response = await fetch('http://localhost:4000/api/task/add', {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
         body: formData,
-        // Nu adăugăm header pentru Content-Type deoarece formData îl setează automat cu multipart/form-data
       });
 
       const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(data.error || data.message || 'Eroare la adăugarea task-ului');
+        throw new Error(data.error || data.message || 'Error adding task');
       }
 
-      console.log('Task adăugat cu succes:', data);
-      setSuccess('Bug report-ul a fost trimis cu succes!');
-
-      // Resetare formular
+      setSnackbar({ 
+        open: true, 
+        message: 'Bug report submitted successfully!', 
+        severity: 'success' 
+      });
+      
+      // Reset form
       setTitle('');
       setDescription('');
       setTeam('');
       setImages([]);
     } catch (err) {
-      console.error("Eroare la trimiterea bug report-ului:", err);
-      setError(err.message);
+      console.error("Error submitting bug report:", err);
+      setSnackbar({ 
+        open: true, 
+        message: err.message, 
+        severity: 'error' 
+      });
     } finally {
       setSubmitting(false);
     }
@@ -127,20 +162,19 @@ const BugReportContent = () => {
 
   return (
     <div className="bug-report-content">
-      <h1>Report a Bug</h1>
+      <h1>Report a Bug {companyName && `(Company: ${companyName})`}</h1>
       
-      {error && (
-        <div className="error-message">
-          <p>Eroare: {error}</p>
-        </div>
-      )}
-      
-      {success && (
-        <div className="success-message">
-          <p>{success}</p>
-        </div>
-      )}
-      
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Bug Title</label>
@@ -169,7 +203,9 @@ const BugReportContent = () => {
         <div className="form-group">
           <label htmlFor="team">Assign to Team</label>
           {loading ? (
-            <p>Se încarcă echipele...</p>
+            <p>Loading teams...</p>
+          ) : teams.length === 0 ? (
+            <p>No teams available in your company</p>
           ) : (
             <select
               id="team"
@@ -178,30 +214,28 @@ const BugReportContent = () => {
               required
             >
               <option value="" disabled>Select a team</option>
-              {teams.length > 0 ? (
-                teams.map((teamObj) => (
-                  <option key={teamObj._id} value={teamObj._id}>
-                    {teamObj.name}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  Nicio echipă disponibilă
+              {teams.map((teamObj) => (
+                <option key={teamObj._id} value={teamObj._id}>
+                  {teamObj.name}
                 </option>
-              )}
+              ))}
             </select>
           )}
         </div>
 
         <div className="form-group">
           <label htmlFor="images">Attach Screenshots (optional)</label>
-          <input
-            type="file"
-            id="images"
-            accept="image/*"
-            multiple
-            onChange={handleImageUpload}
-          />
+          <label className="custom-file-upload">
+            <input
+              type="file"
+              id="images"
+              accept="image/*"
+              multiple
+              onChange={handleImageUpload}
+              style={{ display: 'none' }}
+            />
+            Choose Files
+          </label>
         </div>
 
         {images.length > 0 && (
@@ -224,9 +258,9 @@ const BugReportContent = () => {
         <button 
           type="submit" 
           className="submit-button" 
-          disabled={submitting || loading}
+          disabled={submitting || loading || teams.length === 0}
         >
-          {submitting ? 'Se trimite...' : 'Submit Bug Report'}
+          {submitting ? 'Submitting...' : 'Submit Bug Report'}
         </button>
       </form>
     </div>

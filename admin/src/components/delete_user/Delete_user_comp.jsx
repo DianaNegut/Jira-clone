@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import './Delete_user_comp.css';
 
 const Delete_user_comp = () => {
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: '' });
 
   const handleDelete = async () => {
     if (window.confirm('Ești sigur că vrei să ștergi acest utilizator?')) {
@@ -21,20 +23,21 @@ const Delete_user_comp = () => {
         }
 
         const data = await response.json();
-        setMessage(data.message || 'Utilizatorul a fost șters cu succes!');
-        setTimeout(() => setMessage(''), 3000);
+        setSnackbar({ open: true, message: data.message || 'Utilizatorul a fost șters cu succes!', severity: 'success' });
         setEmail('');
       } catch (error) {
-        setMessage(error.message || 'A apărut o eroare la ștergerea utilizatorului.');
-        setTimeout(() => setMessage(''), 3000);
+        setSnackbar({ open: true, message: error.message || 'A apărut o eroare la ștergerea utilizatorului.', severity: 'error' });
       }
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   return (
     <div className="delete-user-container">
       <h2>Ștergere Utilizator</h2>
-      {message && <div className="message">{message}</div>}
       <div className="form-group">
         <label htmlFor="email">E-mail Utilizator:</label>
         <input
@@ -49,6 +52,16 @@ const Delete_user_comp = () => {
       <button className="delete-btn" onClick={handleDelete}>
         Șterge Utilizator
       </button>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

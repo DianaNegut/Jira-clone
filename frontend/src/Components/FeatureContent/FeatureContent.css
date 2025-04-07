@@ -5,7 +5,7 @@
   align-items: center;               
   padding: 20px;
   text-align: center;
-  height: 74vh;                    
+  height: auto; /* Adjust height for better responsiveness */
 }
 
 .titlu {
@@ -18,7 +18,7 @@
 
 .feature-container-content {
   display: flex;
-  flex-direction: row;             
+  flex-direction: column; /* Default to column for smaller screens */
   justify-content: center;
   align-items: center;
   gap: 20px;                        
@@ -26,7 +26,7 @@
 }
 
 .image-backlog {
-  width: 60%;                       
+  width: 100%; /* Adjust width for smaller screens */
   height: auto;
   object-fit: cover;
   border-radius: 10px;
@@ -38,7 +38,7 @@
   flex-direction: column;         
   align-items: flex-start;          
   text-align: left;                 
-  width: 60%;                       
+  width: 100%; /* Adjust width for smaller screens */
 }
 
 .titlu-plan {
@@ -53,3 +53,48 @@
   color: #333;
   line-height: 1.6;                
 }
+
+@media (min-width: 768px) {
+  .feature-container-content {
+    flex-direction: row; /* Revert to row for medium screens and above */
+  }
+
+  .image-backlog,
+  .text-content {
+    width: 60%; /* Revert to original width for medium screens and above */
+  }
+}
+
+@media (max-width: 576px) {
+  .feature-container {
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+
+  .titlu {
+    font-size: 24px; /* Adjust font size for smaller screens */
+  }
+
+  .feature-container-content {
+    gap: 10px; /* Reduce gap for smaller screens */
+  }
+
+  .image-backlog {
+    width: 100%; /* Ensure full width for smaller screens */
+    height: auto;
+  }
+
+  .text-content {
+    align-items: center; /* Center align text for smaller screens */
+    text-align: center;
+  }
+
+  .titlu-plan {
+    margin-left: 0; /* Remove left margin for smaller screens */
+    font-size: 24px; /* Adjust font size */
+  }
+
+  .paragraf-feature {
+    font-size: 16px; /* Adjust font size for readability */
+  }
+}
+

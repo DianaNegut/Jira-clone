@@ -5,11 +5,11 @@ import PricingJos from "../../Components/PricingDown/PricingJos";
 
 
 
-const Pricing = () => {
+const Pricing = ({setShowLogin}) => {
   return (
     <div>
         <h1 className="title">Prețuri simple și transparente pentru fiecare echipă.</h1>
-        <PricingTable />  
+        <PricingTable setShowLogin={setShowLogin} />  
         <PricingJos />
     </div>
 );

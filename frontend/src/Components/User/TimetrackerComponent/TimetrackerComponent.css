@@ -1,120 +1,226 @@
 .timetracker-container {
-    max-width: 800px;
-    margin: 40px auto;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px; /* Increased padding */
+  background-color: #f8f9fa; /* Light background */
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+}
+
+.timetracker-container h1 {
+  font-size: 2.5em; /* Larger heading */
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 25px; /* Increased margin */
+}
+
+.form-group label {
+  display: block;
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff; /* White background for inputs */
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 150px; /* Increased height */
+}
+
+/* Styles for date selection */
+.date-group {
+  display: flex;
+  gap: 20px;
+}
+
+.date-time-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.date-time-field input {
+  width: 100%;
+}
+
+/* Submit button */
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button:hover {
+  background: linear-gradient(90deg, #0056b3, #007bff);
+  transform: translateY(-2px);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.submit-button:disabled {
+  background: #ddd;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.error-message {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  background-color: #ffe6e6;
+  color: #d32f2f;
+  border: 1px solid #d32f2f;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .timetracker-container {
     padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; /* Adjusted margin for better spacing */
   }
-  
+
   .timetracker-container h1 {
     font-size: 2em;
-    color: #073a6f;
-    text-align: center;
-    margin-bottom: 30px;
   }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 1.1em;
-    color: #0d5aa9;
-    margin-bottom: 8px;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .form-group input:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: #073a6f;
-    box-shadow: 0 0 5px rgba(7, 58, 111, 0.3);
-  }
-  
-  .form-group textarea {
-    resize: vertical;
-  }
-  
-  /* Stiluri pentru selecția datelor */
+
   .date-group {
-    display: flex;
-    gap: 20px;
+    flex-direction: column;
+    gap: 15px; /* Adjusted gap for better spacing */
   }
-  
-  .date-field {
-    flex: 1;
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 0.95em; /* Slightly smaller font for better fit */
   }
-  
-  .date-field input[type="date"] {
-    width: 100%;
-  }
-  
-  /* Buton de trimitere */
+
   .submit-button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, #073a6f, #0d5aa9);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    font-size: 1em; /* Adjusted button font size */
+    padding: 12px; /* Adjusted padding for smaller screens */
   }
-  
-  .submit-button:hover {
-    background: linear-gradient(90deg, #0d5aa9, #073a6f);
+}
+
+@media (max-width: 600px) {
+  .timetracker-container {
+    padding: 15px;
+    margin: 15px auto; /* Further adjusted margin */
   }
-  
-  /* Responsivitate */
-  @media (max-width: 600px) {
-    .timetracker-container {
-      padding: 15px;
-    }
-  
-    .timetracker-container h1 {
-      font-size: 1.5em;
-    }
-  
-    .form-group label {
-      font-size: 1em;
-    }
-    .date-group {
-        display: flex;
-        gap: 20px;
-      }
-      
-      .date-time-field {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .date-time-field input {
-        width: 100%;
-      }
-      
-  
-    .form-group input,
-    .form-group textarea {
-      font-size: 0.9em;
-    }
-  
-    .date-group {
-      flex-direction: column;
-      gap: 10px;
-    }
+
+  .timetracker-container h1 {
+    font-size: 1.8em;
   }
+
+  .form-group label {
+    font-size: 0.95em; /* Slightly smaller label font */
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 0.85em; /* Smaller font for compact layout */
+    padding: 10px; /* Reduced padding for inputs */
+  }
+
+  .submit-button {
+    font-size: 0.9em; /* Smaller button font */
+    padding: 10px; /* Reduced padding */
+  }
+
+  .date-group {
+    gap: 10px; /* Reduced gap for compact layout */
+  }
+}
+
+@media (max-width: 480px) {
+  .timetracker-container {
+    padding: 10px;
+  }
+
+  .timetracker-container h1 {
+    font-size: 1.6em; /* Smaller heading for very small screens */
+  }
+
+  .form-group label {
+    font-size: 0.9em;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 0.8em;
+    padding: 8px; /* Further reduced padding */
+  }
+
+  .submit-button {
+    font-size: 0.85em;
+    padding: 8px; /* Compact button padding */
+  }
+}
+
+/* Snackbar styles */
+.snackbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  z-index: 1000;
+  animation: fadeInOut 3s;
+}
+
+.snackbar.success {
+  background-color: #4caf50;
+}
+
+.snackbar.error {
+  background-color: #f44336;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+}

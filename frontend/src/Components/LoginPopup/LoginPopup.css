@@ -1,23 +1,34 @@
+/* Stiluri globale pentru a asigura că ecranul este folosit complet */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Clasa pentru a bloca scroll-ul când popup-ul este vizibil */
+body.no-scroll {
+    overflow: hidden;
+}
+
 .login-popup-title svg {
     font-size: 24px;  
     cursor: pointer;  
     color: #ff0000;   
 }
 
-
-
-.login-popup{
-    position: absolute;
-    z-index: 1;
+.login-popup {
+    position: fixed; /* Fixat relativ la viewport */
+    z-index: 1000; /* Z-index mare pentru a fi deasupra altor elemente */
     width: 100%;
     height: 100%;
-    background-color: #00000090;
+    background-color: rgba(0, 0, 0, 0.7); /* Negru cu 70% opacitate */
     display: grid;
-
+    top: 0; /* Ancorare în partea de sus */
+    left: 0; /* Ancorare în stânga */
 }
 
-
-.login-popup-container{
+.login-popup-container {
     place-self: center;
     width: max(23vw, 330px);
     color: #808080;
@@ -29,33 +40,29 @@
     border-radius: 8px;
     font-size: 14px;
     animation: fadeIn 0.5s;
-
 }
 
-.login-popup-title{
+.login-popup-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: black;
 }
 
-
-.login-popup-inputs{
+.login-popup-inputs {
     display: flex;
     flex-direction: column;
     gap: 20px;
-
 }
 
-.login-popup-inputs input{
+.login-popup-inputs input {
     outline: none;
     border: 1px solid #c9c9c9;
     padding: 10px;
     border-radius: 4px;
 }
 
-
-.login-popup-container button{
+.login-popup-container button {
     border: none;
     padding: 10px;
     border-radius: 4px;
@@ -65,21 +72,62 @@
     cursor: pointer;
 }
 
-
-
-.login-popup-condition{
+.login-popup-condition {
     display: flex;
     align-items: center;
     gap: 12px;
     margin-top: -2px;
 }
 
-
-.login-popup-condition input{
+.login-popup-condition input {
     margin-top: 8px;
 }
 
-.login-popup p span{
+.login-popup p span {
     color: blue;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .login-popup-container {
+        width: 90%;
+        padding: 20px;
+        font-size: 13px;
+    }
+
+    .login-popup-inputs input {
+        padding: 8px;
+    }
+
+    .login-popup-container button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-popup-container {
+        width: 95%;
+        padding: 15px;
+        font-size: 12px;
+    }
+
+    .login-popup-title {
+        font-size: 16px;
+    }
+
+    .login-popup-inputs input {
+        padding: 6px;
+    }
+
+    .login-popup-container button {
+        font-size: 13px;
+        padding: 6px;
+    }
+}
+
+/* Asigură-te că animația fadeIn este definită */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

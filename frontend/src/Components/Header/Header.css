@@ -56,52 +56,71 @@
 }
 
 
-@media (max-width:1050px){
-    .header{
-        height: 38vw;
+@media (max-width:1050px) {
+    .header {
+        height: 40vw; /* Adjusted for better scaling */
+        padding: 10px; /* Added padding for spacing */
     }
-    .header-content{
-        max-width: 45%;
-    }
-}
-
-
-@media (max-width:750px){
-    
-    .header-content{
-        max-width: 65%;
-    }
-    .header-content p{
-        max-width: 65%;
-    }
-    .header-content button{
-        padding: 2vw 4vw;
+    .header-content {
+        max-width: 50%; /* Slightly increased for better layout */
     }
 }
 
-@media (max-width: 600px) {
+
+@media (max-width:750px) {
+    .header {
+        flex-direction: column; /* Ensure proper stacking */
+        gap: 15px; /* Added gap for spacing */
+    }
+    .header-content {
+        max-width: 70%; /* Adjusted for better readability */
+    }
+    .header-content p {
+        max-width: 100%; /* Ensure text doesn't overflow */
+    }
+    .header-content button {
+        padding: 1.5vw 3vw; /* Adjusted padding for better touch targets */
+    }
+}
+
+@media (max-width:600px) {
     .header {
         flex-direction: column;
         align-items: center;
         height: auto;
-        padding: 0 20px; 
+        padding: 10px 15px; /* Reduced padding for smaller screens */
     }
     .header-img {
-        width: 100%;
+        width: 90%; /* Slightly reduced for better fit */
     }
     .header-content {
-        width: 100%;
+        width: 90%; /* Adjusted for better alignment */
         text-align: center;
+        gap: 2vw; /* Increased gap for spacing */
     }
     .header-content h2 {
-        font-size: 5vw;
+        font-size: 4.5vw; /* Slightly reduced for better scaling */
     }
     .header-content p {
-        font-size: 3vw;
+        font-size: 2.5vw; /* Adjusted for readability */
     }
     .header-content button {
-        width: auto;
-        padding: 1vw 2vw; 
-        font-size: 3vw; 
+        width: 80%; /* Adjusted width for better alignment */
+        padding: 2vw 4vw; /* Increased padding for touch targets */
+        font-size: 2.5vw; /* Adjusted font size */
+    }
+}
+
+@media (max-width:400px) {
+    .header-content h2 {
+        font-size: 6vw; /* Further reduced for very small screens */
+    }
+    .header-content p {
+        font-size: 3.5vw; /* Adjusted for readability */
+    }
+    .header-content button {
+        width: 100%; /* Full width for small screens */
+        padding: 3vw 5vw; /* Increased padding for better usability */
+        font-size: 3vw; /* Adjusted font size */
     }
 }

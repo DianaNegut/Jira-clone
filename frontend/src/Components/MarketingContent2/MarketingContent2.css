@@ -43,3 +43,43 @@
     text-align: left; 
     color: #555;
 }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .marketing-content-container2 {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items */
+    }
+
+    .photos {
+        width: 100%; /* Full width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .text-container {
+        max-width: 100%; /* Full width */
+        padding: 0 10px; /* Add some padding */
+    }
+
+    .titlu {
+        font-size: 24px; /* Adjust font size */
+    }
+
+    .titlu2 {
+        font-size: 20px; /* Adjust font size */
+    }
+}
+
+@media (max-width: 480px) {
+    .titlu {
+        font-size: 20px; /* Further adjust font size */
+    }
+
+    .titlu2 {
+        font-size: 18px; /* Further adjust font size */
+    }
+
+    .text-marketing {
+        font-size: 14px; /* Adjust text size */
+    }
+}

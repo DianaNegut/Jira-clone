@@ -3,31 +3,33 @@
     border-radius: 10px;
     padding: 20px;
     text-align: center;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
     background: white;
-  }
-  
-  .plan-title {
+}
+
+.plan-title {
     font-size: 1.5em;
     font-weight: bold;
-  }
-  
-  .plan-subtitle {
+}
+
+.plan-subtitle {
     color: gray;
     font-size: 0.9em;
-  }
-  
-  .price {
+}
+
+.price {
     font-size: 2em;
     font-weight: bold;
-  }
-  
-  .price-desc {
+}
+
+.price-desc {
     color: gray;
     font-size: 0.8em;
-  }
-  
-  .trial-button {
+}
+
+.trial-button {
     background-color: #0052cc;
     color: white;
     border: none;
@@ -35,37 +37,108 @@
     font-size: 1em;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .separator {
+}
+
+.separator {
     height: 1px;
     background: #ddd;
     margin: 15px 0;
-  }
-  
-  .details-section {
+}
+
+.details-section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  
-  .details-header {
+}
+
+.details-header {
     font-weight: bold;
     font-size: 1em;
     text-align: left;
-  }
-  
-  .expand-button {
+}
+
+.expand-button {
     background: none;
     border: none;
     font-size: 1.5em;
     cursor: pointer;
-  }
-  
-  .extra-details {
+}
+
+.extra-details {
     font-size: 0.9em;
     color: #333;
     margin-top: 10px;
     text-align: left;
-  }
-  
+}
+
+@media (max-width: 768px) {
+    .pricing-card {
+        padding: 15px;
+    }
+
+    .plan-title {
+        font-size: 1.2em;
+    }
+
+    .price {
+        font-size: 1.5em;
+    }
+
+    .trial-button {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+
+    .details-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .details-header {
+        font-size: 0.9em;
+    }
+
+    .expand-button {
+        font-size: 1.2em;
+    }
+
+    .extra-details {
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-card {
+        padding: 10px;
+    }
+
+    .plan-title {
+        font-size: 1em;
+    }
+
+    .price {
+        font-size: 1.2em;
+    }
+
+    .trial-button {
+        font-size: 0.8em;
+        padding: 6px 10px;
+    }
+
+    .details-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .details-header {
+        font-size: 0.8em;
+    }
+
+    .expand-button {
+        font-size: 1em;
+    }
+
+    .extra-details {
+        font-size: 0.7em;
+    }
+}

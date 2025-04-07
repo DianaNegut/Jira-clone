@@ -2,7 +2,7 @@ import React from 'react'
 import './DesignComponent.css'
 import { assets } from '../../assets/assets';
 
-const DesignComponent = () => {
+const DesignComponent = ({ setShowLogin }) => {
     return (
         <div className="design-container">
             <h1 className="design-title">Design-ul care potențează productivitatea echipei tale</h1>
@@ -41,7 +41,7 @@ const DesignComponent = () => {
                 <p className="cta-text">
                     Testează Jira acum și descoperă cum un design bine gândit poate îmbunătăți semnificativ eficiența echipei tale.
                 </p>
-                <button className="cta-button">Începe gratuit</button>
+                <button className="cta-button"onClick={() => setShowLogin(true)}>Începe gratuit</button>
             </div>
         </div>
     )

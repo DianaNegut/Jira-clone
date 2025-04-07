@@ -1,15 +1,22 @@
 /* Overall container */
 .navbar-logged {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 10px 0;
   border-bottom: 1px solid #ccc;
   background-color: #fff;
 }
 
+.navbar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 15px;
+}
+
 .logo {
-  width: 140px;
+  width: 40px; /* Reduced from 140px to 100px */
   height: auto;
   align-self: center;
 }
@@ -47,6 +54,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  padding: 0 15px;
 }
 
 .navbar-right button {
@@ -65,9 +73,38 @@
   color: #073a6f;
 }
 
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #0d5aa9;
+}
+
+@media (min-width: 769px) {
+  .navbar-logged {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .navbar-top {
+    width: auto;
+    padding: 0 15px;
+  }
+  
+  /* Added consistent height constraint for desktop */
+  .logo {
+    height: 32px;
+    width: 20px;
+  }
+}
+
 @media (max-width: 1050px) {
   .navbar-logged .logo {
-    width: 120px;
+    width: 100px; /* Reduced from 120px to 100px */
+    height: 28px; /* Added fixed height */
   }
 
   .navbar-menu {
@@ -85,6 +122,11 @@
 }
 
 @media (max-width: 900px) {
+  .navbar-logged .logo {
+    width: 90px; /* Further reduced for smaller screens */
+    height: 25px; /* Added fixed height */
+  }
+  
   .navbar-menu {
     gap: 10px;
     font-size: 15px;
@@ -92,5 +134,52 @@
 
   .navbar-right button {
     padding: 6px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-logged {
+    padding: 10px;
+  }
+  
+  .navbar-logged .logo {
+    width: 85px; /* Slightly smaller for mobile */
+    height: 24px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    padding: 10px 0;
+    margin: 0;
+  }
+
+  .navbar-menu.active {
+    display: flex;
+  }
+
+  .navbar-menu li {
+    text-align: left;
+    padding: 10px 20px;
+    border-bottom: none;
+  }
+  
+  .navbar-menu li:hover {
+    background-color: #f5f5f5;
+    border-bottom: none;
+  }
+
+  .navbar-right {
+    margin-top: 10px;
+    justify-content: flex-end;
+    width: 100%;
   }
 }

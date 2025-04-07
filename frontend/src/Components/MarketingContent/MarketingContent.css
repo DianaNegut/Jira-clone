@@ -68,3 +68,64 @@ p {
     opacity: 0.9;
     margin-top: 10px;
 }
+
+@media (max-width: 768px) {
+    .marketing-content {
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .title-marketing {
+        font-size: 28px;
+    }
+
+    .marketing-content-container {
+        gap: 20px;
+    }
+
+    .marketing-content-card {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .poze {
+        width: 120px;
+        height: 120px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .marketing-content {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .title-marketing {
+        font-size: 24px;
+    }
+
+    .marketing-content-card {
+        padding: 10px;
+    }
+
+    .poze {
+        width: 100px;
+        height: 100px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+}

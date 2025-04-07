@@ -1,182 +1,335 @@
-/* Container principal */
 .task-details-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 40px auto; /* Increased margin for better spacing */
+  padding: 30px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Header-ul taskului */
 .task-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 20px;
+  margin-bottom: 30px; /* Increased margin */
+}
+
+.task-header h1 {
+  font-size: 2.5rem; /* Larger title */
+  margin: 0;
+  color: #333;
+  font-weight: 600; /* Bold title */
 }
 
 .status-badge {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-weight: bold;
+  padding: 10px 20px; /* Increased padding */
+  border-radius: 25px;
+  font-weight: 600;
   text-transform: capitalize;
+  font-size: 1rem; /* Adjusted font size */
+  color: #fff;
 }
 
-/* Meta info despre task */
+.status-badge.unassigned { background-color: #6c757d; }
+.status-badge.in-progress { background-color: #ffc107; color: #333; }
+.status-badge.completed { background-color: #28a745; }
+
 .task-meta {
-  margin-top: 15px;
-  font-size: 1rem;
+  margin-bottom: 30px; /* Increased margin */
+  font-size: 1.1rem; /* Adjusted font size */
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 20px; /* Increased gap */
 }
 
-.task-meta p {
+.task-meta p, .task-meta select {
   margin: 0;
+  flex: 1 1 250px; /* Adjusted flex basis */
 }
 
-/* Dropdown pentru echipă */
 .team-dropdown {
-  padding: 8px;
-  font-size: 1rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background: #f5f5f5;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.team-dropdown:hover {
-  background: #e0e0e0;
-}
-
-/* Descrierea taskului */
-.task-description {
-  background: #f9f9f9;
-  padding: 15px;
+  padding: 12px 18px; /* Increased padding */
+  font-size: 1.1rem; /* Adjusted font size */
   border-radius: 8px;
-  margin-top: 20px;
+  border: 1px solid #ced4da;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.team-dropdown:hover, .team-dropdown:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+}
+
+.task-description, .task-status-actions, .task-files, .image-upload-section, .comments-section {
+  background: #fff;
+  padding: 25px; /* Increased padding */
+  border-radius: 10px;
+  margin-bottom: 25px; /* Increased margin */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.task-description h3, .task-status-actions h3, .task-files h3, .image-upload-section h3, .comments-section h3 {
+  margin-top: 0;
+  margin-bottom: 20px; /* Increased margin */
+  color: #333;
+  font-size: 1.4rem; /* Adjusted font size */
 }
 
 .description-textarea {
   width: 100%;
-  height: 80px;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 15px; /* Increased padding */
+  font-size: 1.1rem; /* Adjusted font size */
+  border: 1px solid #ced4da;
+  border-radius: 8px;
   resize: vertical;
+  min-height: 150px; /* Increased height */
 }
 
-.update-btn {
-  display: block;
-  margin-top: 10px;
-  padding: 8px 15px;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
+.status-select {
+  padding: 12px 18px; /* Increased padding */
+  font-size: 1.1rem; /* Adjusted font size */
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  background: #fff;
   cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: auto;
 }
 
-.update-btn:hover {
-  background: #0056b3;
+.status-select:hover, .status-select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
 }
 
-/* Acțiuni pentru status */
-.task-status-actions {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-}
-
-.status-btn {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s, transform 0.1s;
-}
-
-.status-btn:hover {
-  transform: scale(1.05);
-}
-
-.status-btn.in-progress {
-  background: #ffcc80;
-  color: #000;
-}
-
-.status-btn.in-progress:hover {
-  background: #ffa726;
-}
-
-.status-btn.completed {
-  background: #66bb6a;
-  color: #fff;
-}
-
-.status-btn.completed:hover {
-  background: #43a047;
-}
-
-/* Fișiere și imagini atașate */
-.task-files {
-  margin-top: 20px;
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjusted minmax */
+  gap: 15px; /* Increased gap */
+  margin-top: 15px; /* Increased margin */
 }
 
 .file-item {
-  margin-bottom: 10px;
+  text-align: center;
 }
 
 .task-image {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  display: block;
-  margin-top: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px; /* Increased margin */
 }
 
-/* Upload imagine */
-.image-upload {
-  margin-top: 20px;
+.file-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-.image-upload input {
-  display: block;
-  margin-bottom: 10px;
+.file-link:hover {
+  text-decoration: underline;
 }
 
-.upload-btn {
-  padding: 8px 15px;
-  background: #28a745;
+.upload-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Increased gap */
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  background: #007bff;
   color: #fff;
-  border: none;
-  border-radius: 5px;
+  padding: 12px 20px; /* Increased padding */
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
   transition: background 0.2s;
 }
 
-.upload-btn:hover {
-  background: #218838;
+.file-label:hover {
+  background: #0056b3;
 }
 
-/* Link de întoarcere */
-.back-link {
-  display: inline-block;
-  margin-top: 20px;
-  color: #007bff;
+.file-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Increased gap */
+  background: #e9ecef;
+  padding: 10px; /* Increased padding */
+  border-radius: 5px;
+}
+
+.remove-file-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.comments-list {
+  max-height: 250px; /* Increased height */
+  overflow-y: auto;
+  margin-bottom: 20px; /* Increased margin */
+}
+
+.comment-item {
+  background: #f0f0f0;
+  padding: 15px; /* Increased padding */
+  border-radius: 8px;
+  margin-bottom: 12px; /* Increased margin */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comment-input {
+  width: 100%;
+  padding: 12px; /* Increased padding */
+  font-size: 1.1rem; /* Adjusted font size */
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.action-buttons {
+  margin-top: 30px; /* Increased margin */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save-all-btn, .add-comment-btn, .back-link {
+  padding: 14px 25px; /* Increased padding */
+  border-radius: 8px;
+  font-weight: 600;
   text-decoration: none;
-  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.save-all-btn {
+  background: #28a745;
+  color: #fff;
+}
+
+.save-all-btn:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.add-comment-btn {
+  background: #007bff;
+  color: #fff;
+}
+
+.add-comment-btn:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+.back-link {
+  background: #f0f0f0;
+  color: #007bff;
 }
 
 .back-link:hover {
   text-decoration: underline;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 15px; /* Increased margin */
+}
+
+
+/* Snackbar Styles */
+.snackbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 250px;
+  max-width: 400px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s; /* Auto-dismiss after 3s */
+}
+
+.snackbar.success {
+  background-color: #28a745; /* Green for success */
+}
+
+.snackbar.error {
+  background-color: #dc3545; /* Red for error */
+}
+
+.snackbar-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  margin-left: 10px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.snackbar-close:hover {
+  color: #f0f0f0;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* Adaugă acest stil la fișierul existent */
+.time-logged {
+  background: #f5f5f5;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 15px;
+  margin: 5px 0;
+}
+
+.time-logged strong {
+  color: #555;
+  font-weight: 500;
 }

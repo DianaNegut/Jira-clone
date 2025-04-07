@@ -19,7 +19,7 @@ const Dashboard = () => {
 
     const fetchTasks = async () => {
         try {
-            const response = await axios.get(`${url}/api/tasks`, {
+            const response = await axios.get(`${url}/api/task`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

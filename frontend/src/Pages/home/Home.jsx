@@ -5,7 +5,7 @@ import ExploreMenu from '../../Components/ExploreMenu/ExploreMenu';
 import Middle from '../../Components/Middle/Middle';
 import AppDownload from '../../Components/AppDownload/AppDownload';
 
-const Home = () => {
+const Home = ({ setShowLogin }) => {
   const [category, setCategory] = useState("All");
 
   
@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <Header setShowLogin={setShowLogin} />
       <ExploreMenu category={category} setCategory={setCategory} />
       <Middle />
       <AppDownload />

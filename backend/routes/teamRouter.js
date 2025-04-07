@@ -7,33 +7,33 @@ import {
     addMemberToTeam, 
     removeMemberFromTeam , getTeamMembers,getTeamTasks,getTeamsByUserId, getUnassignedTeamTasks, assignTaskToUser
 } from '../controllers/teamController.js';
-
+import { authMiddleware } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-router.post('/', createTeam);
+router.post('/', authMiddleware,createTeam);
 
 
-router.get('/', getAllTeams);
+router.get('/', authMiddleware, getAllTeams);
 
-router.put('/:id', updateTeam);
-
-
-router.delete('/:id', deleteTeam);
-
-router.get('/:id/members', getTeamMembers);
+router.put('/:id', authMiddleware,updateTeam);
 
 
-router.post('/:id/members/:memberId', addMemberToTeam);
+router.delete('/:id', authMiddleware,deleteTeam);
 
-router.get('/:id/tasks', getTeamTasks);
-
-router.get('/user/:userId', getTeamsByUserId);
-
-router.get('/:id/unassigned-tasks', getUnassignedTeamTasks);
+router.get('/:id/members', authMiddleware,getTeamMembers);
 
 
-router.delete('/:id/members/:memberId', removeMemberFromTeam);
+router.post('/:id/members/:memberId', authMiddleware,addMemberToTeam);
 
-router.patch('/tasks/:taskId/assign/:userId', assignTaskToUser);
+router.get('/:id/tasks', authMiddleware,getTeamTasks);
+
+router.get('/user/:userId', authMiddleware,getTeamsByUserId);
+
+router.get('/:id/unassigned-tasks', authMiddleware,getUnassignedTeamTasks);
+
+
+router.delete('/:id/members/:memberId',authMiddleware, removeMemberFromTeam);
+
+router.patch('/tasks/:taskId/assign/:userId',authMiddleware, assignTaskToUser);
 
 export default router;

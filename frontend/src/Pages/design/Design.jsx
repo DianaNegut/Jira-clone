@@ -1,10 +1,10 @@
 import React from 'react'
 import DesignComponent from '../../Components/DesignComponent/DesignComponent'
 
-const Design = () => {
+const Design = ({setShowLogin}) => {
   return (
     <div>
-        <DesignComponent />
+        <DesignComponent setShowLogin={setShowLogin}/>
       
     </div>
   )

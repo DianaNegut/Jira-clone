@@ -1,242 +1,449 @@
+/* Resetări de bază și stiluri generale */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%; /* Folosește % pentru padding lateral */
+  border-bottom: 1px solid #ccc;
+  position: relative; /* Necesar pentru poziționarea absolută a submeniurilor */
+  background-color: #fff; /* Adaugă un fundal */
+  flex-wrap: wrap; /* Permite împachetarea pe ecrane mici */
+  gap: 15px; /* Spațiu între logo, meniu, right */
+}
+
+.navbar-logo-link {
+  display: inline-block;
+  line-height: 0; /* Elimină spațiul suplimentar sub imagine */
+}
+
 .logo {
-    width: 110px;
-    height: auto;
-    align-self: flex-start;
-  }
-  .navbar .logo {
-    width: 150px;
-    align-self: center;
-  }
+  width: 110px;
+  height: auto;
+  align-self: flex-start;
+}
+/* Meniu Desktop */
+.navbar-menu {
+  display: flex; /* Afișat by default */
+  justify-content: center;
+  list-style: none;
+  gap: 25px;
+  padding: 0;
+  margin: 0; /* Resetează margin */
+  color: #0d5aa9;
+  font-size: 17px;
+  flex-grow: 1; /* Permite meniului să ocupe spațiu */
+  align-items: center; /* Aliniază vertical itemii */
+}
+
+.navbar-menu li {
+  padding: 5px 0; /* Ajustează padding-ul vertical */
+  cursor: pointer;
+  position: relative; /* Necesar pentru ::after și submeniu */
+}
+
+.navbar-menu a {
+  color: inherit; /* Moștenește culoarea de la li */
+  text-decoration: none;
+  padding: 5px 10px; /* Padding pentru link în sine */
+  display: block;
+  transition: color 0.3s ease;
+}
+
+.navbar-menu a:hover,
+.navbar-menu li:hover > a { /* Schimbă culoarea la hover pe li sau a */
+  color: #073a6f;
+}
+
+.navbar-menu li .active { /* Stil pentru link-ul activ */
+  color: #073a6f;
+  font-weight: bold; /* Sau alt stil distinctiv */
+  /* Elimină border-bottom de aici, îl adăugăm cu ::after pentru control mai bun */
+}
+
+/* Subliniere animată pentru itemii meniului desktop (opțional) */
+.navbar-menu li::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #073a6f;
+  transition: width .3s;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navbar-menu li:hover::after,
+.navbar-menu li .active::after { /* Afișează sublinierea la hover sau activ */
+  width: 80%; /* Ajustează lățimea după preferințe */
+}
+.navbar-menu li .active::after { /* Asigură că sublinierea e vizibilă permanent pentru activ */
+   width: 80%;
+}
+
+
+/* Submeniu Solutions Desktop */
+.navbar-menu-solutions {
+  position: relative;
+}
+
+.solutions-submenu {
+  display: none; /* Ascuns inițial */
+  position: absolute;
+  top: 100%; /* Poziționat sub 'Solutions' */
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 10px 0;
+  margin: 5px 0 0 0; /* Spațiu mic între 'Solutions' și submeniu */
+  z-index: 1000;
+  min-width: 160px; /* Lățime minimă */
+}
+
+.navbar-menu-solutions:hover .solutions-submenu {
+  display: block; /* Afișat la hover pe 'Solutions' */
+}
+
+.solutions-submenu li {
+  padding: 0; /* Resetează padding-ul default al li */
+}
+
+.solutions-submenu li a {
+  padding: 10px 20px; /* Padding pentru itemii din submeniu */
+  font-size: 16px;
+  white-space: nowrap; /* Previne împărțirea textului pe mai multe rânduri */
+}
+
+.solutions-submenu li a:hover {
+  background-color: #f0f0f0; /* Fundal la hover */
+  color: #073a6f;
+}
+
+/* Elementele din dreapta (Search, Sign in) */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: auto; /* Împinge grupul spre dreapta pe desktop */
+}
+
+/* Container Căutare */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #073a6f;
+  border-radius: 25px;
+  padding: 5px 10px;
+  background-color: #fff;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  font-size: 15px;
+  padding: 5px;
+  width: 200px; 
+  color: #073a6f;
+  background: transparent; /* Fundal transparent */
+}
+
+.search-input::placeholder {
+  color: #0d5aa9;
+  opacity: 0.7;
+}
+
+.search-icon {
+  width: 18px !important; /* Specificitate mai mare dacă e nevoie */
+  height: 18px !important;
+  cursor: pointer;
+  opacity: 0.8;
+  margin-left: 5px;
+}
+
+/* Rezultate Căutare */
+.search-results {
+  position: absolute;
+  top: calc(100% + 5px); /* Sub input, cu spațiu */
+  left: 0;
+  right: 0; /* Ocupă lățimea containerului */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  z-index: 1000;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.search-results li {
+  padding: 0;
+}
+
+.search-results li a {
+  display: block;
+  padding: 10px 15px;
+  color: #0d5aa9;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.search-results li a:hover {
+  color: #073a6f;
+  background-color: #f0f0f0;
+}
+
+.search-results .no-results {
+  color: #666;
+  font-size: 14px;
+  padding: 10px 15px;
+  text-align: center;
+  cursor: default;
+}
+
+/* Buton Sign In */
+.signin-button {
+  background: transparent;
+  font-size: 16px;
+  color: #094787;
+  border: 1px solid #073a6f;
+  padding: 8px 20px; /* Padding ajustat */
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  white-space: nowrap; /* Previne ruperea textului */
+}
+
+.signin-button:hover {
+  background: #e0f0ff; /* Culoare de hover mai subtilă */
+  color: #073a6f;
+}
+
+/* --- Stiluri Responsive --- */
+
+/* Hamburger Icon (ascuns pe desktop) */
+.hamburger-icon {
+  display: none; /* Ascuns by default */
+  flex-direction: column;
+  justify-content: space-around; /* Distribuie liniile uniform */
+  width: 28px;
+  height: 22px;
+  cursor: pointer;
+  z-index: 1001; /* Peste meniul mobil */
+  margin-left: 15px; /* Spațiu față de butonul signin/search */
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background-color: #073a6f;
+  border-radius: 2px; /* Colțuri rotunjite */
+  transition: all 0.3s ease;
+}
+
+/* Animație Hamburger (X) */
+.hamburger-line.active:nth-child(1) {
+  transform: translateY(9.5px) rotate(45deg);
+}
+.hamburger-line.active:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-line.active:nth-child(3) {
+  transform: translateY(-9.5px) rotate(-45deg);
+}
+
+/* Meniu Mobil (ascuns pe desktop) */
+.mobile-menu {
+  display: none; /* Ascuns by default, controlat de clasa .open */
+  position: absolute;
+  top: 100%; /* Sub navbar */
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Sub hamburger, dar peste conținut */
+  max-height: calc(100vh - 80px); /* Limită înălțimea maximă */
+  overflow-y: auto; /* Scroll dacă e necesar */
+}
+
+/* Clasa adăugată de React pentru a afișa meniul */
+.mobile-menu.open {
+  display: block;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 10px 0; /* Padding sus/jos */
+  margin: 0;
+}
+
+.mobile-menu li {
+  border-bottom: 1px solid #eee;
+}
+.mobile-menu li:last-child {
+  border-bottom: none;
+}
+
+.mobile-menu a,
+.mobile-menu .mobile-solutions-group > a { /* Stil pentru link-urile principale */
+  color: #0d5aa9;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  padding: 15px 20px; /* Padding generos pentru touch */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-menu a:hover,
+.mobile-menu .mobile-solutions-group > a:hover {
+  color: #073a6f;
+  background-color: #f0f0f0;
+}
+
+/* Submeniu mobil (Solutions) */
+.mobile-solutions-group {
+  /* Poți adăuga un indicator vizual aici dacă implementezi toggle */
+}
+
+.mobile-submenu {
+  padding: 5px 0 10px 30px; /* Indentare pentru submeniu */
+  list-style: none; /* Asigură-te că nu are buline */
+  margin: 0;
+  background-color: #f8f8f8; /* Fundal ușor diferit (opțional) */
+}
+
+.mobile-submenu li {
+  border: none; /* Fără borduri în submeniu */
+  padding: 0;
+}
+
+.mobile-submenu li a {
+  padding: 10px 20px; /* Padding mai mic în submeniu */
+  font-size: 15px;
+}
+
+
+/* --- Media Queries --- */
+
+/* Tabletă și dispozitive mai mici (e.g., < 992px) */
+@media (max-width: 992px) {
   .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
+    padding: 15px 3%;
   }
-  .navbar-right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 20px;
-  }
-  .navbar button {
-    background: transparent;
+  .navbar-menu { /* Stiluri pentru meniul desktop pe tabletă */
+    gap: 15px;
     font-size: 16px;
-    color: #094787;
-    border: 1px solid #073a6f;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
-  .navbar button:hover {
-    background: #dbebf0;
-    color: #073a6f;
+  .search-input {
+    width: 160px;
   }
-  .navbar-right img {
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
+  .signin-button {
+    padding: 7px 18px;
+    font-size: 15px;
   }
-  .navbar-menu {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    gap: 20px;
-    padding: 0;
-    color: #0d5aa9;
-    font-size: 18px;
-    flex-grow: 1;
-  }
-  .navbar-menu li {
-    padding: 10px 10px;
-    cursor: pointer;
-  }
-  .navbar .active {
-    padding-bottom: 0.4px;
-    color: #073a6f;
-    border-bottom: 2px solid #073a6f;
+}
+
+/* Punctul de trecere la meniul mobil (e.g., < 769px) */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 3%;
+    /* Logo-ul rămâne la stânga by default */
   }
 
-  .search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    border: 1px solid #073a6f;
-    border-radius: 25px;
-    padding: 5px 10px;
-    background-color: #fff;
+  /* Corecția Principală: Creștem specificitatea pentru a ascunde meniul desktop */
+  .navbar .navbar-menu {
+    display: none !important; /* Ascunde meniul desktop */
   }
-  
+
+  .navbar-right {
+     /* Margin auto nu mai e necesar, hamburgerul e acum separat */
+     margin-left: 0;
+     /* Butonul si search raman grupate */
+  }
+
+  .hamburger-icon {
+    display: flex; /* Afișează iconița hamburger */
+    order: 3; /* Plasează hamburgerul la sfârșit */
+    margin-left: auto; /* Împinge hamburgerul spre dreapta */
+  }
+
+  .logo {
+    width: 100px; /* Micșorează logo */
+    order: 1; /* Asigură că logo e primul */
+  }
+
+  .navbar-right {
+    order: 2; /* Plasează căutarea și butonul după logo */
+  }
+
   .search-input {
-    border: none;
-    outline: none;
-    font-size: 16px;
-    padding: 5px;
-    width: 150px;
-    color: #073a6f;
-  }
-  
-  .search-input::placeholder {
-    color: #0d5aa9;
-    opacity: 0.7;
-  }
-  
-  .search-icon {
-    width: 20px !important;
-    height: 20px !important;
-    cursor: pointer;
-  }
-  
-  
-  .search-results {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    padding: 10px 0;
-    margin: 5px 0 0 0;
-    z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  .search-results li {
-    padding: 10px 15px;
-  }
-  
-  .search-results li a {
-    color: #0d5aa9;
-    text-decoration: none;
-    font-size: 16px;
-  }
-  
-  .search-results li a:hover {
-    color: #073a6f;
-    background-color: #f0f0f0;
-    display: block;
-  }
-  
-  .search-results .no-results {
-    color: #666;
+    width: 200px; /* Micșorează inputul */
     font-size: 14px;
-    padding: 10px 15px;
-    text-align: center;
   }
-  
-  
-  .navbar-menu li {
-    position: relative;
-    padding: 10px 10px;
-    cursor: pointer;
+   .search-container {
+       padding: 4px 8px;
+   }
+  .search-icon {
+       width: 16px !important;
+       height: 16px !important;
+   }
+
+  .signin-button {
+    padding: 6px 12px;
+    font-size: 14px;
   }
-  
-  .solutions-submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    padding: 10px 0;
-    margin: 0;
-    z-index: 1000;
+}
+
+/* Telefoane foarte mici (e.g., < 480px) */
+@media (max-width: 480px) {
+  .navbar {
+     padding: 10px 2%;
+     gap: 10px; /* Reduce spațiul */
   }
-  
-  .solutions-submenu li {
-    padding: 10px 20px;
+  .logo {
+      width: 90px;
   }
-  
-  .solutions-submenu li a {
-    color: #0d5aa9;
-    text-decoration: none;
-    font-size: 16px;
+  .navbar-right {
+    gap: 10px; /* Reduce spațiul între search și buton */
   }
-  
-  .solutions-submenu li a:hover {
-    color: #073a6f;
+  .search-container {
+    /* Poate ascunzi inputul și lași doar iconița? Sau îl micșorezi și mai mult */
+     padding: 3px 6px;
   }
-  
-  .navbar-menu li:hover .solutions-submenu {
-    display: block;
+  .search-input {
+     width: 90px; /* Foarte mic, poate doar iconiță? */
+     font-size: 13px;
+     padding: 3px;
   }
-  
- 
-  @media (max-width: 1050px) {
-    .navbar .logo {
-      width: 140px;
-    }
-    .navbar-menu {
-      gap: 20px;
-      font-size: 17px;
-    }
-    .navbar-right {
-      gap: 30px;
-    }
-    .navbar-right img {
-      width: 22px;
-    }
-    .navbar button {
-      padding: 8px 25px;
-    }
+   .search-input::placeholder {
+       font-size: 12px;
+   }
+   .search-icon {
+       width: 15px !important;
+       height: 15px !important;
+   }
+  .signin-button {
+    padding: 5px 8px;
+    font-size: 12px;
   }
-  
-  @media (max-width: 900px) {
-    .navbar .logo {
-      width: 120px;
-    }
-    .navbar-menu {
-      gap: 15px;
-      font-size: 16px;
-    }
-    .navbar-right {
-      gap: 20px;
-    }
-    .navbar-right img {
-      width: 20px;
-    }
-    .navbar button {
-      padding: 7px 20px;
-      font-size: 15px;
-    }
-  }
-  
-  @media (max-width: 750px) {
-    .navbar-menu {
-      display: none;
-    }
-    .navbar-right {
-      gap: 15px;
-    }
-    .navbar-right img {
-      width: 18px;
-    }
-    .navbar button {
-      padding: 6px 18px;
-      font-size: 14px;
-    }
-  }
-  
-  @media (max-width: 700px) {
-    .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .navbar-right {
-      width: 100%;
-      justify-content: space-between;
-    }
-    .navbar button {
-      width: 100%;
-      text-align: center;
-    }
-  }
+   .mobile-menu a, .mobile-menu .mobile-solutions-group > a {
+       font-size: 15px;
+       padding: 12px 15px;
+   }
+   .mobile-submenu a {
+       font-size: 14px;
+       padding: 8px 15px;
+   }
+   .mobile-submenu {
+       padding-left: 20px; /* Reduce indentarea */
+   }
+}

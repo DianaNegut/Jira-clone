@@ -1,139 +1,176 @@
 .settings-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .settings-container h1 {
-    font-size: 2em;
-    color: #073a6f;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .settings-section {
-    margin-bottom: 30px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-  }
-  
-  .settings-section h2 {
-    font-size: 1.5em;
-    color: #073a6f;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 1.1em;
-    color: #0d5aa9;
-    margin-bottom: 8px;
-  }
-  
-  .form-group input[type="text"],
-  .form-group input[type="email"],
-  .form-group input[type="password"] {
-    width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: #0073E6;
+  color: white; /* Header text color */
+  padding: 20px 0; /* Add padding to the header */
+  border-radius: 8px 8px 0 0; /* Round only top corners */
+}
+
+.settings-header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.settings-header p {
+  font-size: 1rem;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-section {
+  background: #fff;
+  padding: 20px; /* Increased padding for sections */
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.settings-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px; /* Increased margin */
+  color: #333; /* Darker heading color */
+}
+
+.form-group {
+  margin-bottom: 18px; /* Increased margin */
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px; /* Increased margin */
+  color: #555; /* Adjusted label color */
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 12px; /* Increased padding */
+  border: 1px solid #ccc;
+  border-radius: 6px; /* Slightly rounded corners */
+  font-size: 1em; /* Adjusted font size */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+  border-color: #0073E6;
+  box-shadow: 0 0 8px rgba(0, 115, 230, 0.3);
+}
+
+.notifications-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Added gap between notification options */
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #555; /* Adjusted checkbox label color */
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.save-button {
+  background-color: #0073E6;
+  color: white;
+  padding: 12px 20px; /* Increased padding */
+  border: none;
+  border-radius: 6px; /* Slightly rounded corners */
+  cursor: pointer;
+  font-size: 1em; /* Adjusted font size */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.save-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .settings-container {
     padding: 10px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
   }
-  
-  .form-group input:focus {
-    outline: none;
-    border-color: #073a6f;
-    box-shadow: 0 0 5px rgba(7, 58, 111, 0.3);
+
+  .settings-header h1 {
+    font-size: 1.5rem;
   }
-  
-  /* Stiluri pentru checkbox-uri */
-  .checkbox-group {
-    display: flex;
-    flex-direction: column; /* Aliniază checkbox-urile vertical */
-    gap: 12px; /* Spațiu uniform între checkbox-uri */
+
+  .settings-header p {
+    font-size: 0.9rem;
   }
-  
-  .checkbox-group label {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Spațiu între checkbox și text */
-    font-size: 1em;
-    color: #333;
-    cursor: pointer;
+
+  .settings-section h2 {
+    font-size: 1.2rem;
   }
-  
-  .checkbox-group input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    accent-color: #073a6f; /* Culoare checkbox */
-  }
-  
-  /* Stiluri pentru radio buttons */
-  .radio-group {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .radio-group label {
-    font-size: 1em;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  /* Buton de salvare */
-  .save-button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, #073a6f, #0d5aa9);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .save-button:hover {
-    background: linear-gradient(90deg, #0d5aa9, #073a6f);
-  }
-  
-  /* Responsivitate */
-  @media (max-width: 600px) {
-    .settings-container {
-      padding: 15px;
-    }
-  
-    .settings-container h1 {
-      font-size: 1.5em;
-    }
-  
-    .settings-section h2 {
-      font-size: 1.3em;
-    }
-  
-    .form-group label {
-      font-size: 1em;
-    }
-  
-    .form-group input {
-      font-size: 0.9em;
-    }
-  
-    .radio-group {
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
+}
+
+
+.password-input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-input-wrapper input {
+  flex: 1;
+  padding-right: 40px; /* spațiu pentru buton */
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+}

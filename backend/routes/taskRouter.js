@@ -7,20 +7,23 @@ import {
     deleteTask, 
     getTasksByUser, 
     uploadTaskFiles,
-    addTimeToTask , getTaskByTitle
+    addTimeToTask , getTaskByTitle,addCommentToTask, getCommentsForTask 
 } from '../controllers/taskController.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
 
 const taskRouter = express.Router();
 
-taskRouter.post("/add", addTask);
-taskRouter.get("/user/:userId", getTasksByUser);
-taskRouter.get("/", getTasks);
-taskRouter.get("/:id", getTaskById);
-taskRouter.put("/:id", updateTask);
-taskRouter.delete("/:id", deleteTask);
-taskRouter.post("/:id/upload", uploadTaskFiles);
-taskRouter.post("/:id/add-time", addTimeToTask); 
-taskRouter.get("/title/:title", getTaskByTitle);
+taskRouter.post("/add",authMiddleware, addTask);
+taskRouter.get("/user/:userId", authMiddleware,getTasksByUser);
+taskRouter.get("/",authMiddleware, getTasks);
+taskRouter.get("/:id", authMiddleware,getTaskById);
+taskRouter.put("/:id",authMiddleware, updateTask);
+taskRouter.delete("/:id", authMiddleware,deleteTask);
+taskRouter.post("/:id/upload", authMiddleware,uploadTaskFiles);
+taskRouter.post("/:id/add-time",authMiddleware, addTimeToTask); 
+taskRouter.get("/title/:title", authMiddleware,getTaskByTitle);
+taskRouter.post("/:taskId/comments", authMiddleware, addCommentToTask);
+taskRouter.get("/:taskId/comments",authMiddleware, getCommentsForTask);
 
 
 export default taskRouter;

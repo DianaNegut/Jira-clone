@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './PricingCard.css';
 
-const PricingCard = ({ plan, price, description, extraDetails }) => {
+const PricingCard = ({ plan, price, description, extraDetails,setShowLogin }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ const PricingCard = ({ plan, price, description, extraDetails }) => {
       <p className="price">{price}</p>
       <p className="price-desc">Pe utilizator / lună</p>
 
-      <button className="trial-button">Începe perioada de testare gratuită!</button>
+      <button className="trial-button" onClick={() => setShowLogin(true)}>Începe perioada de testare gratuită!</button>
 
       <div className="separator"></div>
 

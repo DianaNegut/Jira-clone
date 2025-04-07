@@ -30,9 +30,14 @@ const userSchema = new mongoose.Schema({
     },
     companyName: {
         type: String, 
-        required: true, 
+        required: false, 
         unique: false,
         trim: true
+    },
+    role: {
+        type: String,
+        enum: ['Angajat', 'Administrator', 'Available'],
+        default: 'Available'
     },
     tasks: [{
         type: mongoose.Schema.Types.ObjectId, 
@@ -46,6 +51,7 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
     minimize: false 
 });
+
 
 
 const userModel = mongoose.models.User || mongoose.model("User", userSchema);

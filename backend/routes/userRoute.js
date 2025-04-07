@@ -1,29 +1,48 @@
-import express from "express"
-import multer from 'multer';
-import path from 'path';
-import {loginUser, registerUser,assignTeamToUser,getCurrentUser, setProfilePicture, getUserById,deleteUser, registerUserWithTempPassword,changePassword} from '../controllers/userController.js'
+import express from "express";
+import multer from "multer";
+import path from "path";
+import {
+    loginUser,
+    registerUser,
+    getCompanyNameByUserId,
+    assignTeamToUser,getUserByEmail,
+    getCurrentUser,
+    setProfilePicture,
+    getUserById,
+    updateUserRole,
+    deleteUser,
+    registerUserWithTempPassword,
+    changePassword,
+    getAllUsers,setCompanyName,
+    getCompanyName,
+} from "../controllers/userController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
-
-const userRouter = express.Router()
+const userRouter = express.Router();
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); 
+        cb(null, "uploads/");
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); 
-    }
+        cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
+    },
 });
 const upload = multer({ storage: storage });
 
+userRouter.post("/register", registerUser);
+userRouter.post("/login", loginUser);
+userRouter.post("/assign-team", authMiddleware,assignTeamToUser);
+userRouter.post("/register-temp", authMiddleware,registerUserWithTempPassword);
+userRouter.post("/set-company-name", authMiddleware, setCompanyName);
 
-userRouter.post("/register", registerUser)
-userRouter.post("/login", loginUser)
-userRouter.post('/assign-team', assignTeamToUser);
-userRouter.post("/register-temp", registerUserWithTempPassword);
-userRouter.get('/me', getCurrentUser);
-userRouter.patch('/:userId/profile-picture', upload.single('profilePicture'), setProfilePicture);
-userRouter.get('/:userId', getUserById);
-userRouter.delete('/delete/:email', deleteUser);
-userRouter.put('/change-password', changePassword);
+userRouter.get("/company/:userId", authMiddleware, getCompanyName); // Corectat la getCompanyName
+userRouter.get('/email/:email', authMiddleware,getUserByEmail);
+userRouter.get("/me", authMiddleware, getCurrentUser);
+userRouter.patch("/:userId/profile-picture", authMiddleware, upload.single("profilePicture"), setProfilePicture);
+userRouter.get("/:userId", authMiddleware, getUserById);
+userRouter.delete("/delete/:email", authMiddleware, deleteUser);
+userRouter.put("/change-password", authMiddleware, changePassword);
+userRouter.get("/all", authMiddleware, getAllUsers);
+userRouter.put("/update-role", authMiddleware,updateUserRole);
 
 export default userRouter;

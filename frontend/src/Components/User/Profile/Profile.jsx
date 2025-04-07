@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import { assets } from '../../../assets/assets';
 import { getCurrentUser, fetchWithToken } from '../../../utils/authUtils';
+import Snackbar from '@mui/material/Snackbar'; 
+import Alert from '@mui/material/Alert'; 
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: '' }); 
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -21,27 +23,30 @@ const Profile = () => {
   const handleSaveImage = async () => {
     if (preview) {
       try {
-        const file = document.getElementById('profile-pic-upload').files[0]; // Obține fișierul încărcat
+        const file = document.getElementById('profile-pic-upload').files[0];
         if (!file) throw new Error('No file selected');
 
         const formData = new FormData();
-        formData.append('file', file); // Adaugă fișierul în formData
+        formData.append('profilePicture', file);
 
         const response = await fetchWithToken(`http://localhost:4000/api/user/${user._id}/profile-picture`, {
-          method: 'POST',
+          method: 'PATCH',
           body: formData,
         });
 
-        console.log('Profile picture saved:', response);
-        setProfilePicture(response.profilePicture); // Actualizează starea cu noua cale a imaginii
+        if (response.profilePicture) {
+          const imagePath = response.profilePicture.replace('uploads/', 'images/');
+          setProfilePicture(`http://localhost:4000/${imagePath}`);
+        }
 
+        setSnackbar({ open: true, message: 'Profile picture saved successfully!', severity: 'success' }); 
       } catch (error) {
         console.error('Error saving profile picture:', error);
-        setError('Failed to save profile picture: ' + error.message);
+        setSnackbar({ open: true, message: 'Failed to save profile picture: ' + error.message, severity: 'error' }); 
+      } finally {
+        URL.revokeObjectURL(preview);
+        setPreview(null);
       }
-
-      URL.revokeObjectURL(preview);
-      setPreview(null);
     }
   };
 
@@ -52,24 +57,29 @@ const Profile = () => {
     }
   };
 
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
   useEffect(() => {
     const loadUserData = async () => {
       try {
         const currentUser = getCurrentUser();
         if (!currentUser || !currentUser.id) {
-          setError('User not authenticated');
+          setSnackbar({ open: true, message: 'User not authenticated', severity: 'error' });
           setLoading(false);
           return;
         }
 
         const userData = await fetchWithToken(`http://localhost:4000/api/user/${currentUser.id}`);
         setUser(userData.user);
-        if (userData.user.profilePicture) {
-          setProfilePicture(userData.user.profilePicture);
-        }
 
+        if (userData.user.profilePicture) {
+          const imagePath = userData.user.profilePicture.replace('uploads/', 'images/');
+          setProfilePicture(`http://localhost:4000/${imagePath}`);
+        }
       } catch (err) {
-        setError('Failed to load user data');
+        setSnackbar({ open: true, message: 'Failed to load user data', severity: 'error' });
         console.error('Error loading user data:', err);
       } finally {
         setLoading(false);
@@ -80,7 +90,6 @@ const Profile = () => {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
   if (!user) return <div>No user data available</div>;
 
   return (
@@ -119,6 +128,18 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      {/* Snackbar for success/error messages */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

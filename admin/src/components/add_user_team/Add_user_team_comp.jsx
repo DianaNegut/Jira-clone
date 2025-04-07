@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './Add_user_team_comp.css';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const Add_user_team_comp = () => {
   const [email, setEmail] = useState('');
   const [team, setTeam] = useState('');
   const [teams, setTeams] = useState([]);
-  const [message, setMessage] = useState('');
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: '' });
   const [loadingTeams, setLoadingTeams] = useState(true);
   const [teamsError, setTeamsError] = useState(null);
 
@@ -46,20 +48,31 @@ const Add_user_team_comp = () => {
         throw new Error('Eroare la adăugarea utilizatorului la echipă');
       }
       const data = await response.json();
-      setMessage(data.message);
-      setTimeout(() => setMessage(''), 3000);
+      setSnackbar({ open: true, message: data.message, severity: 'success' });
       setEmail('');
       setTeam('');
     } catch (err) {
-      setMessage(err.message);
-      setTimeout(() => setMessage(''), 3000);
+      setSnackbar({ open: true, message: err.message, severity: 'error' });
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ open: false, message: '', severity: '' });
   };
 
   return (
     <div className="add-user-team-container">
       <h2>Adaugă Utilizator la Echipă</h2>
-      {message && <div className="message">{message}</div>}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
       <form onSubmit={handleSubmit} className="add-user-team-form">
         <div className="form-group">
           <label htmlFor="email">E-mail Utilizator:</label>

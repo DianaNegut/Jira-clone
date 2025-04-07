@@ -1,7 +1,8 @@
 .dreptunghi {    
     margin-top: 50px;
     padding: 30px; 
-    width: 1500px;                 
+    width: 90%; /* Adjusted for better responsiveness */
+    max-width: 1500px; /* Added to limit width on larger screens */
     height: auto;                 
     background-color: rgb(226, 226, 9);  
     display: flex;                 
@@ -12,7 +13,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     gap: 10px;                    
     position: absolute;
-    
 }
 
 .titlu2 {
@@ -28,10 +28,9 @@
     line-height: 1.5;             
 }
 
-
-.image-board{
-   
-    width: 80%;                  
+.image-board {
+    width: 100%; /* Adjusted for smaller screens */
+    max-width: 800px; /* Added to limit image size */
     height: auto;                  
     object-fit: cover;            
     margin-top: 190px;
@@ -39,11 +38,46 @@
     align-content: center;
 }
 
-.container2{
+.container2 {
     display: flex;
     justify-content: center;   
     align-items: flex-start;   
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
     min-height: calc(100vh - 100px); 
     margin: 0;                 
+    padding: 20px; /* Adjusted padding for smaller screens */
     padding-bottom: 100px;
+}
+
+@media (max-width: 768px) {
+    .dreptunghi {
+        padding: 20px; /* Reduced padding for smaller screens */
+        gap: 5px; /* Reduced gap for smaller screens */
+    }
+
+    .titlu2 {
+        font-size: 24px; /* Reduced font size for smaller screens */
+    }
+
+    .paragraf2 {
+        font-size: 16px; /* Reduced font size for smaller screens */
+    }
+
+    .image-board {
+        margin-top: 50px; /* Adjusted margin for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .dreptunghi {
+        padding: 15px; /* Further reduced padding for very small screens */
+    }
+
+    .titlu2 {
+        font-size: 20px; /* Further reduced font size */
+    }
+
+    .paragraf2 {
+        font-size: 14px; /* Further reduced font size */
+    }
 }

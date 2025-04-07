@@ -4,7 +4,11 @@ import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-
 import { useDroppable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import './KanbanDashboard.css';
+
 import { getCurrentUser } from '../../../utils/authUtils.js';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 
 const KanbanDashboard = () => {
   const [columns, setColumns] = useState({
@@ -19,6 +23,15 @@ const KanbanDashboard = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [selectedColleague, setSelectedColleague] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+
+  const showSnackbar = (message, severity = 'info') => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ open: false, message: '', severity: 'info' });
+  };
 
   useEffect(() => {
     const fetchTeamTasksAndMembers = async () => {
@@ -30,7 +43,7 @@ const KanbanDashboard = () => {
         setCurrentUser(user);
         console.log("User ID: ", user.id);
 
-        // Fetch user's teams
+        
         const teamsResponse = await fetch(`http://localhost:4000/api/teams/user/${user.id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -51,7 +64,7 @@ const KanbanDashboard = () => {
         const selectedTeamId = userTeams[0]._id;
         setTeamId(selectedTeamId);
 
-        // Fetch unassigned tasks for the selected team using the new endpoint
+        
         const unassignedTasksResponse = await fetch(`http://localhost:4000/api/teams/${selectedTeamId}/unassigned-tasks`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -65,7 +78,7 @@ const KanbanDashboard = () => {
         const unassignedTasksData = await unassignedTasksResponse.json();
         organizeTasksByStatus(unassignedTasksData.data.unassignedTasks);
 
-        // Fetch team members
+        
         const membersResponse = await fetch(`http://localhost:4000/api/teams/${selectedTeamId}/members`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -95,7 +108,7 @@ const KanbanDashboard = () => {
       assignToColleague: { name: 'ATRIBUIE UNUI COLEG', items: [] }
     };
 
-    // Toate task-urile din unassignedTasks sunt deja neasignate, le punem direct în coloana "Neatribuite"
+    
     unassignedTasks.forEach(task => {
       const taskItem = {
         id: task._id,
@@ -152,13 +165,13 @@ const KanbanDashboard = () => {
           throw new Error('Nu ești autentificat');
         }
         
-        // Verificăm dacă există task-uri în coloana "Atribuie mie"
+        
         if (columns.assignToMe.items.length === 0) {
-          alert('Nu există task-uri de atribuit ție');
+          showSnackbar('Nu există task-uri de atribuit ție', 'warning');
           return;
         }
         
-        // Folosim endpoint-ul specific pentru asignarea task-urilor
+        
         const tasks = columns.assignToMe.items;
         const assignmentPromises = tasks.map(task => 
           assignTaskToUser(task.id, currentUser.id)
@@ -166,34 +179,34 @@ const KanbanDashboard = () => {
         
         await Promise.all(assignmentPromises);
         
-        // Actualizăm starea pentru a elimina task-urile asignate
+        
         setColumns(prevColumns => ({
           ...prevColumns,
           assignToMe: { ...prevColumns.assignToMe, items: [] }
         }));
         
-        alert('Taskurile au fost atribuite ție cu succes!');
+        showSnackbar('Taskurile au fost atribuite ție cu succes!', 'success');
       } else if (columnId === 'assignToColleague') {
-        // Verificăm dacă a fost selectat un coleg
+        
         if (!selectedColleague) {
-          alert('Te rugăm să selectezi un coleg!');
+          showSnackbar('Te rugăm să selectezi un coleg!', 'warning');
           return;
         }
         
-        // Verificăm dacă există task-uri în coloana "Atribuie unui coleg"
+        
         if (columns.assignToColleague.items.length === 0) {
-          alert('Nu există task-uri de atribuit colegului');
+          showSnackbar('Nu există task-uri de atribuit colegului', 'warning');
           return;
         }
 
         const colleague = teamMembers.find(member => member._id === selectedColleague);
         
         if (!colleague) {
-          alert('Colegul selectat nu a fost găsit!');
+          showSnackbar('Colegul selectat nu a fost găsit!', 'error');
           return;
         }
         
-        // Folosim endpoint-ul specific pentru asignarea task-urilor către colegul selectat
+        
         const tasks = columns.assignToColleague.items;
         console.log(`Atribuind ${tasks.length} task-uri către colegul: ${colleague.name} (${selectedColleague})`);
         
@@ -204,49 +217,61 @@ const KanbanDashboard = () => {
         
         await Promise.all(assignmentPromises);
         
-        // Actualizăm starea pentru a elimina task-urile asignate
+        
         setColumns(prevColumns => ({
           ...prevColumns,
           assignToColleague: { ...prevColumns.assignToColleague, items: [] }
         }));
         
-        alert(`Taskurile au fost atribuite lui ${colleague.name} cu succes!`);
+        showSnackbar(`Taskurile au fost atribuite lui ${colleague.name} cu succes!`, 'success');
       }
       
-      // Reîncărcăm task-urile neasignate după asignare
+      
       await refreshUnassignedTasks();
       
     } catch (error) {
       console.error('Eroare la salvarea task-urilor:', error);
-      alert(`Eroare la salvarea modificărilor: ${error.message}`);
+      showSnackbar(`Eroare la salvarea modificărilor: ${error.message}`, 'error');
     }
   };
 
-  const assignTaskToUser = async (taskId, userId) => {
-    console.log(`Apelând API pentru a asigna task-ul ${taskId} utilizatorului ${userId}`);
-    
-    try {
-      const response = await fetch(`http://localhost:4000/api/teams/tasks/${taskId}/assign/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        }
-      });
+ const assignTaskToUser = async (taskId, userId) => {
+  console.log(`Apelând API pentru a asigna task-ul ${taskId} utilizatorului ${userId}`);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Eroare la asignarea task-ului');
+ 
+  
+  try {
+    const response = await fetch(`http://localhost:4000/api/teams/tasks/${taskId}/assign/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       }
+    });
 
-      const result = await response.json();
-      console.log(`Task-ul ${taskId} a fost asignat utilizatorului ${userId} cu succes:`, result);
-      return result;
-    } catch (error) {
-      console.error(`Eroare la asignarea task-ului ${taskId} către utilizatorul ${userId}:`, error);
-      throw error;
+    
+    const contentType = response.headers.get("content-type");
+    
+    if (!response.ok) {
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await response.json();
+        console.error("Server error details:", errorData);
+        throw new Error(errorData.message || `Error ${response.status}: Failed to assign task`);
+      } else {
+        const text = await response.text();
+        console.error("Server error (non-JSON):", text.substring(0, 200));
+        throw new Error(`Server error ${response.status}`);
+      }
     }
-  };
+
+    const result = await response.json();
+    console.log(`Task-ul ${taskId} a fost asignat utilizatorului ${userId} cu succes:`, result);
+    return result;
+  } catch (error) {
+    console.error(`Eroare la asignarea task-ului ${taskId} către utilizatorul ${userId}:`, error);
+    throw error;
+  }
+};
 
   const refreshUnassignedTasks = async () => {
     try {
@@ -264,7 +289,7 @@ const KanbanDashboard = () => {
 
       const unassignedTasksData = await unassignedTasksResponse.json();
       
-      // Actualizăm doar coloana de task-uri neasignate
+      
       setColumns(prevColumns => ({
         ...prevColumns,
         unassigned: {
@@ -398,6 +423,15 @@ const KanbanDashboard = () => {
           ) : null}
         </DragOverlay>
       </DndContext>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

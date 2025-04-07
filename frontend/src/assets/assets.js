@@ -27,7 +27,17 @@ import woman2 from './woman2.jpg'
 import woman3 from './woman3.jpg'
 import default_profile_icon from './profile_image.jpg'
 
-          
+import clock from './clock.png';
+import delete_im from './delete.png';
+import email from './email.png';
+import profile from './profile.png';
+import team from './team.png';
+import jira_logo from './Jira_Logo.svg.png'
+import jira from './jira.png'
+import logout from './logout.png'
+import team_create from './team_create.png'
+import see_all_users from './see_all_users.png'
+
 
 
 
@@ -57,7 +67,13 @@ export const assets = {
     menu_1,
     menu_2,
     menu_3,
-    menu_4
+    menu_4,
+    clock,
+    delete_im,
+    email,
+    profile,
+    team, jira_logo, jira,
+    logout, team_create, see_all_users
 }
 
 

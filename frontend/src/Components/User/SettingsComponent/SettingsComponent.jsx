@@ -1,85 +1,180 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SettingsComponent.css';
+import { getCurrentUser, fetchWithToken } from '../../../utils/authUtils';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const SettingsComponent = () => {
-  // Starea pentru informațiile utilizatorului (simulat, poți prelua din backend)
   const [userInfo, setUserInfo] = useState({
-    name: 'John Doe',
-    email: 'john.doe@jira.com',
+    name: '',
+    email: '',
   });
-
-  // Starea pentru parolă
   const [password, setPassword] = useState({
-    currentPassword: '',
+    oldPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
-
-  // Starea pentru notificări
+  const [showPassword, setShowPassword] = useState({
+    oldPassword: false,
+    newPassword: false,
+    confirmPassword: false,
+  });
   const [notifications, setNotifications] = useState({
     emailNotifications: true,
     taskUpdates: true,
     mentions: true,
   });
+  const [theme, setTheme] = useState('light');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
-  // Starea pentru tema
-  const [theme, setTheme] = useState('light'); // 'light' sau 'dark'
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const currentUserData = getCurrentUser();
+        if (!currentUserData || !currentUserData.id) {
+          throw new Error('User not authenticated or no user ID found');
+        }
 
-  // Funcție pentru a actualiza informațiile utilizatorului
+        const userResponse = await fetchWithToken(`http://localhost:4000/api/user/${currentUserData.id}`);
+        setUserInfo({
+          name: userResponse.user.name,
+          email: userResponse.user.email,
+        });
+      } catch (err) {
+        setError('Failed to load user data: ' + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUserData();
+  }, []);
+
   const handleUserInfoChange = (e) => {
     const { name, value } = e.target;
     setUserInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Funcție pentru a actualiza parola
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setPassword((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Funcție pentru a actualiza notificările
   const handleNotificationChange = (e) => {
     const { name, checked } = e.target;
     setNotifications((prev) => ({ ...prev, [name]: checked }));
   };
 
-  // Funcție pentru a salva modificările (simulat, poți conecta la backend)
-  const handleSubmit = (e) => {
+  const handleSnackbarClose = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validare parolă
-    if (password.newPassword && password.newPassword !== password.confirmPassword) {
-      alert('New password and confirm password do not match.');
-      return;
-    }
+    if (password.oldPassword || password.newPassword || password.confirmPassword) {
+      if (!password.oldPassword) {
+        setSnackbar({ open: true, message: 'Old password is required.', severity: 'error' });
+        return;
+      }
 
-    // Datele care vor fi trimise
+      if (!password.newPassword) {
+        setSnackbar({ open: true, message: 'New password is required.', severity: 'error' });
+        return;
+      }
+
+      if (password.newPassword !== password.confirmPassword) {
+        setSnackbar({ open: true, message: 'New password and confirm password do not match.', severity: 'error' });
+        return;
+      }
+
+      if (password.newPassword.length < 8) {
+        setSnackbar({ open: true, message: 'New password must be at least 8 characters long.', severity: 'error' });
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        setSuccess(null);
+
+        const currentUser = getCurrentUser();
+        if (!currentUser || !currentUser.id) {
+          throw new Error('User not authenticated or no user ID found');
+        }
+
+        const passwordData = {
+          userId: currentUser.id,
+          oldPassword: password.oldPassword,
+          newPassword: password.newPassword,
+        };
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Authentication required');
+        }
+
+        const response = await fetch('http://localhost:4000/api/user/change-password', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(passwordData),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || `Request failed with status ${response.status}`);
+        }
+
+        const responseData = await response.json();
+
+        setSnackbar({ open: true, message: responseData.message || 'Password changed successfully!', severity: 'success' });
+        setPassword({
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: '',
+        });
+
+        saveOtherSettings();
+      } catch (err) {
+        setSnackbar({ open: true, message: err.message, severity: 'error' });
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      saveOtherSettings();
+    }
+  };
+
+  const saveOtherSettings = () => {
     const updatedSettings = {
       userInfo,
-      password: password.newPassword ? password.newPassword : undefined,
       notifications,
       theme,
     };
 
-    // Aici poți trimite datele către backend (ex. cu fetch sau axios)
-    console.log('Settings updated:', updatedSettings);
-
-    // Resetare câmpuri de parolă după salvare
-    setPassword({
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    });
-
-    alert('Settings saved successfully!');
+    setSnackbar({ open: true, message: 'Settings saved successfully!', severity: 'success' });
   };
+
+  if (loading && !userInfo.name) return <div className="loading">Loading...</div>;
 
   return (
     <div className="settings-container">
-      <h1>Settings</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Secțiunea pentru informații personale */}
-        <div className="settings-section">
+      <header className="settings-header">
+        <h1>User Settings</h1>
+        <p>Manage your account preferences and settings</p>
+      </header>
+      <form onSubmit={handleSubmit} className="settings-form">
+        <section className="settings-section">
           <h2>Personal Information</h2>
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
@@ -105,89 +200,66 @@ const SettingsComponent = () => {
               required
             />
           </div>
-        </div>
+        </section>
 
-        {/* Secțiunea pentru schimbarea parolei */}
-        <div className="settings-section">
+        <section className="settings-section">
           <h2>Change Password</h2>
-          <div className="form-group">
-            <label htmlFor="currentPassword">Current Password</label>
-            <input
-              type="password"
-              id="currentPassword"
-              name="currentPassword"
-              value={password.currentPassword}
-              onChange={handlePasswordChange}
-              placeholder="Enter current password"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="newPassword">New Password</label>
-            <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              value={password.newPassword}
-              onChange={handlePasswordChange}
-              placeholder="Enter new password"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm New Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={password.confirmPassword}
-              onChange={handlePasswordChange}
-              placeholder="Confirm new password"
-            />
-          </div>
-        </div>
 
-        {/* Secțiunea pentru notificări */}
-        <div className="settings-section">
-          <h2>Notifications</h2>
-          <div className="form-group checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="emailNotifications"
-                checked={notifications.emailNotifications}
-                onChange={handleNotificationChange}
-              />
-              <span>Email Notifications</span>
-            </label>
-          </div>
-          <div className="form-group checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="taskUpdates"
-                checked={notifications.taskUpdates}
-                onChange={handleNotificationChange}
-              />
-              <span>Task Updates</span>
-            </label>
-          </div>
-          <div className="form-group checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="mentions"
-                checked={notifications.mentions}
-                onChange={handleNotificationChange}
-              />
-              <span>Mentions</span>
-            </label>
-          </div>
-        </div>
+          {["oldPassword", "newPassword", "confirmPassword"].map((field) => (
+            <div className="form-group password-group" key={field}>
+              <label htmlFor={field}>
+                {field === "oldPassword"
+                  ? "Old Password"
+                  : field === "newPassword"
+                  ? "New Password"
+                  : "Confirm New Password"}
+              </label>
+              <div className="password-input-wrapper">
+                <input
+                  type={showPassword[field] ? "text" : "password"}
+                  id={field}
+                  name={field}
+                  value={password[field]}
+                  onChange={handlePasswordChange}
+                  placeholder={
+                    field === "oldPassword"
+                      ? "Enter old password"
+                      : field === "newPassword"
+                      ? "Enter new password"
+                      : "Confirm new password"
+                  }
+                />
+                <button
+                  type="button"
+                  className="toggle-password-btn"
+                  onClick={() => togglePasswordVisibility(field)}
+                >
+                  {showPassword[field] ? "🙈" : "👁️"}
+                </button>
+              </div>
+            </div>
+          ))}
+        </section>
 
-        {/* Buton de salvare */}
-        <button type="submit" className="save-button">
-          Save Changes
-        </button>
+        
+
+        <div className="form-actions">
+          <button type="submit" className="save-button" disabled={loading}>
+            {loading ? 'Saving...' : 'Save Changes'}
+          </button>
+        </div>
       </form>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

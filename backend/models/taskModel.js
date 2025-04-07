@@ -17,7 +17,7 @@ const taskSchema = new mongoose.Schema({
     }],
     time_logged: { 
         type: Number, 
-        default: 0, // Stored in minutes
+        default: 0, 
         required: false 
     }
 });

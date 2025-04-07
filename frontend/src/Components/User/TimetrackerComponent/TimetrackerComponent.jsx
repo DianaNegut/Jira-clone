@@ -11,7 +11,17 @@ const TimetrackerComponent = () => {
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState(''); 
 
+  const showSnackbar = (message, type) => {
+    setSnackbarMessage(message);
+    setSnackbarType(type);
+    setTimeout(() => {
+      setSnackbarMessage('');
+      setSnackbarType('');
+    }, 3000);
+  };
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -21,6 +31,7 @@ const TimetrackerComponent = () => {
         
         if (!token || !currentUser?.id) {
           setError('Please login first');
+          showSnackbar('Please login first', 'error');
           return;
         }
         console.log('Fetching tasks for user:', currentUser.id);
@@ -39,6 +50,7 @@ const TimetrackerComponent = () => {
         setTasks(data);
       } catch (err) {
         setError(err.message);
+        showSnackbar(err.message, 'error');
       }
     };
 
@@ -63,7 +75,7 @@ const TimetrackerComponent = () => {
     e.preventDefault();
 
     if (!taskName || !startDate || !startTime || !endDate || !endTime || !description) {
-      alert('Please fill in all fields.');
+      showSnackbar('Please fill in all fields.', 'error');
       return;
     }
 
@@ -71,7 +83,7 @@ const TimetrackerComponent = () => {
     const endDateTime = new Date(`${endDate}T${endTime}`);
 
     if (startDateTime >= endDateTime) {
-      alert('End time must be after start time.');
+      showSnackbar('End time must be after start time.', 'error');
       return;
     }
 
@@ -84,7 +96,7 @@ const TimetrackerComponent = () => {
         throw new Error('No authentication token found');
       }
 
-      // Find the selected task
+      
       const selectedTask = tasks.find(task => task.title === taskName);
       if (!selectedTask) {
         throw new Error('Task not found');
@@ -129,11 +141,12 @@ const TimetrackerComponent = () => {
       setEndDate('');
       setEndTime('');
       setDescription('');
-      alert('Time logged successfully!');
+      showSnackbar('Time logged successfully!', 'success');
 
     } catch (err) {
       setError(err.message);
-      alert(`Error: ${err.message}`);
+    
+      showSnackbar(`Error: ${err.message}`, 'error');
     } finally {
       setLoading(false);
     }
@@ -144,6 +157,12 @@ const TimetrackerComponent = () => {
       <h1>Time Tracker</h1>
       {error && <div className="error-message">{error}</div>}
       
+      {snackbarMessage && (
+        <div className={`snackbar ${snackbarType}`}>
+          {snackbarMessage}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="taskName">Task Name</label>

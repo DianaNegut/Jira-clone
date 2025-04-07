@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getCurrentUser } from '../../../utils/authUtils.js';
 import './Homel.css';
 import { Link } from "react-router-dom";
+import { assets } from '../../../assets/assets'; // Importăm assets pentru imaginea default
 
 const Homel = () => {
   const [userTasks, setUserTasks] = useState([]);
@@ -43,39 +44,52 @@ const Homel = () => {
 
     const fetchActivities = async () => {
       try {
-        const user = getCurrentUser();
-
-        if (!user) {
-          throw new Error('Nu ești autentificat');
-        }
-
-        const response = await fetch('http://localhost:4000/api/activitate/', {
+        const token = localStorage.getItem('token');
+    
+        // Obține utilizatorul curent cu toate datele din backend
+        const userResponse = await fetch('http://localhost:4000/api/user/me', {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
+            'Authorization': `Bearer ${token}`
           }
         });
-
-        if (!response.ok) {
+    
+        if (!userResponse.ok) {
+          throw new Error('Eroare la obținerea utilizatorului curent');
+        }
+    
+        const userData = await userResponse.json();
+        setCurrentUser(userData.user); // dacă răspunsul are formatul { success, user }
+        console.log(userData.user);
+    
+        const companyName = userData.user.companyName;
+    
+        // Apelează activitățile doar pentru compania respectivă
+        const activitatiResponse = await fetch(`http://localhost:4000/api/activitate/?companyName=${encodeURIComponent(companyName)}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+    
+        if (!activitatiResponse.ok) {
           throw new Error('Eroare la obținerea activităților');
         }
-
-        const data = await response.json();
-
-        // Ensure data is always an array
-        setActivities(Array.isArray(data) ? data : []);
+    
+        const activitatiData = await activitatiResponse.json();
+    
+        // Setează activitățile (primele 4 pentru dashboard)
+        setActivities(Array.isArray(activitatiData) ? activitatiData.slice(0, 4) : []);
       } catch (err) {
+        console.error(err);
         setActivitiesError(err.message);
       } finally {
         setActivitiesLoading(false);
       }
     };
-
-
-    fetchUserTasks();
+    
     fetchActivities();
+    fetchUserTasks();
   }, []);
 
-  // Function to format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString('ro-RO', {
@@ -85,6 +99,22 @@ const Homel = () => {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  // Funcție pentru a obține URL-ul corect al imaginii de profil
+  const getProfilePictureUrl = (profilePicture) => {
+    if (!profilePicture) {
+      return assets.default_profile_icon; // Folosim imaginea default din assets
+    }
+    
+    // Verificăm dacă imaginea este deja în formatul corect
+    if (profilePicture.includes('http://localhost:4000/')) {
+      return profilePicture;
+    }
+    
+    // Corectăm calea imaginii
+    const correctedPath = profilePicture.replace('uploads/', 'images/');
+    return `http://localhost:4000/${correctedPath}`;
   };
 
   return (
@@ -135,10 +165,24 @@ const Homel = () => {
                 <li key={activity._id} className="activity-item">
                   <Link to={`/task/${activity.task?._id || activity.task}`} className="activity-link">
                     <div className="activity-content">
-                      <p className="activity-message">{activity.mesaj}</p>
-                      <p className="activity-user">
-                        {activity.user?.nume || 'Utilizator'} • {formatDate(activity.createdAt)}
-                      </p>
+                      <div className="activity-user-info">
+                        {/* Afișează poza de profil */}
+                        <img
+                          src={getProfilePictureUrl(activity.user?.profilePicture)}
+                          alt={activity.user?.name || 'Utilizator'}
+                          className="activity-user-image"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = assets.default_profile_icon;
+                          }}
+                        />
+                        <div className="activity-user-details">
+                          <p className="activity-message">{activity.mesaj}</p>
+                          <p className="activity-user">
+                            {activity.user?.name || 'Utilizator'} • {formatDate(activity.createdAt)}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </Link>
                 </li>
