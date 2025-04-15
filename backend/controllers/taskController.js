@@ -329,7 +329,9 @@ export const getTasksByUser = async (req, res) => {
 
         const tasks = await taskModel.find({ user: userId })
             .populate("user")
-            .populate("team");
+            .populate("team")
+            .populate("status")
+            ;
 
         res.status(200).json(tasks);
     } catch (error) {
@@ -389,42 +391,80 @@ export const getTaskByTitle = async (req, res) => {
 
 export const updateTask = async (req, res) => {
     const { id } = req.params;
-    const { title, description, status, team, user } = req.body;
+    const { title, description, status, team: newTeamId, user: newUserId } = req.body;
 
     try {
-        // Validare ID
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ error: "ID task invalid" });
         }
 
-        // Validare câmpuri obligatorii
-        if (!title || !description || !status || !team) {
+        if (!title || !description || !status || !newTeamId) {
             return res.status(400).json({ error: "Toate câmpurile sunt obligatorii" });
         }
 
-        // Validare enum status
         const validStatuses = ["unassigned", "in progress", "completed"];
         if (!validStatuses.includes(status)) {
             return res.status(400).json({ error: "Status invalid" });
         }
 
+        
+        const existingTask = await taskModel.findById(id);
+        if (!existingTask) {
+            return res.status(404).json({ error: "Task-ul nu a fost găsit." });
+        }
+        
+        const oldUserId = existingTask.user ? existingTask.user.toString() : null;
+        const oldTeamId = existingTask.team ? existingTask.team.toString() : null;
+
+        
         const updatedTask = await taskModel.findByIdAndUpdate(
             id,
-            { title, description, status, team, user },
+            { title, description, status, team: newTeamId, user: newUserId },
             { new: true, runValidators: true }
         ).populate('team user');
 
-        if (!updatedTask) {
-            return res.status(404).json({ error: "Task-ul nu a fost găsit." });
+  
+        if (newUserId !== oldUserId) {
+        
+            if (oldUserId && mongoose.Types.ObjectId.isValid(oldUserId)) {
+                await userModel.findByIdAndUpdate(
+                    oldUserId,
+                    { $pull: { tasks: id } }
+                );
+            }
+
+        
+            if (newUserId && mongoose.Types.ObjectId.isValid(newUserId)) {
+                await userModel.findByIdAndUpdate(
+                    newUserId,
+                    { $addToSet: { tasks: id } } 
+                );
+            }
         }
 
-        // Log activitate
-        
-        const userId = req.userId; // ✅ aici folosim ce a setat `authMiddleware`
-const userDoc = await userModel.findById(userId);
-        const mesaj = `${userDoc.name} a modificat taskul: ${updatedTask.title}`;
 
-    
+        if (newTeamId !== oldTeamId) {
+      
+            if (oldTeamId && mongoose.Types.ObjectId.isValid(oldTeamId)) {
+                await teamModel.findByIdAndUpdate(
+                    oldTeamId,
+                    { $pull: { tasks: id } }
+                );
+            }
+
+        
+            if (newTeamId && mongoose.Types.ObjectId.isValid(newTeamId)) {
+                await teamModel.findByIdAndUpdate(
+                    newTeamId,
+                    { $addToSet: { tasks: id } }
+                );
+            }
+        }
+
+   
+        const userId = req.userId;
+        const userDoc = await userModel.findById(userId);
+        const mesaj = `${userDoc.name} a modificat taskul: ${updatedTask.title}`;
 
         await activitateModel.create({
             mesaj,
@@ -456,3 +496,202 @@ export const deleteTask = async (req, res) => {
         res.status(500).json({ error: "Eroare la ștergerea task-ului." });
     }
 };
+
+
+
+export const getTeamTasksNew = async (req, res) => {
+    try {
+        const { teamId } = req.params;
+        const { status, userId } = req.query;
+
+        
+        if (!mongoose.Types.ObjectId.isValid(teamId)) {
+            return res.status(400).json({
+                error: "ID echipă invalid",
+                details: { teamId }
+            });
+        }
+
+        const teamExists = await teamModel.exists({ _id: teamId });
+        if (!teamExists) {
+            return res.status(404).json({
+                error: "Echipă negăsită",
+                details: { teamId }
+            });
+        }
+
+        const query = { team: teamId };
+
+       
+        if (status) {
+            if (!["unassigned", "in progress", "completed"].includes(status)) {
+                return res.status(400).json({
+                    error: "Status invalid",
+                    details: { validStatuses: ["unassigned", "in progress", "completed"] }
+                });
+            }
+            query.status = status;
+        }
+
+       
+        if (userId) {
+            if (!mongoose.Types.ObjectId.isValid(userId)) {
+                return res.status(400).json({
+                    error: "ID utilizator invalid",
+                    details: { userId }
+                });
+            }
+            query.user = userId;
+        }
+
+    
+        const tasks = await taskModel.find(query)
+            .populate({
+                path: 'user',
+                select: 'name email profilePicture'
+            })
+            .populate({
+                path: 'team',
+                select: 'name'
+            })
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            count: tasks.length,
+            data: tasks
+        });
+
+    } catch (error) {
+        console.error("Eroare la obținerea task-urilor echipei:", error);
+        res.status(500).json({
+            error: "Eroare la obținerea task-urilor echipei",
+            details: error.message
+        });
+    }
+};
+
+
+export const getTeamTasksByName = async (req, res) => {
+    try {
+        const { teamName } = req.params;
+        const { status, userId } = req.query;
+
+    
+        const team = await teamModel.findOne({ name: teamName });
+        if (!team) {
+            return res.status(404).json({
+                error: "Echipă negăsită",
+                details: { teamName }
+            });
+        }
+
+  
+        const query = { team: team._id };
+
+    
+        if (status) {
+            if (!["unassigned", "in progress", "completed"].includes(status)) {
+                return res.status(400).json({
+                    error: "Status invalid",
+                    details: { validStatuses: ["unassigned", "in progress", "completed"] }
+                });
+            }
+            query.status = status;
+        }
+
+   
+        if (userId) {
+            if (!mongoose.Types.ObjectId.isValid(userId)) {
+                return res.status(400).json({
+                    error: "ID utilizator invalid",
+                    details: { userId }
+                });
+            }
+            query.user = userId;
+        }
+
+ 
+        const tasks = await taskModel.find(query)
+            .populate({
+                path: 'user',
+                select: 'name email profilePicture'
+            })
+            .populate({
+                path: 'team',
+                select: 'name'
+            })
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            count: tasks.length,
+            data: tasks
+        });
+
+    } catch (error) {
+        console.error("Eroare la obținerea task-urilor echipei:", error);
+        res.status(500).json({
+            error: "Eroare la obținerea task-urilor echipei",
+            details: error.message
+        });
+    }
+};
+
+
+export const getTasksByCompanyName = async (req, res) => {
+    const { companyName } = req.params;
+  
+    try {
+  
+      const teams = await teamModel.find({ companyName });
+  
+      if (!teams || teams.length === 0) {
+        return res.status(404).json({ message: "No teams found for this company." });
+      }
+  
+      
+      const teamIds = teams.map(team => team._id);
+  
+      const tasks = await taskModel.find({ team: { $in: teamIds } })
+        .populate("team", "name")
+        .populate("user", "name email");
+  
+      res.status(200).json(tasks);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      res.status(500).json({ message: "Something went wrong." });
+    }
+  };
+
+
+
+
+export const getTaskCountByCompanyName = async (req, res) => {
+    try {
+      const { companyName } = req.params;
+      
+      if (!companyName) {
+        return res.status(400).json({ 
+          success: false,
+          message: 'Company name is required'
+        });
+      }
+  
+      const teams = await teamModel.find({ companyName });
+      const teamIds = teams.map(team => team._id);
+      
+      const taskCount = await taskModel.countDocuments({ team: { $in: teamIds } });
+      
+      res.json({ 
+        success: true,
+        count: taskCount
+      });
+    } catch (error) {
+      console.error('Error getting task count:', error);
+      res.status(500).json({ 
+        success: false,
+        message: 'Error retrieving task count'
+      });
+    }
+  };

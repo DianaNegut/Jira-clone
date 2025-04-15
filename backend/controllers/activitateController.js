@@ -65,7 +65,7 @@ const getAllActivitati = async (req, res) => {
     const filter = {};
 
     if (companyName) {
-      // Obține activitățile doar pentru utilizatorii din compania respectivă
+
       const activitati = await activitateModel
         .find()
         .populate({
@@ -76,13 +76,13 @@ const getAllActivitati = async (req, res) => {
         .populate("task", "title status")
         .sort({ createdAt: -1 });
 
-      // eliminăm activitățile unde userul nu a fost returnat (nu e din compania dorită)
+
       const filtered = activitati.filter((a) => a.user !== null);
 
       return res.status(200).json(filtered);
     }
 
-    // Dacă nu avem companie specificată, returnăm toate activitățile
+
     const allActivitati = await activitateModel
       .find()
       .populate("user", "name email profilePicture companyName")

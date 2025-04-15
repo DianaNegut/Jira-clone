@@ -4,8 +4,8 @@ export const SiteContext = createContext();
 
 export const SiteContextProvider = ({ children }) => {
     const [token, setToken] = useState(null);
-    const [userRole, setUserRole] = useState(null); // Add user role state
-    const url = "http://localhost:4000"; // Your API base URL
+    const [userRole, setUserRole] = useState(null); 
+    const url = "http://localhost:4000"; 
     
     return (
         <SiteContext.Provider 
@@ -14,7 +14,7 @@ export const SiteContextProvider = ({ children }) => {
                 setToken, 
                 url,
                 userRole,
-                setUserRole // Make sure to provide the setUserRole function
+                setUserRole 
             }}
         >
             {children}

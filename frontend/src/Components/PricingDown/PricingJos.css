@@ -1,44 +1,53 @@
+.body-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 .dreptunghi_pricing {    
     margin-top: 50px;
     padding: 30px; 
-    width: 100%; /* Adjust width for better responsiveness */
+    width: 100%; 
     max-width: 1500px;                
     height: auto;                
     background-color: rgb(4, 56, 153); 
     display: flex;                    
     flex-direction: column;
     justify-content: center;      
-    align-items: flex-start;       
+    align-items: center;       
     border-radius: 10px;           
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     gap: 10px;                   
     margin-bottom: 60px;
-    
 }
 
-.titluPricing{
+.titluPricing {
     color: aliceblue;
     text-align: center;
-   
 }
 
-
-.paragrafPricing{
+.paragrafPricing {
     color: aliceblue;
     margin-bottom: 30px;
+    text-align: center;
 }
 
-
-.why_choose_jira{
+.why_choose_jira {
     color: aliceblue;
+    text-align: center;
+    width: 100%;
 }
-
 
 .features {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .feature_item {
@@ -49,8 +58,7 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Ensure feature items adjust to screen size */
-    max-width: 600px;
+    width: 100%;
 }
 
 .feature_title {
@@ -64,7 +72,6 @@
     font-size: 24px;
 }
 
-/* Add media queries for smaller screens */
 @media (max-width: 768px) {
     .dreptunghi_pricing {
         padding: 20px;

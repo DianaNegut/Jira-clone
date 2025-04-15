@@ -4,24 +4,37 @@ import taskModel from "../models/taskModel.js";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 
-// Crearea unei echipe
+
 export const createTeam = async (req, res) => {
   try {
-    const { name, companyName } = req.body; // Preia și companyName din body
+    const { name, companyName } = req.body;
 
-    if (!name) {
-      return res.status(400).json({ message: "Numele echipei este obligatoriu" });
-    }
+    
+    if (!name) return res.status(400).json({ message: "Numele echipei este obligatoriu" });
+    if (!companyName) return res.status(400).json({ message: "Numele companiei este obligatoriu" });
 
-    const existingTeam = await teamModel.findOne({ name });
+    
+    const existingTeam = await teamModel.findOne({ name, companyName });
     if (existingTeam) {
-      return res.status(400).json({ message: "Echipa există deja" });
+      return res.status(400).json({ 
+        message: "O echipă cu acest nume există deja în această companie",
+        existingTeam
+      });
     }
 
-    const newTeam = new teamModel({ 
+    const timestamp = Date.now();
+    const uniqueId = `${name}_${companyName}_${timestamp}`;
+
+    const newTeam = new teamModel({
       name,
-      companyName, // Adăugăm companyName ca String
+      companyName,
+      uniqueId,
+      createdTimestamp: timestamp,
+      leader: null,
+      members: [],
+      tasks: [],
     });
+    
     await newTeam.save();
 
     res.status(201).json({
@@ -30,11 +43,23 @@ export const createTeam = async (req, res) => {
     });
   } catch (error) {
     console.error("Eroare la adăugarea echipei:", error);
-    res.status(500).json({ message: "Eroare la adăugarea echipei", error: error.message });
+    
+ 
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: "Eroare de duplicat - verifică numele echipei și compania",
+        error: error.message
+      });
+    }
+    
+    res.status(500).json({ 
+      message: "Eroare la adăugarea echipei", 
+      error: error.message 
+    });
   }
 };
 
-// Obținerea tuturor echipelor
+
 export const getAllTeams = async (req, res) => {
   try {
     const { companyName } = req.query;
@@ -99,7 +124,7 @@ export const getAllTeams = async (req, res) => {
   }
 };
 
-// Obținerea taskurilor echipei
+
 export const getTeamTasks = async (req, res) => {
   try {
     const teamId = req.params.id;
@@ -164,7 +189,7 @@ export const getTeamTasks = async (req, res) => {
   }
 };
 
-// Obținerea echipelor după ID-ul utilizatorului
+
 export const getTeamsByUserId = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -207,7 +232,7 @@ export const getTeamsByUserId = async (req, res) => {
   }
 };
 
-// Obținerea membrilor echipei
+
 export const getTeamMembers = async (req, res) => {
   try {
     const team = await teamModel.findById(req.params.id).populate("members", "name email");
@@ -228,7 +253,7 @@ export const getTeamMembers = async (req, res) => {
   }
 };
 
-// Ștergerea echipei
+
 export const deleteTeam = async (req, res) => {
   try {
     const team = await teamModel.findById(req.params.id);
@@ -249,7 +274,7 @@ export const deleteTeam = async (req, res) => {
   }
 };
 
-// Adăugarea unui membru la echipă
+
 export const addMemberToTeam = async (req, res) => {
   try {
     const team = await teamModel.findById(req.params.id);
@@ -292,7 +317,7 @@ export const addMemberToTeam = async (req, res) => {
   }
 };
 
-// Eliminarea unui membru din echipă
+
 export const removeMemberFromTeam = async (req, res) => {
   try {
     const team = await teamModel.findById(req.params.id);
@@ -328,7 +353,7 @@ export const removeMemberFromTeam = async (req, res) => {
   }
 };
 
-// Preluarea taskurilor neasignate
+
 export const getUnassignedTeamTasks = async (req, res) => {
   try {
     const teamId = req.params.id;
@@ -401,7 +426,7 @@ export const assignTaskToUser = async (req, res) => {
   try {
     console.log(`Attempting to assign task ${taskId} to user ${userId}`);
     
-    // Validate ObjectIds
+
     if (!mongoose.Types.ObjectId.isValid(taskId) || !mongoose.Types.ObjectId.isValid(userId)) {
       console.log("Invalid ObjectId format");
       return res.status(400).json({ message: "Invalid task or user ID format" });
@@ -421,13 +446,13 @@ export const assignTaskToUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Check if task belongs to a team
+
     if (!task.team) {
       console.log("Task has no team associated");
       return res.status(400).json({ message: "Task has no team associated" });
     }
     
-    // Check if user is a member of the team
+
     const team = await teamModel.findById(task.team);
     if (!team) {
       console.log("Team not found");
@@ -440,7 +465,7 @@ export const assignTaskToUser = async (req, res) => {
       return res.status(403).json({ message: "User is not a member of the task's team" });
     }
 
-    // Assign user to task
+
     task.user = userId;
     task.status = "in progress";
     console.log("Saving task with new user assignment");
@@ -464,7 +489,7 @@ export const assignTaskToUser = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    // Also update the user's tasks array if needed
+
     if (!user.tasks.includes(task._id)) {
       user.tasks.push(task._id);
       await user.save();
@@ -484,7 +509,7 @@ export const assignTaskToUser = async (req, res) => {
   }
 };
 
-// In controllers/teamController.js
+
 export const updateTeam = async (req, res) => {
   const teamId = req.params.id;
   const { name, companyName } = req.body;

@@ -18,7 +18,7 @@ const Add_user_comp = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
-  const [companyName, setCompanyName] = useState(null); // Starea pentru numele companiei
+  const [companyName, setCompanyName] = useState(null); 
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -34,7 +34,7 @@ const Add_user_comp = () => {
   
         setCurrentUser(userDetails.user);
   
-        // Dacă userul are companie, setăm compania
+
         if (userDetails.user.companyName) {
           setCompanyName(userDetails.user.companyName);
           setFormData((prev) => ({
@@ -55,15 +55,33 @@ const Add_user_comp = () => {
   
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    let updatedValue = type === 'checkbox' ? checked : value;
+
+    if (name === 'phone' && type !== 'checkbox') {
+      const phoneRegex = /^0\d{0,9}$/; 
+
+      if (!phoneRegex.test(updatedValue) && updatedValue !== '') {
+        setError('Numărul de telefon trebuie să aibă exact 10 cifre și să înceapă cu 0.');
+        return; 
+      } else {
+        setError(''); 
+      }
+
+     
+      if (updatedValue.length === 10 && !/^0\d{9}$/.test(updatedValue)) {
+        setError('Numărul de telefon trebuie să aibă exact 10 cifre și să înceapă cu 0.');
+        return;
+      }
+    }
+
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: updatedValue,
     });
   };
 
   const associateCompanyWithExistingUser = async () => {
     try {
-      // 1. Verificăm dacă există un utilizator cu acest email
       const emailCheckResponse = await fetch(`http://localhost:4000/api/user/email/${formData.email}`);
       const emailCheckData = await emailCheckResponse.json();
       
@@ -72,10 +90,11 @@ const Add_user_comp = () => {
       }
       
       if (!emailCheckData.user) {
-        return setError("Nu există un utilizator cu acest email. Creați un nou utilizator.");
+        setError("Nu există un utilizator cu acest email. Creați un nou utilizator.");
+        return;
       }
       
-      // 2. Asociem compania utilizatorului curent cu utilizatorul găsit
+
       const response = await fetch('http://localhost:4000/api/user/set-company-name', {
         method: 'POST',
         headers: {
@@ -96,7 +115,7 @@ const Add_user_comp = () => {
       
       setSuccess(`Utilizatorul ${emailCheckData.user.name} a fost asociat cu succes companiei ${companyName || formData.companyName}.`);
       
-      // Reset form after successful submission
+
       setFormData({
         name: '',
         email: '',
@@ -118,8 +137,13 @@ const Add_user_comp = () => {
     setSuccess(null);
 
     if (formData.useExistingAccount) {
-      // În loc să afișăm doar un mesaj, vom apela funcția pentru asocierea companiei
       await associateCompanyWithExistingUser();
+      return;
+    }
+
+    // Verificare finală a telefonului înainte de submit
+    if (formData.phone && !/^0\d{9}$/.test(formData.phone)) {
+      setError('Numărul de telefon trebuie să aibă exact 10 cifre și să înceapă cu 0.');
       return;
     }
 
@@ -134,7 +158,7 @@ const Add_user_comp = () => {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          companyName: formData.companyName || companyName, // Folosește compania curentă dacă nu este modificată
+          companyName: formData.companyName || companyName, 
           role: formData.role,
         }),
       });
@@ -150,7 +174,7 @@ const Add_user_comp = () => {
         name: '',
         email: '',
         phone: '',
-        companyName: companyName || '', // Resetează la compania curentă
+        companyName: companyName || '', 
         role: 'Angajat',
         useExistingAccount: false,
       });
@@ -175,11 +199,6 @@ const Add_user_comp = () => {
   return (
     <div className="add-user-container">
       <h2>Adăugare Utilizator</h2>
-      {companyName && (
-        <p className="company-info">
-         <strong>{companyName}</strong>
-        </p>
-      )}
       
       <form onSubmit={handleSubmit} className="add-user-form">
         {!formData.useExistingAccount && (
@@ -221,7 +240,7 @@ const Add_user_comp = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="Introdu telefonul (opțional)"
+                placeholder="Introdu telefonul"
               />
             </div>
             
@@ -235,7 +254,7 @@ const Add_user_comp = () => {
                 onChange={handleChange}
                 placeholder="Introdu numele companiei"
                 required
-                readOnly={!!companyName} // Face câmpul readonly dacă există deja o companie
+                readOnly={!!companyName} 
               />
             </div>
           </>

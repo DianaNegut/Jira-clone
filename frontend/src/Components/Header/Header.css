@@ -58,28 +58,28 @@
 
 @media (max-width:1050px) {
     .header {
-        height: 40vw; /* Adjusted for better scaling */
-        padding: 10px; /* Added padding for spacing */
+        height: 40vw; 
+        padding: 10px; 
     }
     .header-content {
-        max-width: 50%; /* Slightly increased for better layout */
+        max-width: 50%; 
     }
 }
 
 
 @media (max-width:750px) {
     .header {
-        flex-direction: column; /* Ensure proper stacking */
-        gap: 15px; /* Added gap for spacing */
+        flex-direction: column; 
+        gap: 15px; 
     }
     .header-content {
-        max-width: 70%; /* Adjusted for better readability */
+        max-width: 70%; 
     }
     .header-content p {
-        max-width: 100%; /* Ensure text doesn't overflow */
+        max-width: 100%; 
     }
     .header-content button {
-        padding: 1.5vw 3vw; /* Adjusted padding for better touch targets */
+        padding: 1.5vw 3vw; 
     }
 }
 
@@ -88,39 +88,39 @@
         flex-direction: column;
         align-items: center;
         height: auto;
-        padding: 10px 15px; /* Reduced padding for smaller screens */
+        padding: 10px 15px; 
     }
     .header-img {
-        width: 90%; /* Slightly reduced for better fit */
+        width: 90%; 
     }
     .header-content {
-        width: 90%; /* Adjusted for better alignment */
+        width: 90%; 
         text-align: center;
-        gap: 2vw; /* Increased gap for spacing */
+        gap: 2vw; 
     }
     .header-content h2 {
-        font-size: 4.5vw; /* Slightly reduced for better scaling */
+        font-size: 4.5vw; 
     }
     .header-content p {
-        font-size: 2.5vw; /* Adjusted for readability */
+        font-size: 2.5vw; 
     }
     .header-content button {
-        width: 80%; /* Adjusted width for better alignment */
-        padding: 2vw 4vw; /* Increased padding for touch targets */
-        font-size: 2.5vw; /* Adjusted font size */
+        width: 80%; 
+        padding: 2vw 4vw; 
+        font-size: 2.5vw; 
     }
 }
 
 @media (max-width:400px) {
     .header-content h2 {
-        font-size: 6vw; /* Further reduced for very small screens */
+        font-size: 6vw; 
     }
     .header-content p {
-        font-size: 3.5vw; /* Adjusted for readability */
+        font-size: 3.5vw; 
     }
     .header-content button {
-        width: 100%; /* Full width for small screens */
-        padding: 3vw 5vw; /* Increased padding for better usability */
-        font-size: 3vw; /* Adjusted font size */
+        width: 100%; 
+        padding: 3vw 5vw; 
+        font-size: 3vw; 
     }
 }

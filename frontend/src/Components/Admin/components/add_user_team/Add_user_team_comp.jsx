@@ -23,13 +23,12 @@ const Add_user_team_comp = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  // Get current user's company and teams
   useEffect(() => {
     const fetchUserAndTeams = async () => {
       try {
         setLoading(true);
         
-        // 1. Get current user data
+
         const userResponse = await fetch('http://localhost:4000/api/user/me', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -54,7 +53,6 @@ const Add_user_team_comp = () => {
         
         setCompanyName(userCompanyName);
 
-        // 2. Get teams for the user's company
         const teamsResponse = await fetch(
           `http://localhost:4000/api/teams?companyName=${encodeURIComponent(userCompanyName)}`,
           {
@@ -106,7 +104,7 @@ const Add_user_team_comp = () => {
     }
 
     try {
-      // Find user by email
+
       const userResponse = await fetch(`http://localhost:4000/api/user/email/${email}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -119,14 +117,14 @@ const Add_user_team_comp = () => {
       
       const userData = await userResponse.json();
       
-      // Check if user belongs to the same company
+
       if (userData.user.companyName !== companyName) {
         throw new Error('User belongs to a different company');
       }
       
       const userId = userData.user._id;
   
-      // Add user to team
+
       const response = await fetch(`http://localhost:4000/api/teams/${team}/members/${userId}`, {
         method: 'POST',
         headers: {
@@ -147,7 +145,7 @@ const Add_user_team_comp = () => {
         severity: 'success' 
       });
       
-      // Reset form
+
       setEmail('');
       setTeam('');
     } catch (err) {
@@ -162,13 +160,13 @@ const Add_user_team_comp = () => {
 
   return (
     <div className="add-user-team-container">
-      <h2>Add User to Team {companyName && `(Company: ${companyName})`}</h2>
+      <h2>Add User to Team </h2>
       
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert 
           onClose={handleCloseSnackbar} 

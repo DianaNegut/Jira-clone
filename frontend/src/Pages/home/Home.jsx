@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // Adaugă useEffect
+import React, { useState, useEffect } from 'react'; 
 import './Home.css';
 import Header from '../../Components/Header/Header';
 import ExploreMenu from '../../Components/ExploreMenu/ExploreMenu';

@@ -58,12 +58,12 @@
     color: #1D4ED8;
 }
 
-/* Stil pentru textul bold */
+
 .operations-list li strong {
     color: #111827;
 }
 
-/* Animație fade-in */
+
 .fadeIn {
     opacity: 0;
     transform: translateY(20px);

@@ -1,12 +1,12 @@
 .bug-report-content {
     max-width: 800px;
     margin: 40px auto;
-    padding: 30px; /* Increased padding */
-    background-color: #f8f9fa; /* Light background */
+    padding: 30px; 
+    background-color: #f8f9fa; 
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     animation: fadeIn 0.8s ease-in-out;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .bug-report-content h1 {
-    font-size: 2.5em; /* Larger heading */
+    font-size: 2.5em; 
     color: #333;
     text-align: center;
     margin-bottom: 30px;
@@ -38,21 +38,21 @@
     color: #007bff;
 }
 
-.form-group {
-    margin-bottom: 25px; /* Increased margin */
+.form-group-bug {
+    margin-bottom: 25px; 
 }
 
-.form-group label {
+.form-group-bug label {
     display: block;
     font-size: 1.1em;
-    color: #555;
+    color: white;
     margin-bottom: 10px;
     transition: all 0.3s ease;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.form-group-bug input,
+.form-group-bug textarea,
+.form-group-bug select {
     width: 100%;
     padding: 12px;
     font-size: 1em;
@@ -60,7 +60,7 @@
     border-radius: 8px;
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    background-color: #fff; /* White background for inputs */
+    background-color: #fff;
     animation: inputFocus 0.3s ease-in-out;
 }
 
@@ -73,30 +73,30 @@
     }
 }
 
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.form-group-bug input:focus,
+.form-group-bug textarea:focus,
+.form-group-bug select:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
 }
 
-.form-group textarea {
+.form-group-bug textarea {
     resize: vertical;
-    min-height: 150px; /* Increased height */
+    min-height: 150px; 
 }
 
-.form-group input[type="file"] {
+.form-group-bug input[type="file"] {
     border: none;
     padding: 0;
 }
 
-.form-group select {
+.form-group-bug select {
     cursor: pointer;
     background-color: #fff;
 }
 
-.form-group select option {
+.form-group-bug select option {
     padding: 10px;
 }
 
@@ -173,7 +173,7 @@
     background-color: #ff4d4d;
 }
 
-.submit-button {
+.submit-button-bug {
     display: block;
     width: 100%;
     padding: 14px;
@@ -236,8 +236,9 @@
     padding: 10px 20px;
     font-size: 14px;
     font-weight: bold;
-    color: #fff; /* Changed text color to white */
-    background-color: #0073e6; /* Updated background color */
+    color: #fff; 
+
+    background-color: #0073e6; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -246,7 +247,7 @@
 }
 
 .custom-file-upload:hover {
-    background-color: #0056b3; /* Kept hover color consistent */
+    background-color: #0073e6; 
 }
 
 @media (max-width: 768px) {
@@ -259,13 +260,13 @@
         font-size: 2.2em;
     }
 
-    .form-group label {
+    .form-group-bug-bug label {
         font-size: 1em;
     }
 
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .form-group-bug-bug input,
+    .form-group-bug-bug textarea,
+    .form-group-bug select {
         font-size: 0.95em;
     }
 
@@ -284,13 +285,13 @@
         font-size: 2em;
     }
 
-    .form-group label {
+    .form-group-bug label {
         font-size: 1em;
     }
 
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .form-group-bug input,
+    .form-group-bug textarea,
+    .form-group-bug select {
         font-size: 0.9em;
     }
 
@@ -322,13 +323,13 @@
         font-size: 1.8em;
     }
 
-    .form-group label {
+    .form-group-bug label {
         font-size: 0.9em;
     }
 
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .form-group-bug input,
+    .form-group-bug textarea,
+    .form-group-bug select {
         font-size: 0.85em;
     }
 

@@ -1,4 +1,4 @@
-/* Stiluri globale pentru a asigura că ecranul este folosit complet */
+
 html, body {
     height: 100%;
     width: 100%;
@@ -6,7 +6,7 @@ html, body {
     padding: 0;
 }
 
-/* Clasa pentru a bloca scroll-ul când popup-ul este vizibil */
+
 body.no-scroll {
     overflow: hidden;
 }
@@ -18,14 +18,14 @@ body.no-scroll {
 }
 
 .login-popup {
-    position: fixed; /* Fixat relativ la viewport */
-    z-index: 1000; /* Z-index mare pentru a fi deasupra altor elemente */
+    position: fixed; 
+    z-index: 1000; 
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Negru cu 70% opacitate */
+    background-color: rgba(0, 0, 0, 0.7);
     display: grid;
-    top: 0; /* Ancorare în partea de sus */
-    left: 0; /* Ancorare în stânga */
+    top: 0;
+    left: 0; 
 }
 
 .login-popup-container {
@@ -126,7 +126,7 @@ body.no-scroll {
     }
 }
 
-/* Asigură-te că animația fadeIn este definită */
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getCurrentUser } from '../../../utils/authUtils.js';
 import './Homel.css';
 import { Link } from "react-router-dom";
-import { assets } from '../../../assets/assets'; // Importăm assets pentru imaginea default
+import { assets } from '../../../assets/assets'; 
 
 const Homel = () => {
   const [userTasks, setUserTasks] = useState([]);
@@ -18,35 +18,40 @@ const Homel = () => {
       try {
         const user = getCurrentUser();
         setCurrentUser(user);
-
+    
         if (!user) {
           throw new Error('Nu ești autentificat');
         }
-
+    
         const response = await fetch(`http://localhost:4000/api/task/user/${user.id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
-
+    
         if (!response.ok) {
           throw new Error('Eroare la obținerea task-urilor');
         }
-
+    
         const data = await response.json();
-        setUserTasks(data);
+    
+        // 🟡 Filtrare task-uri cu status "in progress"
+        const filteredTasks = data.filter(task => task.status === "in progress");
+    
+        setUserTasks(filteredTasks);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
+    
 
     const fetchActivities = async () => {
       try {
         const token = localStorage.getItem('token');
     
-        // Obține utilizatorul curent cu toate datele din backend
+
         const userResponse = await fetch('http://localhost:4000/api/user/me', {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -58,12 +63,12 @@ const Homel = () => {
         }
     
         const userData = await userResponse.json();
-        setCurrentUser(userData.user); // dacă răspunsul are formatul { success, user }
+        setCurrentUser(userData.user); 
         console.log(userData.user);
     
         const companyName = userData.user.companyName;
     
-        // Apelează activitățile doar pentru compania respectivă
+
         const activitatiResponse = await fetch(`http://localhost:4000/api/activitate/?companyName=${encodeURIComponent(companyName)}`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -76,7 +81,7 @@ const Homel = () => {
     
         const activitatiData = await activitatiResponse.json();
     
-        // Setează activitățile (primele 4 pentru dashboard)
+
         setActivities(Array.isArray(activitatiData) ? activitatiData.slice(0, 4) : []);
       } catch (err) {
         console.error(err);
@@ -101,18 +106,18 @@ const Homel = () => {
     });
   };
 
-  // Funcție pentru a obține URL-ul corect al imaginii de profil
+
   const getProfilePictureUrl = (profilePicture) => {
     if (!profilePicture) {
-      return assets.default_profile_icon; // Folosim imaginea default din assets
+      return assets.default_profile_icon; 
     }
     
-    // Verificăm dacă imaginea este deja în formatul corect
+
     if (profilePicture.includes('http://localhost:4000/')) {
       return profilePicture;
     }
     
-    // Corectăm calea imaginii
+
     const correctedPath = profilePicture.replace('uploads/', 'images/');
     return `http://localhost:4000/${correctedPath}`;
   };
@@ -137,7 +142,7 @@ const Homel = () => {
           ) : userTasks.length === 0 ? (
             <p>Nu ai taskuri asignate</p>
           ) : (
-            <ul className="task-list">
+            <ul className="task-list-homel">
               {userTasks.map(task => (
                 <li key={task._id} className="task-item">
                   <Link to={`/task/${task._id}`} className="task-link">
@@ -166,8 +171,7 @@ const Homel = () => {
                   <Link to={`/task/${activity.task?._id || activity.task}`} className="activity-link">
                     <div className="activity-content">
                       <div className="activity-user-info">
-                        {/* Afișează poza de profil */}
-                        <img
+                                                <img
                           src={getProfilePictureUrl(activity.user?.profilePicture)}
                           alt={activity.user?.name || 'Utilizator'}
                           className="activity-user-image"

@@ -26,6 +26,9 @@ import woman1 from './woman1.jpg'
 import woman2 from './woman2.jpg'
 import woman3 from './woman3.jpg'
 import default_profile_icon from './profile_image.jpg'
+import carusel1 from './carusel1.jpg'
+import carusel2 from './carusel2.png'
+import carusel3 from './carusel3.png'
 
 import clock from './clock.png';
 import delete_im from './delete.png';
@@ -41,7 +44,7 @@ import see_all_users from './see_all_users.png'
 
 
 
-export const assets = {
+export const assets = {carusel1, carusel2, carusel3,
     default_profile_icon,
     management,
     woman1,

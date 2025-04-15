@@ -1,0 +1,627 @@
+.container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.team-name {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.tasks-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.filter-toggle-btn,
+.reset-filters-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.filter-toggle-btn:hover,
+.reset-filters-btn:hover {
+    background-color: #0056b3;
+}
+
+.filters-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.filter-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-order-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.sort-order-btn:hover {
+    color: #007bff;
+}
+
+.tasks-stats {
+    margin-bottom: 15px;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+.loading {
+    color: #555;
+    font-size: 1rem;
+}
+
+.no-tasks {
+    color: #777;
+    font-size: 1rem;
+    text-align: center;
+    padding: 20px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.tasks-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.tasks-table th,
+.tasks-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.tasks-table th {
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: bold;
+}
+
+.task-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.task-row:hover {
+    background-color: #f9f9f9;
+}
+
+.task-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.task-description-all {
+    color: #555;
+}
+
+.task-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.unassigned {
+    font-style: italic;
+    color: #777;
+}
+
+.task-status {
+    text-align: center;
+}
+
+.status-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    color: white;
+}
+
+.status-tag.unassigned {
+    background-color: #6c757d;
+}
+
+.status-tag.inprogress {
+    background-color: #007bff;
+}
+
+.status-tag.completed {
+    background-color: #28a745;
+}
+
+/* Stilizare pentru modul mobil */
+.mobile-tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mobile-task-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.mobile-task-card:hover {
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.mobile-task-title {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0;
+}
+
+.mobile-status-tag {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    color: white;
+}
+
+.mobile-status-tag.unassigned {
+    background-color: #6c757d;
+}
+
+.mobile-status-tag.inprogress {
+    background-color: #007bff;
+}
+
+.mobile-status-tag.completed {
+    background-color: #28a745;
+}
+
+.mobile-task-description {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.mobile-task-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.mobile-user-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.mobile-user-avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.mobile-unassigned {
+    font-style: italic;
+}
+
+/* Animație pentru spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Media Queries pentru responsivitate */
+@media (max-width: 1024px) {
+    .container {
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .tasks-section {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    .search-bar {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .search-input {
+        font-size: 0.95rem;
+        padding: 8px;
+    }
+
+    .filter-toggle-btn,
+    .reset-filters-btn {
+        font-size: 0.95rem;
+        padding: 8px 12px;
+    }
+
+    .filters-container {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .filter-group label {
+        font-size: 0.85rem;
+    }
+
+    .filter-select {
+        font-size: 0.85rem;
+        padding: 7px;
+    }
+
+    .tasks-table {
+        font-size: 0.95rem;
+    }
+
+    .tasks-table th,
+    .tasks-table td {
+        padding: 10px;
+    }
+
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+    }
+
+    .tasks-stats {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .title {
+        font-size: 1.6rem;
+    }
+
+    .tasks-section {
+        padding: 10px;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .filter-toggle-btn,
+    .reset-filters-btn {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .filters-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .filter-group label {
+        font-size: 0.8rem;
+    }
+
+    .filter-select {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .sort-order-btn {
+        font-size: 1rem;
+    }
+
+    .mobile-task-card {
+        padding: 12px;
+    }
+
+    .mobile-task-title {
+        font-size: 1.1rem;
+    }
+
+    .mobile-task-description {
+        font-size: 0.9rem;
+    }
+
+    .mobile-task-footer {
+        font-size: 0.85rem;
+    }
+
+    .mobile-user-avatar {
+        width: 22px;
+        height: 22px;
+    }
+
+    .tasks-stats {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 8px;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .tasks-section {
+        padding: 8px;
+    }
+
+    .search-input {
+        font-size: 0.85rem;
+        padding: 7px;
+    }
+
+    .filter-toggle-btn,
+    .reset-filters-btn {
+        font-size: 0.85rem;
+        padding: 7px;
+    }
+
+    .mobile-task-card {
+        padding: 10px;
+    }
+
+    .mobile-task-title {
+        font-size: 1rem;
+    }
+
+    .mobile-task-description {
+        font-size: 0.85rem;
+    }
+
+    .mobile-status-tag {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    .mobile-task-footer {
+        font-size: 0.8rem;
+    }
+
+    .mobile-user-avatar {
+        width: 20px;
+        height: 20px;
+    }
+
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+    }
+
+    .loading {
+        font-size: 0.9rem;
+    }
+
+    .no-tasks {
+        font-size: 0.9rem;
+    }
+
+    .error-message {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 5px;
+    }
+
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .tasks-section {
+        padding: 5px;
+    }
+
+    .search-input {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .filter-toggle-btn,
+    .reset-filters-btn {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .filters-container {
+        gap: 8px;
+    }
+
+    .filter-group label {
+        font-size: 0.75rem;
+    }
+
+    .filter-select {
+        font-size: 0.75rem;
+        padding: 5px;
+    }
+
+    .mobile-task-card {
+        padding: 8px;
+    }
+
+    .mobile-task-title {
+        font-size: 0.9rem;
+    }
+
+    .mobile-task-description {
+        font-size: 0.8rem;
+    }
+
+    .mobile-status-tag {
+        font-size: 0.75rem;
+        padding: 3px 6px;
+    }
+
+    .mobile-task-footer {
+        font-size: 0.75rem;
+    }
+
+    .mobile-user-avatar {
+        width: 18px;
+        height: 18px;
+    }
+
+    .tasks-stats {
+        font-size: 0.75rem;
+    }
+
+    .loading-spinner {
+        width: 35px;
+        height: 35px;
+    }
+
+    .loading {
+        font-size: 0.85rem;
+    }
+
+    .no-tasks {
+        font-size: 0.85rem;
+    }
+
+    .error-message {
+        font-size: 0.85rem;
+        padding: 6px;
+    }
+}

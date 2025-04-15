@@ -47,7 +47,7 @@
   margin-bottom: 15px;
 }
 
-.task-card {
+.task-card-dash {
   background-color: white;
   padding: 12px;
   margin-bottom: 10px;
@@ -146,7 +146,7 @@
   color: #de350b;
 }
 
-/* Responsive adjustments for medium screens */
+
 @media (max-width: 1024px) {
   .kanban-dashboard {
     padding: 15px;
@@ -176,7 +176,7 @@
   }
 }
 
-/* Responsive adjustments for smaller screens */
+
 @media (max-width: 768px) {
   .kanban-columns {
     flex-direction: column;
@@ -192,7 +192,7 @@
     font-size: 20px;
   }
 
-  .task-card {
+  .task-card-dash {
     font-size: 14px;
     padding: 10px;
   }
@@ -203,7 +203,7 @@
   }
 }
 
-/* Responsive adjustments for extra small screens */
+
 @media (max-width: 480px) {
   .kanban-dashboard {
     padding: 10px;

@@ -124,12 +124,11 @@ const Profile = () => {
             <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Phone:</strong> {user.phone}</p>
             <p><strong>Company:</strong> {user.companyName}</p>
-            <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+            
           </div>
         </div>
       </div>
 
-      {/* Snackbar for success/error messages */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}

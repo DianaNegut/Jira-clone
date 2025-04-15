@@ -185,7 +185,8 @@ const SettingsComponent = () => {
               value={userInfo.name}
               onChange={handleUserInfoChange}
               placeholder="Enter your full name"
-              required
+              readOnly
+              
             />
           </div>
           <div className="form-group">
@@ -197,7 +198,8 @@ const SettingsComponent = () => {
               value={userInfo.email}
               onChange={handleUserInfoChange}
               placeholder="Enter your email"
-              required
+              readOnly
+              
             />
           </div>
         </section>

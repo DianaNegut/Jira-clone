@@ -13,7 +13,7 @@ import crypto from "crypto";
 
 async function getCompanyNameByUserId(userId) {
     try {
-        // Verifică dacă userId este un șir valid de 24 de caractere hexazecimale
+
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             throw new Error("ID-ul utilizatorului nu este valid");
         }
@@ -24,7 +24,7 @@ async function getCompanyNameByUserId(userId) {
             throw new Error("Utilizatorul nu a fost găsit");
         }
 
-        // Log pentru a verifica dacă user.teams este populat corect
+
         console.log("User teams:", user.teams);
 
         if (!user.teams || user.teams.length === 0) {
@@ -33,7 +33,7 @@ async function getCompanyNameByUserId(userId) {
 
         const team = user.teams[0];
 
-        // Log pentru a verifica ID-ul echipei
+
         console.log("Team ID:", team._id);
 
         const company = await companyModel.findOne({ teams: team._id });
@@ -314,6 +314,7 @@ const getCurrentUser = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                companyName: user.companyName,
                 profilePicture: user.profilePicture, companyName: user.companyName,
                 teams: user.teams.map((team) => ({
                     _id: team._id,
@@ -473,7 +474,37 @@ const changePassword = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await userModel.find().select("-password").populate("teams", "name");
+        const userId = req.userId; 
+
+        if (!userId) {
+            return res.status(401).json({
+                success: false,
+                message: "User not authenticated",
+            });
+        }
+
+
+        const currentUser = await userModel.findById(userId).select("companyName");
+
+        if (!currentUser || !currentUser.companyName) {
+            return res.status(401).json({
+                success: false,
+                message: "User or company not found",
+            });
+        }
+
+
+        const users = await userModel.find({ companyName: currentUser.companyName })
+            .select("-password") 
+            .populate("teams", "name"); 
+
+        if (!users.length) {
+            return res.status(404).json({
+                success: false,
+                message: "No users found for this company",
+            });
+        }
+
         res.status(200).json({
             success: true,
             users,
@@ -487,11 +518,10 @@ const getAllUsers = async (req, res) => {
         });
     }
 };
-
 const getCompanyName = async (req, res) => {
     try {
         const userId = req.params.userId;
-        console.log("Received userId:", userId); // Pentru depanare
+        console.log("Received userId:", userId); 
 
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             return res.status(400).json({ success: false, message: "ID-ul utilizatorului nu este valid" });
@@ -526,23 +556,23 @@ export const getUserByEmail = async (req, res) => {
     try {
         const { userId, newCompanyName } = req.body;
 
-        // Validare userId
+
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             return res.status(400).json({ success: false, message: "ID-ul utilizatorului nu este valid" });
         }
 
-        // Verificare dacă noul nume al companiei este furnizat
+
         if (!newCompanyName || typeof newCompanyName !== 'string' || newCompanyName.trim() === '') {
             return res.status(400).json({ success: false, message: "Numele companiei este obligatoriu și trebuie să fie un șir valid" });
         }
 
-        // Căutare utilizator
+
         const user = await userModel.findById(userId);
         if (!user) {
             return res.status(404).json({ success: false, message: "Utilizatorul nu a fost găsit" });
         }
 
-        // Actualizare nume companie
+
         user.companyName = newCompanyName.trim();
         await user.save();
 
@@ -566,6 +596,40 @@ export const getUserByEmail = async (req, res) => {
         });
     }
 };
+
+export const getEmployeesCountByCompany = async (req, res) => {
+    try {
+      const { companyName } = req.params; 
+  
+
+      if (!companyName) {
+        return res.status(400).json({ 
+          success: false, 
+          message: 'Numele companiei este obligatoriu' 
+        });
+      }
+  
+     
+      const employeesCount = await userModel.countDocuments({
+        companyName: companyName,
+        role: 'Angajat'
+      });
+  
+    
+      return res.status(200).json({
+        success: true,
+        count: employeesCount
+      });
+    } catch (error) {
+      console.error('Eroare la obținerea numărului de angajați:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Eroare internă a serverului',
+        error: error.message
+      });
+    }
+  };
+
 
 export {
     loginUser,

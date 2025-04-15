@@ -326,7 +326,7 @@ const KanbanDashboard = () => {
         style={style}
         {...attributes}
         {...listeners}
-        className="task-card"
+        className="task-card-dash"
       >
         {content}
       </div>
@@ -406,7 +406,7 @@ const KanbanDashboard = () => {
 
   return (
     <div className="kanban-dashboard">
-      <h1>Kanban Dashboard - Echipa {teamId || 'N/A'}</h1>
+      <h1>Kanban Dashboard</h1>
       <DndContext
         collisionDetection={closestCenter}
         onDragStart={handleDragStart}

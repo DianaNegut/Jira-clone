@@ -19,7 +19,6 @@ const BugReportContent = () => {
       try {
         setLoading(true);
 
-        // 1. Get current user data to determine company
         const userResponse = await fetch('http://localhost:4000/api/user/me', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -44,7 +43,6 @@ const BugReportContent = () => {
         
         setCompanyName(userCompanyName);
 
-        // 2. Get teams for the user's company
         const teamsResponse = await fetch(
           `http://localhost:4000/api/teams?companyName=${encodeURIComponent(userCompanyName)}`,
           {
@@ -143,7 +141,6 @@ const BugReportContent = () => {
         severity: 'success' 
       });
       
-      // Reset form
       setTitle('');
       setDescription('');
       setTeam('');
@@ -162,7 +159,7 @@ const BugReportContent = () => {
 
   return (
     <div className="bug-report-content">
-      <h1>Report a Bug {companyName && `(Company: ${companyName})`}</h1>
+      <h1>Report a Bug</h1>
       
       <Snackbar
         open={snackbar.open}
@@ -223,7 +220,7 @@ const BugReportContent = () => {
           )}
         </div>
 
-        <div className="form-group">
+        <div className="form-group-bug">
           <label htmlFor="images">Attach Screenshots (optional)</label>
           <label className="custom-file-upload">
             <input
@@ -257,7 +254,7 @@ const BugReportContent = () => {
 
         <button 
           type="submit" 
-          className="submit-button" 
+          className="submit-button-bug" 
           disabled={submitting || loading || teams.length === 0}
         >
           {submitting ? 'Submitting...' : 'Submit Bug Report'}

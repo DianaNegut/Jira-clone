@@ -5,16 +5,16 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 .settings-header {
   text-align: center;
   margin-bottom: 20px;
   background-color: #0073E6;
-  color: white; /* Header text color */
-  padding: 20px 0; /* Add padding to the header */
-  border-radius: 8px 8px 0 0; /* Round only top corners */
+  color: white; 
+  padding: 20px 0; 
+  border-radius: 8px 8px 0 0; 
 }
 
 .settings-header h1 {
@@ -34,36 +34,36 @@
 
 .settings-section {
   background: #fff;
-  padding: 20px; /* Increased padding for sections */
+  padding: 20px; 
   border-radius: 8px;
   border: 1px solid #ddd;
 }
 
 .settings-section h2 {
   font-size: 1.5rem;
-  margin-bottom: 15px; /* Increased margin */
-  color: #333; /* Darker heading color */
+  margin-bottom: 15px; 
+  color: #333; 
 }
 
 .form-group {
-  margin-bottom: 18px; /* Increased margin */
+  margin-bottom: 18px; 
 }
 
 .form-group label {
   display: block;
   font-weight: bold;
-  margin-bottom: 8px; /* Increased margin */
-  color: #555; /* Adjusted label color */
+  margin-bottom: 8px; 
+  color: #555; 
 }
 
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="password"] {
   width: 100%;
-  padding: 12px; /* Increased padding */
+  padding: 12px; 
   border: 1px solid #ccc;
-  border-radius: 6px; /* Slightly rounded corners */
-  font-size: 1em; /* Adjusted font size */
+  border-radius: 6px; 
+  font-size: 1em; 
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -78,7 +78,7 @@
 .notifications-container {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Added gap between notification options */
+  gap: 15px; 
 }
 
 .checkbox-group {
@@ -92,7 +92,7 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  color: #555; /* Adjusted checkbox label color */
+  color: #555; 
 }
 
 .checkbox-group input[type="checkbox"] {
@@ -118,11 +118,11 @@
 .save-button {
   background-color: #0073E6;
   color: white;
-  padding: 12px 20px; /* Increased padding */
+  padding: 12px 20px; 
   border: none;
-  border-radius: 6px; /* Slightly rounded corners */
+  border-radius: 6px; 
   cursor: pointer;
-  font-size: 1em; /* Adjusted font size */
+  font-size: 1em; 
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -163,7 +163,7 @@
 
 .password-input-wrapper input {
   flex: 1;
-  padding-right: 40px; /* spațiu pentru buton */
+  padding-right: 40px; 
 }
 
 .toggle-password-btn {

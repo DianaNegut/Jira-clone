@@ -17,8 +17,7 @@ const EngineeringComponent = () => {
                     Jira este construit pe o arhitectură microservicii, care permite scalarea rapidă în funcție de nevoile echipei tale.  
                     Fiecare serviciu este izolat și optimizat pentru performanță maximă, asigurând o disponibilitate de aproape 100%.
                 </p>
-                {/* <img src={assets.architecture} alt="Arhitectură" className="image-engineering" /> */}
-            </div>
+                            </div>
 
             <div className="section">
                 <h2 className="section-title"> Fluxuri DevOps și livrare continuă</h2>
@@ -26,8 +25,7 @@ const EngineeringComponent = () => {
                     Automatizăm pipeline-urile CI/CD pentru a permite implementări rapide și sigure.  
                     De la testare automată la monitorizare constantă, ne asigurăm că fiecare release este stabil și pregătit pentru producție.
                 </p>
-                {/* <img src={assets.devops} alt="DevOps" className="image-engineering" /> */}
-            </div>
+                            </div>
 
             <div className="section">
                 <h2 className="section-title"> Securitate de top</h2>

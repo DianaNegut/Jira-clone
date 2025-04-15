@@ -1,4 +1,4 @@
-/* Stiluri Container și Titlu */
+
 .add-user-container {
   max-width: 600px;
   width: 90%;
@@ -16,11 +16,11 @@
   font-size: clamp(1.5rem, 4vw, 2rem);
 }
 
-/* Stiluri Formular */
+
 .add-user-form {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Spațiu între grupurile de câmpuri */
+  gap: 15px; 
 }
 
 .form-group {
@@ -28,27 +28,8 @@
   flex-direction: column;
 }
 
-/* Stiluri Label-uri (cu excepția checkbox-ului) */
-.form-group label:not(.checkbox-label) { /* Aplică doar la label-urile care NU au clasa .checkbox-label */
-  font-weight: bold;
-  color: #073a6f;
-  margin-bottom: 5px;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-}
 
-/* Stiluri Input și Select */
-.form-group input:not([type="checkbox"]), /* Exclude checkbox-ul de la aceste stiluri generale */
-.form-group select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  outline: none;
-  transition: border-color 0.3s ease;
-  width: 100%;
-  box-sizing: border-box; /* Include padding și border în lățimea totală */
-}
-
+.form-group label:not(.checkbox-label) 
 .form-group input:not([type="checkbox"]):focus,
 .form-group select:focus {
   border-color: #0052cc;
@@ -60,31 +41,31 @@
   cursor: not-allowed;
 }
 
-/* Stiluri specifice pentru alinierea checkbox-ului */
+
 .checkbox-label {
-  display: flex;         /* Activează Flexbox */
-  align-items: center;   /* Aliniază vertical elementele (checkbox și text) pe centru */
-  gap: 8px;              /* Adaugă un mic spațiu între checkbox și text */
-  font-weight: normal;   /* Setează font normal pentru textul checkbox-ului */
-  cursor: pointer;       /* Schimbă cursorul pentru a indica că label-ul e clickabil */
-  margin-bottom: 0;      /* Elimină marginea de jos dacă este moștenită */
-  color: #333;           /* Setează o culoare standard pentru text */
-  font-size: clamp(0.9rem, 2.5vw, 1rem); /* Păstrează dimensiunea fontului consistentă */
+  display: flex;         
+  align-items: center;   
+  gap: 8px;              
+  font-weight: normal;   
+  cursor: pointer;       
+  margin-bottom: 0;      
+  color: #333;           
+  font-size: clamp(0.9rem, 2.5vw, 1rem); 
 }
 
-/* Stil specific pentru inputul checkbox */
+
 .checkbox-label input[type="checkbox"] {
-  width: auto;           /* Resetează lățimea la automat */
-  margin: 0;             /* Elimină marginile implicite care pot afecta alinierea */
-  flex-shrink: 0;        /* Împiedică micșorarea checkbox-ului dacă textul e lung */
-  cursor: pointer;       /* Cursor pointer și pentru checkbox */
-  /* Poți adăuga stiluri pentru dimensiune dacă dorești: */
-  /* width: 16px; */
-  /* height: 16px; */
+  width: auto;           
+  margin: 0;             
+  flex-shrink: 0;        
+  cursor: pointer;       
+  
+  
+  
 }
 
 
-/* Stiluri Buton Submit */
+
 .submit-btn {
   padding: 10px 20px;
   background-color: #0052cc;
@@ -95,16 +76,16 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   width: 100%;
-  max-width: 200px; /* Limitează lățimea maximă pe desktop */
-  margin: 10px auto; /* Centrează butonul */
-  display: block; /* Asigură centrarea cu margin: auto */
+  max-width: 200px; 
+  margin: 10px auto; 
+  display: block; 
 }
 
 .submit-btn:hover {
   background-color: #003087;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   .add-user-container {
     margin: 10px auto;
@@ -128,63 +109,25 @@
 
   .submit-btn {
     padding: 8px 16px;
-    max-width: 100%; /* Ocupă toată lățimea disponibilă pe ecrane mici */
+    max-width: 100%; 
   }
 }
 
 @media (min-width: 1024px) {
   .add-user-container {
-    max-width: 700px; /* Mărește containerul pe ecrane mari */
+    max-width: 700px; 
   }
 
   .form-group input:not([type="checkbox"]),
   .form-group select {
-    padding: 10px; /* Padding mai mare pe ecrane mari */
+    padding: 10px; 
   }
 
   .submit-btn {
-    padding: 12px 24px; /* Padding mai mare pe ecrane mari */
+    padding: 12px 24px; 
   }
 }
 
 
-/* Snackbar Styles - Le-ai avut definite custom, dar folosești Material-UI Snackbar */
-/* Poți șterge aceste stiluri dacă nu le folosești în altă parte */
-/*
-.snackbar {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px 20px;
-  border-radius: 4px;
-  color: white;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 250px;
-  max-width: 400px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s;
-}
 
-.snackbar.success { background-color: #28a745; }
-.snackbar.error { background-color: #dc3545; }
 
-.snackbar-close {
-  background: none; border: none; color: white; font-size: 1.2rem;
-  margin-left: 10px; cursor: pointer; padding: 0; line-height: 1;
-}
-.snackbar-close:hover { color: #f0f0f0; }
-
-@keyframes slideIn {
-  from { transform: translateX(-50%) translateY(100%); opacity: 0; }
-  to { transform: translateX(-50%) translateY(0); opacity: 1; }
-}
-@keyframes slideOut {
-  from { transform: translateX(-50%) translateY(0); opacity: 1; }
-  to { transform: translateX(-50%) translateY(100%); opacity: 0; }
-}
-*/

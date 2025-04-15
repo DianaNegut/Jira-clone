@@ -35,7 +35,7 @@ const TimetrackerComponent = () => {
           return;
         }
         console.log('Fetching tasks for user:', currentUser.id);
-
+  
         const response = await fetch(`http://localhost:4000/api/task/user/${currentUser.id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -47,13 +47,19 @@ const TimetrackerComponent = () => {
         }
         
         const data = await response.json();
-        setTasks(data);
+        console.log('Fetched tasks:', data);
+
+        const inProgressTasks = data.filter(task => 
+          task.status === "in progress"
+        );
+        
+        setTasks(inProgressTasks);
       } catch (err) {
         setError(err.message);
         showSnackbar(err.message, 'error');
       }
     };
-
+  
     fetchTasks();
   }, []);
 

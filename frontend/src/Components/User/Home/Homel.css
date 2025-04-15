@@ -36,7 +36,7 @@
   font-weight: bold;
 }
 
-.task-list,
+.task-list-homel,
 .activity-list {
   list-style-type: none;
   padding: 0;
@@ -150,18 +150,18 @@
   color: #555;
 }
 
-/* Modificări pentru afișarea pozelor de profil în cerc */
+
 .activity-user-info {
   display: flex;
   align-items: center;
 }
 
 .activity-user-image {
-  width: 40px; /* Dimensiunea pozei */
-  height: 40px; /* Dimensiunea pozei */
-  border-radius: 50%; /* Face poza să fie rotundă */
-  object-fit: cover; /* Asigură că imaginea se va potrivi corect în cerc */
-  margin-right: 10px; /* Spațiu între imagine și text */
+  width: 40px; 
+  height: 40px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+  margin-right: 10px; 
 }
 
 .activity-user-details {

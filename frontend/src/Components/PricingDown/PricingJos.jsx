@@ -4,7 +4,7 @@ import { FaStarOfLife } from "react-icons/fa";
 
 const PricingJos = () => {
     return (
-        <div>
+        <div className='body-container'>
             <div className='dreptunghi_pricing'>
                 <h1 className='titluPricing'>
                     Începe gratuit!
@@ -42,9 +42,7 @@ const PricingJos = () => {
                     </div>
 
                 </div>
-
             </div>
-
         </div>
     )
 }

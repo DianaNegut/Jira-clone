@@ -11,7 +11,7 @@ import {
     getUserById,
     updateUserRole,
     deleteUser,
-    registerUserWithTempPassword,
+    registerUserWithTempPassword,getEmployeesCountByCompany,
     changePassword,
     getAllUsers,setCompanyName,
     getCompanyName,
@@ -35,14 +35,16 @@ userRouter.post("/assign-team", authMiddleware,assignTeamToUser);
 userRouter.post("/register-temp", authMiddleware,registerUserWithTempPassword);
 userRouter.post("/set-company-name", authMiddleware, setCompanyName);
 
-userRouter.get("/company/:userId", authMiddleware, getCompanyName); // Corectat la getCompanyName
+userRouter.get('/:companyName/employees', authMiddleware,getEmployeesCountByCompany);
+userRouter.get("/company/:userId", authMiddleware, getCompanyName); 
+
 userRouter.get('/email/:email', authMiddleware,getUserByEmail);
 userRouter.get("/me", authMiddleware, getCurrentUser);
 userRouter.patch("/:userId/profile-picture", authMiddleware, upload.single("profilePicture"), setProfilePicture);
 userRouter.get("/:userId", authMiddleware, getUserById);
 userRouter.delete("/delete/:email", authMiddleware, deleteUser);
 userRouter.put("/change-password", authMiddleware, changePassword);
-userRouter.get("/all", authMiddleware, getAllUsers);
+userRouter.get("/all/company", authMiddleware, getAllUsers); 
 userRouter.put("/update-role", authMiddleware,updateUserRole);
 
 export default userRouter;

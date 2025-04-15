@@ -1,8 +1,8 @@
 .dreptunghi {    
     margin-top: 50px;
     padding: 30px; 
-    width: 90%; /* Adjusted for better responsiveness */
-    max-width: 1500px; /* Added to limit width on larger screens */
+    width: 90%; 
+    max-width: 1500px; 
     height: auto;                 
     background-color: rgb(226, 226, 9);  
     display: flex;                 
@@ -29,8 +29,8 @@
 }
 
 .image-board {
-    width: 100%; /* Adjusted for smaller screens */
-    max-width: 800px; /* Added to limit image size */
+    width: 100%; 
+    max-width: 800px; 
     height: auto;                  
     object-fit: cover;            
     margin-top: 190px;
@@ -42,42 +42,42 @@
     display: flex;
     justify-content: center;   
     align-items: flex-start;   
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap; 
     min-height: calc(100vh - 100px); 
     margin: 0;                 
-    padding: 20px; /* Adjusted padding for smaller screens */
+    padding: 20px; 
     padding-bottom: 100px;
 }
 
 @media (max-width: 768px) {
     .dreptunghi {
-        padding: 20px; /* Reduced padding for smaller screens */
-        gap: 5px; /* Reduced gap for smaller screens */
+        padding: 20px; 
+        gap: 5px; 
     }
 
     .titlu2 {
-        font-size: 24px; /* Reduced font size for smaller screens */
+        font-size: 24px; 
     }
 
     .paragraf2 {
-        font-size: 16px; /* Reduced font size for smaller screens */
+        font-size: 16px; 
     }
 
     .image-board {
-        margin-top: 50px; /* Adjusted margin for smaller screens */
+        margin-top: 50px; 
     }
 }
 
 @media (max-width: 480px) {
     .dreptunghi {
-        padding: 15px; /* Further reduced padding for very small screens */
+        padding: 15px; 
     }
 
     .titlu2 {
-        font-size: 20px; /* Further reduced font size */
+        font-size: 20px; 
     }
 
     .paragraf2 {
-        font-size: 14px; /* Further reduced font size */
+        font-size: 14px; 
     }
 }

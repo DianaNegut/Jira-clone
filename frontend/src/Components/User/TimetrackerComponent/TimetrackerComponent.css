@@ -1,22 +1,22 @@
 .timetracker-container {
   max-width: 800px;
   margin: 40px auto;
-  padding: 30px; /* Increased padding */
-  background-color: #f8f9fa; /* Light background */
+  padding: 30px; 
+  background-color: #f8f9fa; 
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 .timetracker-container h1 {
-  font-size: 2.5em; /* Larger heading */
+  font-size: 2.5em; 
   color: #333;
   text-align: center;
   margin-bottom: 30px;
 }
 
 .form-group {
-  margin-bottom: 25px; /* Increased margin */
+  margin-bottom: 25px; 
 }
 
 .form-group label {
@@ -36,7 +36,7 @@
   border-radius: 8px;
   box-sizing: border-box;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: #fff; /* White background for inputs */
+  background-color: #fff; 
 }
 
 .form-group input:focus,
@@ -49,10 +49,10 @@
 
 .form-group textarea {
   resize: vertical;
-  min-height: 150px; /* Increased height */
+  min-height: 150px; 
 }
 
-/* Styles for date selection */
+
 .date-group {
   display: flex;
   gap: 20px;
@@ -69,7 +69,7 @@
   width: 100%;
 }
 
-/* Submit button */
+
 .submit-button {
   display: block;
   width: 100%;
@@ -98,7 +98,7 @@
   cursor: not-allowed;
 }
 
-/* Error message */
+
 .error-message {
   padding: 15px;
   border-radius: 8px;
@@ -109,11 +109,11 @@
   border: 1px solid #d32f2f;
 }
 
-/* Responsiveness */
+
 @media (max-width: 768px) {
   .timetracker-container {
     padding: 20px;
-    margin: 20px auto; /* Adjusted margin for better spacing */
+    margin: 20px auto; 
   }
 
   .timetracker-container h1 {
@@ -122,25 +122,25 @@
 
   .date-group {
     flex-direction: column;
-    gap: 15px; /* Adjusted gap for better spacing */
+    gap: 15px; 
   }
 
   .form-group input,
   .form-group textarea,
   .form-group select {
-    font-size: 0.95em; /* Slightly smaller font for better fit */
+    font-size: 0.95em; 
   }
 
   .submit-button {
-    font-size: 1em; /* Adjusted button font size */
-    padding: 12px; /* Adjusted padding for smaller screens */
+    font-size: 1em; 
+    padding: 12px; 
   }
 }
 
 @media (max-width: 600px) {
   .timetracker-container {
     padding: 15px;
-    margin: 15px auto; /* Further adjusted margin */
+    margin: 15px auto; 
   }
 
   .timetracker-container h1 {
@@ -148,23 +148,23 @@
   }
 
   .form-group label {
-    font-size: 0.95em; /* Slightly smaller label font */
+    font-size: 0.95em; 
   }
 
   .form-group input,
   .form-group textarea,
   .form-group select {
-    font-size: 0.85em; /* Smaller font for compact layout */
-    padding: 10px; /* Reduced padding for inputs */
+    font-size: 0.85em; 
+    padding: 10px; 
   }
 
   .submit-button {
-    font-size: 0.9em; /* Smaller button font */
-    padding: 10px; /* Reduced padding */
+    font-size: 0.9em; 
+    padding: 10px; 
   }
 
   .date-group {
-    gap: 10px; /* Reduced gap for compact layout */
+    gap: 10px; 
   }
 }
 
@@ -174,7 +174,7 @@
   }
 
   .timetracker-container h1 {
-    font-size: 1.6em; /* Smaller heading for very small screens */
+    font-size: 1.6em; 
   }
 
   .form-group label {
@@ -185,16 +185,16 @@
   .form-group textarea,
   .form-group select {
     font-size: 0.8em;
-    padding: 8px; /* Further reduced padding */
+    padding: 8px; 
   }
 
   .submit-button {
     font-size: 0.85em;
-    padding: 8px; /* Compact button padding */
+    padding: 8px; 
   }
 }
 
-/* Snackbar styles */
+
 .snackbar {
   position: fixed;
   bottom: 20px;

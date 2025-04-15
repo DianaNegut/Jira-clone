@@ -18,11 +18,9 @@ const LoginPopup = ({ setShowLogin }) => {
         phone: ""
     });
 
-    // State pentru gestionarea mesajelor de succes și eroare
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    // Efect pentru a controla scroll-ul
     useEffect(() => {
         if (setShowLogin) {
             document.body.classList.add('no-scroll');
@@ -30,8 +28,38 @@ const LoginPopup = ({ setShowLogin }) => {
         }
     }, [setShowLogin]);
 
-    const onLogin = async(event) => {
+    const onChangeHandler = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        if (name === 'phone' && currState === "Sign Up") {
+            const phoneRegex = /^0\d{0,9}$/;
+            if (value !== '' && !phoneRegex.test(value)) {
+                setErrorMessage('Numărul de telefon trebuie să înceapă cu 0 și să aibă maxim 10 cifre.');
+                return;
+            }
+            if (value.length === 10 && !/^0\d{9}$/.test(value)) {
+                setErrorMessage('Numărul de telefon trebuie să aibă exact 10 cifre.');
+                return;
+            }
+            setErrorMessage('');
+        }
+
+        setData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const onLogin = async (event) => {
         event.preventDefault();
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        if (currState === "Sign Up") {
+            if (data.phone && !/^0\d{9}$/.test(data.phone)) {
+                setErrorMessage('Numărul de telefon trebuie să înceapă cu 0 și să aibă exact 10 cifre.');
+                return;
+            }
+        }
+
         let newUrl = url;
         if (currState === "Login") {
             newUrl += "/api/user/login";
@@ -42,12 +70,11 @@ const LoginPopup = ({ setShowLogin }) => {
         try {
             const response = await axios.post(newUrl, data);
 
-            if(response.data.success) {
+            if (response.data.success) {
                 const token = response.data.token;
                 setToken(token);
                 localStorage.setItem("token", token);
                 
-                // Fetch user role immediately after successful login
                 try {
                     const userResponse = await axios.get(`${url}/api/user/me`, {
                         headers: { Authorization: `Bearer ${token}` },
@@ -64,7 +91,6 @@ const LoginPopup = ({ setShowLogin }) => {
                 setShowLogin(false);
                 setSuccessMessage('Login/Registration successful!');
                 
-                // Redirect after a short delay to ensure states are updated
                 setTimeout(() => {
                     navigate("/homelog");
                 }, 100);
@@ -75,12 +101,6 @@ const LoginPopup = ({ setShowLogin }) => {
             setErrorMessage(error.response?.data?.message || error.message || 'Failed to communicate with server.');
         }
     };
-
-    const onChangeHandler = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setData((data) => ({ ...data, [name]: value }));
-    }
 
     return (
         <div className='login-popup'>
@@ -95,13 +115,41 @@ const LoginPopup = ({ setShowLogin }) => {
                             <></>
                         ) : (
                             <>
-                                <input name='name' onChange={onChangeHandler} value={data.name} type="text" placeholder="Your name" required />
-                                <input name='phone' onChange={onChangeHandler} value={data.phone} type="phone" placeholder="Phone" required />
+                                <input 
+                                    name='name' 
+                                    onChange={onChangeHandler} 
+                                    value={data.name} 
+                                    type="text" 
+                                    placeholder="Your name" 
+                                    required 
+                                />
+                                <input 
+                                    name='phone' 
+                                    onChange={onChangeHandler} 
+                                    value={data.phone} 
+                                    type="tel" 
+                                    placeholder="Phone" 
+                                    required 
+                                />
                             </>
                         )
                     }
-                    <input name='email' onChange={onChangeHandler} value={data.email} type="email" placeholder='Your email' required />
-                    <input name='password' onChange={onChangeHandler} value={data.password} type="password" placeholder='Password' required />
+                    <input 
+                        name='email' 
+                        onChange={onChangeHandler} 
+                        value={data.email} 
+                        type="email" 
+                        placeholder='Your email' 
+                        required 
+                    />
+                    <input 
+                        name='password' 
+                        onChange={onChangeHandler} 
+                        value={data.password} 
+                        type="password" 
+                        placeholder='Password' 
+                        required 
+                    />
                 </div>
                 <button type='submit'>{currState === "Sign Up" ? "Create account" : "Login"}</button>
                 <div className='login-popup-condition'>
@@ -114,7 +162,6 @@ const LoginPopup = ({ setShowLogin }) => {
                 }
             </form>
 
-            {/* Snackbar pentru mesaje de succes */}
             <Snackbar 
                 open={!!successMessage} 
                 autoHideDuration={6000} 
@@ -126,7 +173,6 @@ const LoginPopup = ({ setShowLogin }) => {
                 </Alert>
             </Snackbar>
 
-            {/* Snackbar pentru mesaje de eroare */}
             <Snackbar 
                 open={!!errorMessage} 
                 autoHideDuration={6000} 

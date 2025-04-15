@@ -16,7 +16,7 @@ const Add_team__comp = () => {
       try {
         setLoading(true);
         
-        // 1. Get current user data
+
         const userResponse = await fetch('http://localhost:4000/api/user/me', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -41,7 +41,7 @@ const Add_team__comp = () => {
         
         setCompanyName(userCompanyName);
 
-        // 2. Get teams for the user's company
+
         const teamsResponse = await fetch(
           `http://localhost:4000/api/teams?companyName=${encodeURIComponent(userCompanyName)}`,
           {
@@ -101,7 +101,7 @@ const Add_team__comp = () => {
       setSuccess(data.message);
       setNumeEchipa('');
       
-      // Refresh the teams list
+
       const teamsResponse = await fetch(
         `http://localhost:4000/api/teams?companyName=${encodeURIComponent(companyName)}`,
         {
@@ -174,7 +174,7 @@ const Add_team__comp = () => {
       const data = await response.json();
       setSuccess(data.message);
       
-      // Refresh the teams list
+
       const teamsResponse = await fetch(
         `http://localhost:4000/api/teams?companyName=${encodeURIComponent(companyName)}`,
         {

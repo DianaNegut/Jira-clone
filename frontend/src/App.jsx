@@ -29,6 +29,10 @@ import Add_user_team from './pages/Admin/pages/add_user_echipa/Add_user_team.jsx
 import Statistici from './pages/Admin/pages/statistici/Statistici.jsx';
 import Delete_user from './pages/Admin/pages/delete_user/Delete_user.jsx';
 import Add_team from './pages/Admin/pages/add_team/add_team.jsx';
+import See_al_users from './Pages/Admin/pages/see_al_users/see_al_users.jsx'
+import SeeTasksPage from './Pages/SeeTasksPage/SeeTasksPage.jsx'
+import AllTasks from './Pages/AllTasks/AllTasks.jsx'
+import Mytasks from './Pages/Admin/pages/mytasks/Mytasks.jsx';
 import axios from 'axios';
 
 const App = () => {
@@ -38,7 +42,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
 
-  // Implement token refresh on application start
+
   useEffect(() => {
     const initializeAuth = async () => {
       setLoading(true);
@@ -51,33 +55,33 @@ const App = () => {
           });
           
           if (response.data.success) {
-            // Token is valid, store it in context
+
             console.log('Token verified, user authenticated');
             setToken(savedToken);
             setUserRole(response.data.user.role);
             
-            // Ensure token is fresh in localStorage
+
             localStorage.setItem('token', savedToken);
           } else {
             console.warn('Token validation failed');
-            // Token invalid, clear it
+
             localStorage.removeItem('token');
             setToken(null);
             setUserRole(null);
           }
         } catch (error) {
           console.error('Error validating authentication token:', error);
-          // Handle expired or invalid token
+
           localStorage.removeItem('token');
           setToken(null);
           setUserRole(null);
         }
       } else {
-        // No token found
+
         console.log('No authentication token found');
         setToken(null);
         setUserRole(null);
-        localStorage.removeItem('token'); // Clean up any null tokens
+        localStorage.removeItem('token'); 
       }
       
       setAuthChecked(true);
@@ -87,11 +91,11 @@ const App = () => {
     initializeAuth();
   }, [setToken, setUserRole, url]);
 
-  // Computed auth states
+
   const isLoggedIn = !!token;
   const isAdmin = isLoggedIn && userRole === 'Administrator';
 
-  // Handle logout
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     setToken(null);
@@ -99,9 +103,9 @@ const App = () => {
     navigate('/');
   };
 
-  // Dynamic navbar rendering based on auth state
+
   const renderNavbar = () => {
-    if (loading) return null; // Don't show navbar while loading
+    if (loading) return null; 
 
     if (!isLoggedIn) {
       return <Navbar setShowLogin={setShowLogin} />;
@@ -114,7 +118,7 @@ const App = () => {
     return <NavbarLogged onLogout={handleLogout} />;
   };
 
-  // Route protection components
+
   const ProtectedRoute = ({ children, adminOnly = false }) => {
     if (!authChecked || loading) return <div className="full-page-loading">Loading...</div>;
     
@@ -139,7 +143,7 @@ const App = () => {
     return children;
   };
 
-  // Show loading state while auth is being checked
+
   if (!authChecked || loading) {
     return <div className="full-page-loading">Loading...</div>;
   }
@@ -150,8 +154,7 @@ const App = () => {
       {renderNavbar()}
 
       <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<PublicRoute><Home setShowLogin={setShowLogin} onLogout={() => {}} /></PublicRoute>} />
+                <Route path="/" element={<PublicRoute><Home setShowLogin={setShowLogin} onLogout={() => {}} /></PublicRoute>} />
         <Route path="/features" element={<PublicRoute><Features /></PublicRoute>} />
         <Route path="/solutions" element={<PublicRoute><Solutions /></PublicRoute>} />
         <Route path="/pricing" element={<PublicRoute><Pricing setShowLogin={setShowLogin}/></PublicRoute>} />
@@ -160,18 +163,17 @@ const App = () => {
         <Route path="/design" element={<PublicRoute><Design setShowLogin={setShowLogin}/></PublicRoute>} />
         <Route path="/engineering" element={<PublicRoute><Engineering /></PublicRoute>} />
 
-        {/* User routes */}
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/tasks" element={<ProtectedRoute><Taskuri /></ProtectedRoute>} />
         <Route path="/explore" element={<ProtectedRoute><Explore /></ProtectedRoute>} />
         <Route path="/bugreport" element={<ProtectedRoute><BugReport /></ProtectedRoute>} />
         <Route path="/timetracker" element={<ProtectedRoute><Timetracker /></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profil /></ProtectedRoute>} />
-        <Route path="/choose-plan" element={<ProtectedRoute> <ChoosePlan setShowLogin={setShowLogin} onLogout={handleLogout} /> {/* Pass onLogout here */}</ProtectedRoute>} />
+        <Route path="/choose-plan" element={<ProtectedRoute> <ChoosePlan setShowLogin={setShowLogin} onLogout={handleLogout} /> </ProtectedRoute>} />
         <Route path="/task/:taskId" element={<ProtectedRoute><TaskDetail /></ProtectedRoute>} />
-
-        {/* Ruta /homelog - accesibilă doar pentru utilizatori logați non-admin */}
+        <Route path="/seealltasks" element={<ProtectedRoute><SeeTasksPage /></ProtectedRoute>} />
+        
         <Route 
           path="/homelog" 
           element={
@@ -185,12 +187,19 @@ const App = () => {
           } 
         />
 
-        {/* Admin routes */}
+ 
         <Route path="/add-user" element={<ProtectedRoute adminOnly><Add_user /></ProtectedRoute>} />
         <Route path="/add-user-team" element={<ProtectedRoute adminOnly><Add_user_team /></ProtectedRoute>} />
         <Route path="/statistics" element={<ProtectedRoute adminOnly><Statistici /></ProtectedRoute>} />
         <Route path="/delete-user" element={<ProtectedRoute adminOnly><Delete_user /></ProtectedRoute>} />
-        <Route path="/add-team" element={<ProtectedRoute adminOnly><Add_team /></ProtectedRoute>} />
+        <Route path="/add-team" element={<ProtectedRoute adminOnly><Add_team /></ProtectedRoute>} /> 
+        <Route path="/see-all-users" element={<ProtectedRoute adminOnly><See_al_users /></ProtectedRoute>} /> 
+        <Route path="/see-all-tasksadmin" element={<ProtectedRoute adminOnly><AllTasks /></ProtectedRoute>} />
+        <Route path="/bug-report-admin" element={<ProtectedRoute adminOnly><BugReport /></ProtectedRoute>} />
+        <Route path="/setting-admin" element={<ProtectedRoute adminOnly><Settings /></ProtectedRoute>} />
+        <Route path="/mytasks" element={<ProtectedRoute adminOnly><Mytasks /></ProtectedRoute>} />
+       
+        
       </Routes>
 
       {!isLoggedIn && <Footer />}

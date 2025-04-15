@@ -1,0 +1,295 @@
+.all-tasks-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+  }
+  
+  .task-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .task-header {
+    margin-bottom: 16px;
+  }
+  
+  .task-meta {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+  }
+  
+
+  @media (max-width: 960px) {
+    .all-tasks-container {
+      padding: 15px;
+    }
+  
+    
+    .MuiTextField-root,
+    .MuiFormControl-root {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+  
+    .all-tasks-container .MuiBox-root {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+ 
+    .MuiTable-root {
+      min-width: 650px;
+    }
+  
+    .MuiTableCell-root {
+      padding: 12px;
+      font-size: 14px;
+    }
+  
+    .MuiTypography-body1 {
+      font-size: 14px;
+    }
+  
+    .MuiTypography-body2 {
+      font-size: 12px;
+    }
+  
+    .MuiChip-root {
+      font-size: 12px;
+      height: 26px;
+    }
+  
+ 
+    .MuiTablePagination-root {
+      font-size: 12px;
+    }
+  
+    .MuiTablePagination-selectLabel,
+    .MuiTablePagination-displayedRows {
+      font-size: 12px;
+    }
+  }
+  
+ 
+  @media (max-width: 600px) {
+    .all-tasks-container {
+      padding: 10px;
+    }
+  
+  
+    .MuiTable-root {
+      display: block;
+      width: 100%;
+    }
+  
+    .MuiTableHead-root {
+      display: none; 
+    }
+  
+    .MuiTableBody-root {
+      display: block;
+    }
+  
+    .MuiTableRow-root {
+      display: block;
+      margin-bottom: 15px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    .MuiTableCell-root {
+      display: block;
+      padding: 8px;
+      font-size: 13px;
+      border-bottom: none;
+      position: relative;
+      text-align: left;
+    }
+  
+ 
+    .MuiTableCell-root:before {
+      content: attr(data-label);
+      font-weight: bold;
+      display: block;
+      color: #555;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+  
+    
+    .MuiTableCell-root:nth-child(1):before { content: "Titlu"; }
+    .MuiTableCell-root:nth-child(2):before { content: "Status"; }
+    .MuiTableCell-root:nth-child(3):before { content: "Echipă"; }
+    .MuiTableCell-root:nth-child(4):before { content: "Asignat"; }
+    .MuiTableCell-root:nth-child(5):before { content: "Timp Logat"; }
+  
+   
+    .MuiTableCell-root:first-child {
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 8px;
+    }
+  
+    .MuiTypography-body1 {
+      font-size: 15px;
+      font-weight: 500;
+    }
+  
+    .MuiTypography-body2 {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+  
+  
+    .MuiChip-root {
+      font-size: 11px;
+      height: 24px;
+      margin-top: 5px;
+    }
+  
+   
+    .MuiTableCell-root:nth-child(4) {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .MuiTableCell-root:nth-child(4) .MuiTypography-caption {
+      font-size: 11px;
+      margin-top: 3px;
+    }
+  
+
+    .MuiTableCell-root:nth-child(5) {
+      font-weight: 500;
+    }
+  
+  
+    .MuiTablePagination-root {
+      padding: 8px;
+      overflow-x: auto;
+    }
+  
+    .MuiTablePagination-select {
+      font-size: 12px;
+    }
+  
+    .MuiTablePagination-actions button {
+      padding: 6px;
+    }
+  
+ 
+    .MuiTypography-h4 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+  
+   
+    .MuiSnackbar-root {
+      bottom: 16px;
+      right: 16px;
+      left: 16px;
+    }
+  
+    
+    .MuiFormControl-root {
+      margin-bottom: 8px;
+    }
+  
+    .MuiInputLabel-root {
+      font-size: 14px;
+    }
+  
+    .MuiSelect-select {
+      font-size: 14px;
+      padding: 10px 14px;
+    }
+  
+    
+    .MuiIconButton-root {
+      padding: 8px;
+    }
+  
+    
+    .task-card {
+      transition: background-color 0.2s ease;
+    }
+  
+    .task-card:active {
+      background-color: #f9f9f9;
+    }
+  
+   
+    @media (max-width: 400px) {
+      .all-tasks-container {
+        padding: 8px;
+      }
+  
+      .MuiTableRow-root {
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+  
+      .MuiTableCell-root {
+        padding: 6px;
+        font-size: 12px;
+      }
+  
+      .MuiTypography-body1 {
+        font-size: 14px;
+      }
+  
+      .MuiTypography-body2 {
+        font-size: 11px;
+      }
+  
+      .MuiChip-root {
+        font-size: 10px;
+        height: 22px;
+      }
+  
+      .MuiTablePagination-selectLabel,
+      .MuiTablePagination-displayedRows {
+        font-size: 11px;
+      }
+  
+
+      .MuiTableCell-root:nth-child(4),
+      .MuiTableCell-root:nth-child(5) {
+        display: inline-block;
+        width: 50%;
+        box-sizing: border-box;
+      }
+      
+      .MuiTableCell-root:nth-child(4):before,
+      .MuiTableCell-root:nth-child(5):before {
+        display: inline-block;
+        margin-right: 5px;
+        margin-bottom: 0;
+      }
+    }
+  }

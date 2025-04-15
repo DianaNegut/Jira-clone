@@ -1,19 +1,19 @@
 import mongoose from 'mongoose';
 
 const companySchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true }, // Company name
+  name: { type: String, required: true, unique: true }, 
   planType: { 
     type: String, 
     required: true, 
-    enum: ['Basic Plan', 'Standard Plan', 'Premium Plan', 'Enterprise Plan'] // Based on the image
+    enum: ['Basic Plan', 'Standard Plan', 'Premium Plan', 'Enterprise Plan'] 
   },
   paymentFrequency: { 
     type: String, 
     required: true, 
     enum: ['monthly', 'annually'] 
   },
-  startDate: { type: Date, required: true }, // Date when the plan started
-  expirationDate: { type: Date, required: true }, // Next payment or expiration date
+  startDate: { type: Date, required: true }, 
+  expirationDate: { type: Date, required: true }, 
   teams: [
     {
       type: mongoose.Schema.Types.ObjectId,

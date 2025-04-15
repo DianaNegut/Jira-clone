@@ -24,7 +24,7 @@ export const createCompany = async (req, res) => {
   const { name, planType, paymentFrequency, startDate, expirationDate, teams } = req.body;
 
   try {
-    // Validate teams if provided
+
     const validTeams = await teamModel.find({ _id: { $in: teams } });
     if (teams && teams.length !== validTeams.length) {
       return res.status(400).json({ message: 'One or more team IDs are invalid' });
@@ -53,7 +53,7 @@ export const updateCompany = async (req, res) => {
 
     if (!company) return res.status(404).json({ message: 'Company not found' });
 
-    // Validate teams if provided
+
     if (teams) {
       const validTeams = await teamModel.find({ _id: { $in: teams } });
       if (teams.length !== validTeams.length) {

@@ -131,7 +131,7 @@
     color: #0d5aa9;
 }
 
-/* Responsivitate */
+
 @media (max-width: 600px) {
     .profile-content {
         flex-direction: column;
@@ -152,7 +152,7 @@
     }
 }
 
-/* Enhanced Responsivitate */
+
 @media (max-width: 768px) {
     .profile-container {
         padding: 15px;

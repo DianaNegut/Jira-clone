@@ -52,8 +52,7 @@ const PricingTable = ({setShowLogin}) => {
 
   return (
     <div style={{ padding: '20px' }}>
-      {/* Team members input field */}
-      <div className="team-members-input">
+            <div className="team-members-input">
         <label>Introduceți numărul de membri ai echipei:</label>
         <input
           type="number"
@@ -63,8 +62,7 @@ const PricingTable = ({setShowLogin}) => {
         />
       </div>
 
-      {/* Toggle buttons for monthly/yearly pricing */}
-      <div className="pricing-toggle-buttons">
+            <div className="pricing-toggle-buttons">
         <button
           className={`pricing-toggle-button ${!isYearly ? 'active' : ''}`}
           onClick={() => setIsYearly(false)}
@@ -79,12 +77,10 @@ const PricingTable = ({setShowLogin}) => {
         </button>
       </div>
 
-      {/* Pricing cards */}
-      <div className="pricing-table">
+            <div className="pricing-table">
         {rows.map((row) => (
           <div key={row.plan} className={`pricing-card-container ${recommendedPlan === row.plan ? 'recommended' : ''}`}>
-            {/* Recommended badge */}
-            {recommendedPlan === row.plan && (
+                        {recommendedPlan === row.plan && (
               <div className="recommended-badge">
                 Recommended
               </div>
@@ -101,8 +97,7 @@ const PricingTable = ({setShowLogin}) => {
         ))}
       </div>
 
-      {/* Dialog for selected plan */}
-      <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose}>
         <DialogContent>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Typography variant="h6">{selectedPlan?.plan}</Typography>

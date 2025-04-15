@@ -1,25 +1,25 @@
 .delete-user-container {
   max-width: 600px;
-  margin: 40px auto; /* Increased margin for better spacing */
-  padding: 30px; /* Increased padding */
-  background-color: #f8f9fa; /* Light background */
+  margin: 40px auto; 
+  padding: 30px; 
+  background-color: #f8f9fa; 
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 .delete-user-container h2 {
   text-align: center;
   color: #d32f2f;
   margin-bottom: 30px;
-  font-size: 2.2em; /* Increased font size */
+  font-size: 2.2em; 
 }
 
 .message {
   text-align: center;
   color: #155724;
   background-color: #d4edda;
-  padding: 15px; /* Increased padding */
+  padding: 15px; 
   border-radius: 8px;
   margin-bottom: 25px;
 }
@@ -27,24 +27,24 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Increased gap */
+  gap: 20px; 
 }
 
 .form-group label {
   font-weight: bold;
-  color: #555; /* Adjusted color */
-  font-size: 1.1em; /* Adjusted font size */
+  color: #555; 
+  font-size: 1.1em; 
   margin-bottom: 8px;
 }
 
 .form-group input {
   padding: 12px;
-  border: 1px solid #ced4da; /* Adjusted border color */
+  border: 1px solid #ced4da; 
   border-radius: 8px;
   font-size: 1em;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: #fff; /* White background for inputs */
+  background-color: #fff; 
 }
 
 .form-group input:focus {
@@ -73,7 +73,7 @@
   transform: translateY(0);
 }
 
-/* Responsiveness */
+
 @media (max-width: 768px) {
   .delete-user-container {
     margin: 20px;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './ChoosePlanComponent.css';
 import { getCurrentUser, fetchWithToken } from '../../../utils/authUtils';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const setCompanyNameForUser = async (userId, newCompanyName) => {
   try {
@@ -60,11 +62,18 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
   const [companyName, setCompanyName] = useState('');
   const [paymentFrequency, setPaymentFrequency] = useState('lunar');
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [userRole, setUserRole] = useState('Angajat');
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [companyAssigned, setCompanyAssigned] = useState(false);
   const [countdown, setCountdown] = useState(null);
+  const [paymentData, setPaymentData] = useState({
+    cardNumber: '',
+    expiryDate: '',
+    cvv: ''
+  });
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -131,7 +140,9 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
       setIsPrePopupOpen(false);
       setIsPopupOpen(true);
     } else {
-      alert('Vă rugăm să introduceți numele companiei.');
+      setSnackbarMessage('Vă rugăm să introduceți numele companiei.');
+      setSnackbarSeverity('error');
+      setIsSnackbarOpen(true);
     }
   };
 
@@ -140,11 +151,90 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
     setSelectedPlan(null);
     setCompanyName('');
     setPaymentFrequency('lunar');
+    setPaymentData({
+      cardNumber: '',
+      expiryDate: '',
+      cvv: ''
+    });
+  };
+
+  const handlePaymentChange = (e) => {
+    const { name, value } = e.target;
+    let sanitizedValue = value;
+
+    if (name === 'cardNumber') {
+      sanitizedValue = value.replace(/\D/g, '');
+      if (sanitizedValue.length > 16) sanitizedValue = sanitizedValue.slice(0, 16);
+    } else if (name === 'cvv') {
+      sanitizedValue = value.replace(/\D/g, '');
+      if (sanitizedValue.length > 4) sanitizedValue = sanitizedValue.slice(0, 4);
+    } else if (name === 'expiryDate') {
+      sanitizedValue = value.replace(/[^0-9/]/g, '');
+      if (sanitizedValue.length > 5) sanitizedValue = sanitizedValue.slice(0, 5);
+      if (sanitizedValue.length === 2 && !sanitizedValue.includes('/')) {
+        sanitizedValue += '/';
+      }
+    }
+
+    setPaymentData((prev) => ({
+      ...prev,
+      [name]: sanitizedValue,
+    }));
+  };
+
+  const validatePaymentData = () => {
+    const cardNumberRegex = /^\d{16}$/;
+    const cvvRegex = /^\d{3,4}$/;
+    const expiryDateRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+
+    if (!cardNumberRegex.test(paymentData.cardNumber)) {
+      setSnackbarMessage('Numărul cardului trebuie să aibă exact 16 cifre.');
+      setSnackbarSeverity('error');
+      setIsSnackbarOpen(true);
+      return false;
+    }
+
+    if (!cvvRegex.test(paymentData.cvv)) {
+      setSnackbarMessage('CVV trebuie să aibă 3 sau 4 cifre.');
+      setSnackbarSeverity('error');
+      setIsSnackbarOpen(true);
+      return false;
+    }
+
+    if (!expiryDateRegex.test(paymentData.expiryDate)) {
+      setSnackbarMessage('Data expirării trebuie să fie în format MM/YY.');
+      setSnackbarSeverity('error');
+      setIsSnackbarOpen(true);
+      return false;
+    }
+
+    const [month, year] = paymentData.expiryDate.split('/');
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear() % 100;
+    const currentMonth = currentDate.getMonth() + 1;
+
+    if (
+      parseInt(year, 10) < currentYear ||
+      (parseInt(year, 10) === currentYear && parseInt(month, 10) < currentMonth)
+    ) {
+      setSnackbarMessage('Data expirării cardului a trecut.');
+      setSnackbarSeverity('error');
+      setIsSnackbarOpen(true);
+      return false;
+    }
+
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    if (!validatePaymentData()) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
       if (!currentUser || !currentUser.id) {
         throw new Error('User not authenticated');
@@ -164,10 +254,12 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
 
       if (response.success) {
         setUserRole('Administrator');
+        setSnackbarMessage(`Tranzacția pentru ${selectedPlan} a fost finalizată cu succes! Rolul dumneavoastră a fost actualizat la Administrator.`);
+        setSnackbarSeverity('success');
         setIsSnackbarOpen(true);
-        // Create new company
+
         await createCompany(companyName, selectedPlan, paymentFrequency);
-        // Set company name for the user
+
         await setCompanyNameForUser(currentUser.id, companyName);
         setTimeout(() => {
           setIsSnackbarOpen(false);
@@ -180,11 +272,18 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
       }
     } catch (error) {
       console.error('Error updating user role, creating company, or setting company name:', error.message);
-      alert(`Error: ${error.message}`);
+      setSnackbarMessage(`Eroare: ${error.message}`);
+      setSnackbarSeverity('error');
+      setIsSnackbarOpen(true);
     } finally {
       setIsLoading(false);
       closePopup();
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setIsSnackbarOpen(false);
+    setSnackbarMessage('');
   };
 
   return (
@@ -199,10 +298,7 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
       ) : (
         <>
           <h1 className="title">Prețuri simple și transparente pentru fiecare echipă.</h1>
-          <div style={{ background: '#eee', padding: '5px', marginBottom: '15px', fontSize: '12px' }}>
-            Debug: Company Assigned: {companyAssigned ? 'Yes' : 'No'}, Company Name: {companyName || 'None'}, Is Popup Open: {isPopupOpen ? 'Yes' : 'No'}, Countdown: {countdown !== null ? `${countdown} secunde` : 'N/A'}
-          </div>
-
+         
           {companyAssigned ? (
             <div className="company-already-assigned">
               <div className="message-container">
@@ -213,12 +309,7 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
             </div>
           ) : (
             <>
-              <div className="team-input">
-                <label>Introduceti numărul de membri ai echipei: </label>
-                <input type="number" placeholder="Selecteaza" />
-                <button className="submit-btn">Lunar</button>
-                <button className="cancel-btn">Anul</button>
-              </div>
+             
 
               <div className="plans-container">
                 {['Basic', 'Standard', 'Premium', 'Enterprise'].map((name, i) => (
@@ -270,15 +361,36 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
                     <form onSubmit={handleSubmit}>
                       <div className="form-group">
                         <label>Număr card:</label>
-                        <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456" required />
+                        <input
+                          type="text"
+                          name="cardNumber"
+                          value={paymentData.cardNumber}
+                          onChange={handlePaymentChange}
+                          placeholder="1234 5678 9012 3456"
+                          required
+                        />
                       </div>
                       <div className="form-group">
                         <label>Data expirării:</label>
-                        <input type="text" name="expiryDate" placeholder="MM/YY" required />
+                        <input
+                          type="text"
+                          name="expiryDate"
+                          value={paymentData.expiryDate}
+                          onChange={handlePaymentChange}
+                          placeholder="MM/YY"
+                          required
+                        />
                       </div>
                       <div className="form-group">
                         <label>CVV:</label>
-                        <input type="text" name="cvv" placeholder="123" required />
+                        <input
+                          type="text"
+                          name="cvv"
+                          value={paymentData.cvv}
+                          onChange={handlePaymentChange}
+                          placeholder="123"
+                          required
+                        />
                       </div>
                       <button type="submit" className="submit-payment-btn" disabled={isLoading}>
                         {isLoading ? 'Se procesează...' : 'Plătește'}
@@ -293,11 +405,20 @@ const ChoosePlanComponent = ({ onLogout, setShowLogin }) => {
             </>
           )}
 
-          {isSnackbarOpen && (
-            <div className="snackbar">
-              Tranzacția pentru {selectedPlan} a fost finalizată cu succes! Rolul dumneavoastră a fost actualizat la Administrator.
-            </div>
-          )}
+          <Snackbar
+            open={isSnackbarOpen}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          >
+            <Alert
+              onClose={handleCloseSnackbar}
+              severity={snackbarSeverity}
+              sx={{ width: '100%' }}
+            >
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
         </>
       )}
     </div>

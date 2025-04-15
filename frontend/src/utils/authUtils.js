@@ -1,4 +1,4 @@
-// utils/authUtils.js
+
 export const getCurrentUser = () => {
     const token = localStorage.getItem('token');
     if (!token) return null;
@@ -7,7 +7,7 @@ export const getCurrentUser = () => {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return {
         id: payload.id,
-        // alte informații pe care le-ai inclus în token
+
       };
     } catch (e) {
       console.error("Error decoding token:", e);
