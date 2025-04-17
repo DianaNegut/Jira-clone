@@ -118,7 +118,7 @@ const NavbarAdmin = ({ onLogout }) => {
     { path: "/delete-user", label: "Ștergere User", icon: assets.delete_im },
     { path: "/add-team", label: "Adauga echipa", icon: assets.team_create },
     { path: "/see-all-users", label: "Vezi toti utilizatorii", icon: assets.profile },
-    { path: "/see-all-tasksadmin", label: "Vezi toate taskurile", icon: assets.project2 },
+    { path: "/see-all-tasksadmin", label: "Vezi toate taskurile", icon: assets.board_presentation },
     { path: "/bug-report-admin", label: "Raporteaza un bug", icon: assets.board_icon },
     { path: "/setting-admin", label: "Setari", icon: assets.settings_icon },
     { path: "/mytasks", label: "Taskurile mele", icon: assets.email }

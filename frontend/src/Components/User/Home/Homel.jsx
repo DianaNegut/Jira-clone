@@ -133,7 +133,7 @@ const Homel = () => {
       </div>
 
       <div className="dashboard-box">
-        <h3>Asignate mie {currentUser && `(ID: ${currentUser.id})`}</h3>
+        <h3>Asignate mie </h3>
         <div className="dashboard-content">
           {loading ? (
             <p>Se încarcă...</p>
