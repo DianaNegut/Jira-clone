@@ -1,6 +1,9 @@
 # Jira-clone
 
 ## Workflow
+#### Pentru rulare:
+- pentru frontend: trebuie sa ne aflam in folderul frontend si rulam comanda: npm run dev
+- pentru backend: trebuie sa ne aflam in folderul backend si rulam comanda: npm run server
 ### Guest:
 - vizualizare pagini cu ceea ce ofera aplicatia
 - pagina Pricing ofera recomandarea unui anumit plan in functie de numarul de persoane pe care utilizatorul il introduce
