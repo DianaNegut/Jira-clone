@@ -10,7 +10,7 @@
 - popup-ul de login apare la apasarea la diferite butoane din aplicatie, dar si prin apasarea butonul de signup
 
 ### User fara drepturi de administartor:
-- HOME: poate sa isi vada propriele taskuri asignate, dar si activitatea recenta pe care au avut-o colegii sai (din companie, platforma stie sa faca getsioneze mai multe companii)
+- HOME: poate sa isi vada propriele taskuri asignate, dar si activitatea recenta pe care au avut-o colegii sai (din companie, platforma stie sa faca gestioneze mai multe companii)
 - DASHBOARD: poate sa vada taskurile neasignate ale echipei sale, dar si sa asigneze unui utilizator din echipa sa. Atunci cand unui user ii este asignat un task, acesta este informat si pe email.
 - TIMETRACKER: aici userul poate sa logheze timp la un anumite task (fac fetch pe taskurile pe care un user le are asignate si le afisez in dropdown) dupa care isi completeaza perioada in care a desfasurat activitate pentru acel task)
 - BUG REPORT: aici un user creeaza un task pentru compania la care lucreaza si este asignat echipei alese ( afisez echipele disponibile din companie intr-un dropdown)
@@ -26,8 +26,8 @@
 - Statistici: sunt afisati numarul de utilizatori existenti si numarul de taskuri totale ale companiei
 - Stegere Utilizator: se verifica daca emailul introdus face parte din compania curenta (compania administratorului) si sterge utilizatorul, daca nu arunca o eroare.
 -  Adauga echipa: posibilitatea de a vizualiza echipele curente din companie si posibilitatea de a adauga noi team-uri
--  See all users: posibilitatea de a cauta un user dupa mai multe filtre si o lista cu toti userii care fac parte din companie
+-  See All Users: posibilitatea de a cauta un user dupa mai multe filtre si o lista cu toti userii care fac parte din companie
 -  Vezi toate taskurile: filtrare taskuri disponibile si afisare lista cu toate taskurile din companie
 -  Report Bug: aceeasi cu cea din user care nu e administrator
 -  Settings: aceeasi cu cea din user care nu e administrator
--  Taskurile mele: aici administratorul isi poate vedea toate taskurile pe care le are asignate (la clic pe task se deschide pagina taskului Task Details ca la user fara drepturi de admin)
+-  Taskurile Mele: aici administratorul isi poate vedea toate taskurile pe care le are asignate (la clic pe task se deschide pagina taskului Task Details ca la user fara drepturi de admin)
